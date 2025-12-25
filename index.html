@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sachin Chandra | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
-  <!-- Updated path for your CSS file -->
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sachin Chandra | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <header>
     <h1>Sachin Chandra</h1>
     <p>B.Tech Student | Embedded Systems & IoT Enthusiast | VLSI Design & Technology</p>
+    <button class="toggle-btn">Light Mode</button>
 </header>
 
-<section class="about">
+<nav>
+    <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<section id="about" class="about">
     <h2>About Me</h2>
     <p>Hi! I'm Sachin, a B.Tech student in Electronics Engineering (VLSI Design & Technology) at Bihar Engineering University. I have experience in embedded systems, IoT projects, and PCB circuit design.</p>
 </section>
 
-<section class="skills">
+<section id="skills" class="skills">
     <h2>Skills</h2>
     <div class="skill-bar"><div class="skill-fill" data-width="90%"></div> Embedded C</div>
     <div class="skill-bar"><div class="skill-fill" data-width="80%"></div> C++ / OOPs</div>
@@ -29,23 +38,30 @@
     <div class="skill-bar"><div class="skill-fill" data-width="70%"></div> HTML & CSS</div>
 </section>
 
-<section class="projects">
+<section id="projects" class="projects">
     <h2>Projects</h2>
     <div class="projects-container">
         <div class="project-card">
+            <img src="assets/traffic-system.png" alt="Intelligent Traffic Control System">
             <h3>Intelligent Traffic Control System</h3>
             <p>A data-driven system using smart sensors to automate signal timing, reducing delays and emissions.</p>
-            <a href="https://github.com/sachinC6/Intelligent-Traffic-Control-System" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://github.com/sachinC6/Intelligent-Traffic-Control-System" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
         </div>
     </div>
 </section>
 
-<section class="contact">
+<section id="contact" class="contact">
     <h2>Contact Me</h2>
     <p>Email: <a href="mailto:sachin62bpk@gmail.com">sachin62bpk@gmail.com</a></p>
     <p>GitHub: <a href="https://github.com/sachinC6" target="_blank">github.com/sachinC6</a></p>
     <p>LinkedIn: <a href="https://www.linkedin.com/in/sachin-c-01447a369/" target="_blank">linkedin.com/in/sachin-c-01447a369/</a></p>
 </section>
+
+<footer>
+    <p>© 2025 Sachin Chandra. All Rights Reserved.</p>
+</footer>
 
 <script src="js/script.js"></script>
 </body>
