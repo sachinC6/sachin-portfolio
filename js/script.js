@@ -1,51 +1,42 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-// Hero text animation
-gsap.from(".hero-title", {
-  opacity: 0,
-  y: -40,
-  duration: 1
+// Hero typing
+gsap.to(".hero-subtitle", {
+  text: "Electronics Engineering Student | VLSI Design & Technology",
+  duration: 2,
+  delay: 0.8
 });
 
-gsap.from(".hero-subtitle", {
-  opacity: 0,
-  y: 30,
-  duration: 1,
-  delay: 0.5
-});
-
-// Section reveal
+// Section animation
 gsap.utils.toArray(".section").forEach(section => {
   gsap.from(section, {
-    scrollTrigger: {
-      trigger: section,
-      start: "top 80%",
-    },
     opacity: 0,
     y: 50,
-    duration: 1
+    duration: 1,
+    scrollTrigger: {
+      trigger: section,
+      start: "top 80%"
+    }
   });
 });
 
-// Skill bars animation
+// Skill bars
 gsap.utils.toArray(".fill").forEach(bar => {
-  const width = bar.getAttribute("data-width");
   gsap.to(bar, {
-    width: width,
+    width: bar.dataset.width,
+    duration: 1.5,
     scrollTrigger: {
       trigger: bar,
-      start: "top 85%",
-    },
-    duration: 1.5,
-    ease: "power2.out"
+      start: "top 85%"
+    }
   });
 });
 
-// SVG rotation animation
+// SVG rotation
 gsap.to(".project-svg circle", {
   rotation: 360,
   transformOrigin: "50% 50%",
   repeat: -1,
-  duration: 6,
+  duration: 8,
   ease: "linear"
 });
