@@ -1,21 +1,21 @@
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-// Hero typing
+// Typing animation
 gsap.to(".hero-subtitle", {
-  text: "Electronics Engineering Student | VLSI Design & Technology",
+  text: "Electronics Engineering Student | VLSI Design",
   duration: 2,
-  delay: 0.8
+  delay: 0.5
 });
 
-// Section animation
+// Section fade-in
 gsap.utils.toArray(".section").forEach(section => {
   gsap.from(section, {
     opacity: 0,
-    y: 50,
+    y: 40,
     duration: 1,
     scrollTrigger: {
       trigger: section,
-      start: "top 80%"
+      start: "top 85%"
     }
   });
 });
@@ -27,16 +27,7 @@ gsap.utils.toArray(".fill").forEach(bar => {
     duration: 1.5,
     scrollTrigger: {
       trigger: bar,
-      start: "top 85%"
+      start: "top 90%"
     }
   });
-});
-
-// SVG rotation
-gsap.to(".project-svg circle", {
-  rotation: 360,
-  transformOrigin: "50% 50%",
-  repeat: -1,
-  duration: 8,
-  ease: "linear"
 });
