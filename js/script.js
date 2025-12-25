@@ -1,10 +1,15 @@
-// Animate skill bars when page loads
+// Animate skill bars
 window.addEventListener('DOMContentLoaded', () => {
-    const skillBars = document.querySelectorAll('.skill-fill');
-    skillBars.forEach(bar => {
-        const width = bar.getAttribute('data-width');
+    document.querySelectorAll('.skill-fill').forEach(bar => {
         setTimeout(() => {
-            bar.style.width = width;
-        }, 300); // slight delay for smooth animation
+            bar.style.width = bar.getAttribute('data-width');
+        }, 300);
     });
+});
+
+// Dark/Light mode toggle
+document.querySelector('.toggle-btn').addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const btn = document.querySelector('.toggle-btn');
+    btn.textContent = document.body.classList.contains('light-mode') ? 'Dark Mode' : 'Light Mode';
 });
