@@ -19,3 +19,14 @@ gsap.to(".project-icon circle", {
     duration: 3,
     ease:"power1.inOut"
 });
+
+gsap.to(".floating-shape", {
+    y: 20,
+    x: 15,
+    rotation: 360,
+    duration: 6,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut"
+});
+
