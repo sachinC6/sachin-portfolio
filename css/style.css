@@ -17,7 +17,7 @@ body {
 }
 
 .hero-title {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
   color: #00ffea;
 }
 
@@ -28,15 +28,15 @@ body {
 
 .section {
   max-width: 900px;
-  margin: 60px auto;
-  padding: 30px;
+  margin: 50px auto;
+  padding: 25px;
   border: 1px solid #00ffea;
   border-radius: 12px;
 }
 
 .section h2 {
-  margin-bottom: 20px;
   color: #00ffea;
+  margin-bottom: 15px;
 }
 
 .skill {
@@ -54,21 +54,6 @@ body {
   height: 100%;
   width: 0;
   background: #00ffea;
-}
-
-.project {
-  text-align: center;
-}
-
-.project-svg {
-  width: 80px;
-  margin-bottom: 15px;
-}
-
-.project-svg circle {
-  fill: none;
-  stroke: #00ffea;
-  stroke-width: 3;
 }
 
 a {
