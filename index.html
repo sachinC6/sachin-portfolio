@@ -4,38 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sachin Chandra | Portfolio</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
-    body { background: #f8f9fa; color: #333; line-height: 1.6; }
-    header { background: #0d6efd; color: white; padding: 2rem 1rem; text-align: center; }
-    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
-    header p { font-size: 1.2rem; }
-    section { padding: 3rem 1rem; max-width: 1200px; margin: auto; }
-    h2 { font-size: 2rem; margin-bottom: 1.5rem; text-align: center; color: #0d6efd; }
-    .about, .skills, .projects, .contact { margin-bottom: 2rem; }
-
-    /* Skills */
-    .skill-bar { margin: 0.5rem 0; background: #e9ecef; border-radius: 20px; overflow: hidden; }
-    .skill-fill { height: 1rem; background: #0d6efd; width: 0; border-radius: 20px; transition: width 1.5s ease; }
-
-    /* Projects */
-    .projects-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
-    .project-card { background: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s; }
-    .project-card:hover { transform: translateY(-5px); }
-    .project-card img { width: 100%; border-radius: 10px; }
-    .project-card a { display: inline-block; margin-top: 0.5rem; color: #0d6efd; text-decoration: none; font-weight: bold; }
-    .project-card a:hover { text-decoration: underline; }
-
-    /* Responsive spacing */
-    @media(max-width:768px){ header h1{font-size:2rem;} h2{font-size:1.5rem;} }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
 
 <header>
     <h1>Sachin Chandra</h1>
     <p>B.Tech Student | Embedded Systems & IoT Enthusiast | VLSI Design & Technology</p>
+    <button class="toggle-btn">Light Mode</button>
 </header>
 
 <section class="about">
@@ -54,34 +32,28 @@
 
 <section class="projects">
     <h2>Projects</h2>
+    <div class="filter-btns">
+        <button class="active" onclick="filterProjects('all')">All</button>
+        <button onclick="filterProjects('arduino')">Arduino</button>
+        <button onclick="filterProjects('iot')">IoT</button>
+    </div>
     <div class="projects-container">
-        <div class="project-card">
-            <img src="https://via.placeholder.com/300x150" alt="Race Car Project">
-            <h3>Race Car with Arduino</h3>
-            <p>Arduino-based race car with ultrasonic sensor & Bluetooth control.</p>
-            <a href="https://github.com/yourusername/race-car-project" target="_blank">View on GitHub</a>
+        <div class="project-card" data-category="iot">
+            <img src="https://via.placeholder.com/300x150" alt="Intelligent Traffic Control System">
+            <h3>Intelligent Traffic Control System</h3>
+            <p>A data-driven system using smart sensors to automate signal timing, reducing delays and emissions.</p>
+            <a href="https://github.com/sachinC6/Intelligent-Traffic-Control-System" target="_blank"><i class="fab fa-github"></i> GitHub</a>
         </div>
-        <!-- Add more project cards here -->
     </div>
 </section>
 
 <section class="contact">
-   <h2>Contact Me</h2>
-   <p>Email: <a href="mailto:sachin62bpk@gmail.com">sachin62bpk@gmail.com</a></p>
-   <p>GitHub: <a href="https://github.com/sachinC6" target="_blank">github.com/sachinC6</a></p>
-   <p>LinkedIn: <a href="https://www.linkedin.com/in/sachin-c-01447a369/" target="_blank">linkedin.com/in/sachin-c-01447a369</a></p>
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:sachin62bpk@gmail.com">sachin62bpk@gmail.com</a></p>
+    <p>GitHub: <a href="https://github.com/sachinC6" target="_blank">github.com/sachinC6</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/sachin-c-01447a369/" target="_blank">linkedin.com/in/sachin-c-01447a369/</a></p>
 </section>
 
-<script>
-    // Animate skill bars
-    window.addEventListener('DOMContentLoaded', () => {
-        const skillFills = document.querySelectorAll('.skill-fill');
-        skillFills.forEach(bar => {
-            const width = bar.getAttribute('data-width');
-            setTimeout(() => { bar.style.width = width; }, 500);
-        });
-    });
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
