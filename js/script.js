@@ -1,9 +1,28 @@
-// Animate skill bars
-window.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.skill-fill').forEach(bar => {
-        setTimeout(() => {
-            bar.style.width = bar.getAttribute('data-width');
-        }, 300);
+// Animate skill bars with GSAP
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.skill-fill').forEach(bar => {
+    gsap.fromTo(bar, 
+        {width: "0%"}, 
+        {
+            width: bar.getAttribute('data-width'), 
+            duration: 1.5, 
+            scrollTrigger: {
+                trigger: bar,
+                start: "top 80%",
+            }
+        });
+});
+
+// Animate sections on scroll
+gsap.utils.toArray('section').forEach(section => {
+    gsap.from(section, {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+        }
     });
 });
 
