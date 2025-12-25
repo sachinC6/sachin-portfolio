@@ -1,57 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Sachin Chandra</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sachin Chandra | Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto', sans-serif; }
+    body { background: #f8f9fa; color: #333; line-height: 1.6; }
+    header { background: #0d6efd; color: white; padding: 2rem 1rem; text-align: center; }
+    header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    header p { font-size: 1.2rem; }
+    section { padding: 3rem 1rem; max-width: 1200px; margin: auto; }
+    h2 { font-size: 2rem; margin-bottom: 1.5rem; text-align: center; color: #0d6efd; }
+    .about, .skills, .projects, .contact { margin-bottom: 2rem; }
+
+    /* Skills */
+    .skill-bar { margin: 0.5rem 0; background: #e9ecef; border-radius: 20px; overflow: hidden; }
+    .skill-fill { height: 1rem; background: #0d6efd; width: 0; border-radius: 20px; transition: width 1.5s ease; }
+
+    /* Projects */
+    .projects-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .project-card { background: white; padding: 1rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .project-card:hover { transform: translateY(-5px); }
+    .project-card img { width: 100%; border-radius: 10px; }
+    .project-card a { display: inline-block; margin-top: 0.5rem; color: #0d6efd; text-decoration: none; font-weight: bold; }
+    .project-card a:hover { text-decoration: underline; }
+
+    /* Responsive spacing */
+    @media(max-width:768px){ header h1{font-size:2rem;} h2{font-size:1.5rem;} }
+</style>
 </head>
 <body>
 
-    <header>
-        <h1>Sachin Chandra</h1>
-        <p>B.Tech Electronics Engineering (VLSI Design & Technology)</p>
-    </header>
+<header>
+    <h1>Sachin Chandra</h1>
+    <p>B.Tech Student | Embedded Systems & IoT Enthusiast | VLSI Design & Technology</p>
+</header>
 
-    <section id="education">
-        <h2>Education</h2>
-        <p><strong>Bihar Engineering University</strong>, Patna, Bihar, India</p>
-        <p>B.Tech Electronics Engineering (VLSI Design & Technology)<br>
-           Jul 2024 – Jul 2028<br>
-           Currently Pursuing | Expected Graduation: 2028<br>
-           SGPA: 7.40 (1st Semester)
-        </p>
-    </section>
+<section class="about">
+    <h2>About Me</h2>
+    <p>Hi! I'm Sachin, a B.Tech student in Electronics Engineering (VLSI Design & Technology) at Bihar Engineering University. I have experience in embedded systems, IoT projects, and PCB circuit design.</p>
+</section>
 
-    <section id="experience">
-        <h2>Work Experience</h2>
-        <p><strong>NIELIT Muzaffarpur</strong>, Muzaffarpur, Bihar, India</p>
-        <p>Winter Intern | Dec 2025 – Dec 2025</p>
-        <ul>
-            <li>2-week Internship Programme in IoT</li>
-            <li>Tasks such as file copy</li>
-        </ul>
-    </section>
+<section class="skills">
+    <h2>Skills</h2>
+    <div class="skill-bar"><div class="skill-fill" data-width="90%"></div> Embedded C</div>
+    <div class="skill-bar"><div class="skill-fill" data-width="80%"></div> C++ / OOPs</div>
+    <div class="skill-bar"><div class="skill-fill" data-width="75%"></div> MicroPython</div>
+    <div class="skill-bar"><div class="skill-fill" data-width="85%"></div> Arduino / ESP32 / Raspberry Pi</div>
+    <div class="skill-bar"><div class="skill-fill" data-width="70%"></div> HTML & CSS</div>
+</section>
 
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul>
-            <li>Programming Languages: Embedded C, C++ (OOPs), MicroPython, HTML, CSS</li>
-            <li>Hardware/Embedded: Arduino, ESP32, Raspberry Pi, Microcontroller, Microprocessor</li>
-            <li>PCB Design & Circuit: EasyEDA, CircuitLab, EveryCircuit</li>
-            <li>Platforms: VS Code, Thonny IDE</li>
-        </ul>
-    </section>
+<section class="projects">
+    <h2>Projects</h2>
+    <div class="projects-container">
+        <div class="project-card">
+            <img src="https://via.placeholder.com/300x150" alt="Race Car Project">
+            <h3>Race Car with Arduino</h3>
+            <p>Arduino-based race car with ultrasonic sensor & Bluetooth control.</p>
+            <a href="https://github.com/yourusername/race-car-project" target="_blank">View on GitHub</a>
+        </div>
+        <!-- Add more project cards here -->
+    </div>
+</section>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <p><strong>Race Car with Arduino and Ultrasonic Sensor</strong></p>
-        <p>Built an Arduino-based race car with four motors, a servo-mounted ultrasonic sensor, and a ZS-040 Bluetooth module for wireless control.</p>
-        <p>Project Link: <a href="https://" target="_blank">View Project</a></p>
-    </section>
+<section class="contact">
+    <h2>Contact Me</h2>
+    <p>Email: <a href="mailto:sachin@example.com">sachin@example.com</a></p>
+    <p>GitHub: <a href="https://github.com/sachinchandra" target="_blank">github.com/sachinchandra</a></p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/sachinchandra" target="_blank">linkedin.com/in/sachinchandra</a></p>
+</section>
 
-    <section id="awards">
-        <h2>Awards</h2>
-        <p>NPTEL Certification</p>
-    </section>
+<script>
+    // Animate skill bars
+    window.addEventListener('DOMContentLoaded', () => {
+        const skillFills = document.querySelectorAll('.skill-fill');
+        skillFills.forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            setTimeout(() => { bar.style.width = width; }, 500);
+        });
+    });
+</script>
 
 </body>
 </html>
