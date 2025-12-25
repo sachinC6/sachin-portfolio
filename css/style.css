@@ -29,6 +29,19 @@ section h2 { text-align:center; margin-bottom:1.5rem; color:#00ffea; border-bott
 .project-card a { display:inline-block; margin-top:0.5rem; font-weight:bold; color:#00ffea; text-decoration:none; }
 .project-card a:hover { text-decoration:underline; }
 
+.project-icon {
+    display:block;
+    margin: 0 auto 10px;
+}
+
+.floating-shape {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    opacity: 0.3;
+}
+
+
 /* Contact links */
 a { color:#00ffea; }
 a:hover { text-decoration:underline; }
