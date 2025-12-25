@@ -2,18 +2,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: Roboto, sans-serif;
 }
 
 body {
   background: #0d1117;
   color: #c9d1d9;
-  line-height: 1.6;
 }
 
 .hero {
-  text-align: center;
   padding: 80px 20px;
+  text-align: center;
   background: #161b22;
 }
 
@@ -33,12 +32,11 @@ body {
   padding: 30px;
   border: 1px solid #00ffea;
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,255,234,0.15);
 }
 
 .section h2 {
-  color: #00ffea;
   margin-bottom: 20px;
+  color: #00ffea;
 }
 
 .skill {
@@ -46,27 +44,24 @@ body {
 }
 
 .bar {
+  height: 12px;
   background: #161b22;
   border-radius: 20px;
   overflow: hidden;
-  height: 12px;
 }
 
 .fill {
   height: 100%;
   width: 0;
   background: #00ffea;
-  border-radius: 20px;
 }
 
-.project-card {
+.project {
   text-align: center;
-  padding: 30px;
 }
 
 .project-svg {
   width: 80px;
-  height: 80px;
   margin-bottom: 15px;
 }
 
@@ -76,13 +71,7 @@ body {
   stroke-width: 3;
 }
 
-.project-card a {
-  display: inline-block;
-  margin-top: 10px;
+a {
   color: #00ffea;
   text-decoration: none;
-}
-
-.project-card a:hover {
-  text-decoration: underline;
 }
