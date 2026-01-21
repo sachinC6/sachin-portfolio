@@ -4,7 +4,7 @@ gsap.registerPlugin(ScrollTrigger, TextPlugin, Flip);
    HERO ANIMATION
 ========================= */
 gsap.from(".hero-title", { y: -40, opacity: 0, duration: 1 });
-gsap.to(".hero-subtitle", { text: "Electronics Engineering Student | VLSI Design", duration: 2, delay: 0.6 });
+gsap.to(".hero-subtitle", { text: "An enthusiastic learner | Electronics Engineering Student | VLSI Design& Technology", duration: 2, delay: 0.6 });
 
 /* =========================
    SECTIONS SCROLL FADE
