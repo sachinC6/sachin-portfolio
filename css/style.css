@@ -1,137 +1,156 @@
-/* =========================
-   Reset & Base Styles
-========================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Roboto, sans-serif;
+:root {
+    --accent: #00ffcc;
+    --bg: #050505;
+    --card-bg: rgba(255, 255, 255, 0.02);
 }
 
-body {
-  background: #0d1117;
-  color: #c9d1d9;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
+body { background: var(--bg); color: #fff; overflow-x: hidden; }
+
+/* --- CUSTOM CURSOR --- */
+#custom-cursor {
+    width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
+    position: fixed; pointer-events: none; z-index: 9999; transition: transform 0.1s;
+}
+#cursor-blur {
+    width: 200px; height: 200px; background: rgba(0, 255, 204, 0.05);
+    filter: blur(80px); position: fixed; pointer-events: none; z-index: 9998;
 }
 
-/* =========================
-   Cursor Trail Emojis
-========================= */
-.flair {
-  position: fixed;
-  opacity: 0;
-  font-size: 6rem;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
+/* --- BG GRID & SCANLINE --- */
+.bg-grid {
+    position: fixed; width: 100%; height: 100%; z-index: -1; opacity: 0.15;
+    background-image: linear-gradient(var(--accent) 1px, transparent 1px), linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+    background-size: 60px 60px;
+}
+.scanline {
+    position: fixed; width: 100%; height: 100%; z-index: 10; pointer-events: none;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.1) 51%);
+    background-size: 100% 4px; opacity: 0.1;
 }
 
-/* =========================
-   Hero Section
-========================= */
-.hero {
-  padding: 80px 20px;
-  text-align: center;
-  background: #161b22;
+/* --- NAVIGATION --- */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 60px; position: fixed; width: 100%; z-index: 1000; backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.logo { font-weight: 900; letter-spacing: 4px; }
+.accent { color: var(--accent); }
+.cta-btn { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: 10px 20px; font-weight: 900; letter-spacing: 1px; transition: 0.3s; }
+.cta-btn:hover { background: var(--accent); color: #000; }
+
+/* --- HERO --- */
+.hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.reveal-text { font-size: 10vw; font-weight: 900; text-transform: uppercase; line-height: 0.9; filter: blur(10px); opacity: 0; }
+.hero-subtext { margin-top: 20px; font-size: 0.9rem; letter-spacing: 5px; color: var(--accent); }
+
+/* --- CARDS & GRID --- */
+.content-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); padding: 80px; border-radius: 4px; position: relative; width: 100%; max-width: 1200px; }
+.section-label { color: var(--accent); font-size: 0.7rem; letter-spacing: 4px; margin-bottom: 30px; text-transform: uppercase; display: block; }
+.tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
+.tech-item { border-left: 2px solid var(--accent); padding-left: 20px; font-size: 0.9rem; }
+.tech-item span { display: block; font-size: 0.6rem; opacity: 0.5; letter-spacing: 2px; }
+
+/* --- AUDITED SLIDER ANIMATION --- */
+.gallery { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; perspective: 1000px; }
+.gallery-header { text-align: center; margin-bottom: 50px; }
+.cards { width: 18rem; height: 26rem; position: relative; list-style: none; transform-style: preserve-3d; }
+.cards li {
+    width: 100%; height: 100%; position: absolute; background-size: cover; border-radius: 4px;
+    border: 1px solid rgba(255,255,255,0.1); filter: grayscale(1) brightness(0.5); transition: filter 0.5s, transform 0.5s;
 }
 
-.hero-title {
-  font-size: 2.6rem;
-  color: #00ffea;
+/* --- ACTIONS --- */
+.actions { display: flex; align-items: center; gap: 30px; margin-top: 100px; }
+.actions button { background: none; border: none; color: #fff; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
+.actions button:hover { color: var(--accent); transform: scale(1.1); }
+.divider { width: 40px; height: 1px; background: var(--accent); }
+
+/* --- IFRAME --- */
+.iframe-container { width: 100%; height: 700px; background: #000; border: 1px solid #222; overflow: hidden; }
+iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate(180deg) brightness(1.2); }
+
+
+/* --- FOOTER SPECIFIC STYLES --- */
+.footer-sec {
+    background: #050505;
+    padding: 150px 5% 40px 5% !important;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.hero-subtitle {
-  font-size: 1.2rem;
-  color: #8affff;
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 80px;
 }
 
-/* =========================
-   Sections
-========================= */
-.section {
-  max-width: 900px;
-  margin: 50px auto;
-  padding: 25px;
-  border: 1px solid #00ffea;
-  border-radius: 12px;
+.footer-heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 25px;
 }
 
-.section h2 {
-  color: #00ffea;
-  margin-bottom: 15px;
+.status-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 15px;
+    background: rgba(255,255,255,0.03);
+    width: fit-content;
+    border-radius: 2px;
 }
 
-/* =========================
-   Skills Bar
-========================= */
-.skill {
-  margin-bottom: 15px;
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ffcc;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00ffcc;
+    animation: pulse 2s infinite;
 }
 
-.bar {
-  height: 12px;
-  background: #161b22;
-  border-radius: 20px;
-  overflow: hidden;
+.contact-card-mini {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.3s ease;
 }
 
-.fill {
-  height: 100%;
-  width: 0;
-  background: #00ffea;
+.contact-card-mini:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: #00ffcc;
 }
 
-/* =========================
-   Links
-========================= */
-a {
-  color: #00ffea;
-  text-decoration: none;
+.big-link {
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
 }
 
-/* =========================
-   Bento Gallery
-========================= */
-.gallery-wrap {
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
+.hover-link {
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: 0.3s;
 }
 
-.gallery {
-  width: 100%;
-  height: 100%;
+.hover-link:hover { color: #00ffcc; }
+
+.footer-big-text {
+    font-size: clamp(4rem, 18vw, 15rem);
+    font-weight: 900;
+    color: rgba(255,255,255,0.03);
+    line-height: 0.8;
+    text-align: center;
 }
 
-.gallery__item {
-  position: relative;
+@keyframes pulse {
+    0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
 }
-
-.gallery__item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.gallery--bento {
-  display: grid;
-  gap: 1vh;
-  grid-template-columns: repeat(3, 32.5vw);
-  grid-template-rows: repeat(4, 23vh);
-  justify-content: center;
-  align-content: center;
-}
-
-.gallery--final.gallery--bento {
-  grid-template-columns: repeat(3, 100vw);
-  grid-template-rows: repeat(4, 49.5vh);
-}
-
-/* Bento Grid Areas */
-.gallery--bento .gallery__item:nth-child(1) { grid-area: 1 / 1 / 3 / 2; }
-.gallery--bento .gallery__item:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
-.gallery--bento .gallery__item:nth-child(3) { grid-area: 2 / 2 / 4 / 3; }
-.gallery--bento .gallery__item:nth-child(4) { grid-area: 1 / 3 / 3 / 4; }
-.gallery--bento .gallery__item:nth-child(5) { grid-area: 3 / 1 / 4 / 2; }
-.gallery--bento .gallery__item:nth-child(6) { grid-area: 3 / 3 / 5 / 4; }
-.gallery--bento .gallery__item:nth-child(7) { grid-area: 4 / 1 / 5 / 2; }
-.gallery--bento .gallery__item:nth-child(8) { grid-area: 4 / 2 / 5 / 3; }
