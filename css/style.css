@@ -143,14 +143,104 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 
 .hover-link:hover { color: #00ffcc; }
 
+/* --- FOOTER SPECIFIC STYLES --- */
+.footer-sec {
+    background: #050505;
+    padding: 180px 5% 40px 5% !important; /* Increased top spacing for impact */
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-bottom: 120px;
+}
+
+.footer-heading {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+/* Status Indicator */
+.status-box {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    background: rgba(255,255,255,0.03);
+    width: fit-content;
+    border-radius: 4px;
+}
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 2s infinite;
+}
+.status-text {
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    color: #666;
+}
+
+/* Contact Click Area */
+.contact-card-mini {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 40px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden; /* Important for the click effect */
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+}
+.contact-card-mini:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.big-link {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    margin: 15px 0;
+}
+
+.click-hint {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    color: var(--accent);
+    opacity: 0.5;
+}
+
+/* Bottom Text Styling */
 .footer-big-text {
     font-size: clamp(4rem, 18vw, 15rem);
     font-weight: 900;
-    color: rgba(255,255,255,0.03);
-    line-height: 0.8;
+    color: rgba(255,255,255,0.02); /* Ghost text effect */
+    line-height: 0.7;
     text-align: center;
+    pointer-events: none;
+}
+
+.footer-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: #333;
+    letter-spacing: 3px;
+    margin-top: 20px;
 }
 
 @keyframes pulse {
-    0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; }
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.4; }
+    100% { transform: scale(1); opacity: 1; }
 }
