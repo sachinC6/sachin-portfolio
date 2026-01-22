@@ -1,96 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Sachin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/style.css">
-
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- GSAP -->
-  <script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <script src="https://unpkg.com/gsap@3.12.5/dist/TextPlugin.min.js"></script>
-  <script src="https://unpkg.com/gsap@3.12.5/dist/Flip.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sachin Chandra | EC-VLSI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header class="hero">
-  <h1 class="hero-title">Sachin</h1>
-  <p class="hero-subtitle"></p>
-</header>
+    <div id="custom-cursor"></div>
+    <div id="cursor-blur"></div>
 
-<section class="section">
-  <h2>About Me</h2>
-  <p>I am an Electronics Engineering undergraduate specializing in VLSI Design & Technology with a strong interest in Computer Science & Electronics.</p>
-  <p>MicroPython, PCB design tools, and hardware–software integration.</p>
-  <p>I have hands-on experience working with STM-32 Microcontrollers, Field Programming Grpahic Array, ESP32, Wireless communication modules through academic and internship projects.</p> 
-  <p>I am actively building practical projects and continuously strengthening my foundation for industry and research-oriented roles.</p>
-</section>
+    <div class="bg-grid"></div>
+    <div class="scanline"></div>
 
-<section class="section">
-  <h2>Skills</h2>
-  <div class="skill"><span>Embedded C</span><div class="bar"><div class="fill" data-width="90%"></div></div></div>
-  <div class="skill"><span>HTML & CSS</span><div class="bar"><div class="fill" data-width="80%"></div></div></div>
-  <div class="skill"><span>Programming for Problem Solving</span><div class="bar"><div class="fill" data-width="50%"></div></div></div>
-  <div class="skill"><span>Object Oriented Programing</span><div class="bar"><div class="fill" data-width="20%"></div></div></div>
-</section>
+    <main id="main">
+        <nav>
+            <div class="logo">SACHIN <span class="accent">CHANDRA</span></div>
+            <div class="nav-links">
+                <span class="nav-item">Home</span>
+                <span class="nav-item">About</span>
+                <button class="cta-btn">Contact</button>
+            </div>
+        </nav>
 
-<div class="gallery-wrap">
-  <div class="gallery gallery--bento" id="gallery-8">
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600" alt="Project 1"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1600" alt="Project 2"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1600" alt="Project 3"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1517433456452-f9633a875f6f?w=1600" alt="Project 4"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1600" alt="Project 5"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=1600" alt="Project 6"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?w=1600" alt="Project 7"></div>
-    <div class="gallery__item"><img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=1600" alt="Project 8"></div>
-  </div>
-</div>
+        <section class="hero">
+            <div class="hero-content">
+                <div class="line-wrapper"><h1 class="reveal-text">Sachin</h1></div>
+                <div class="line-wrapper"><h1 class="reveal-text">Chandra</h1></div>
+                <p class="hero-subtext">VLSI • Embedded Systems • FPGA</p>
+            </div>
+            <div class="scroll-indicator">SCROLL TO NAVIGATE</div>
+        </section>
 
-<!-- <section class="section">
-  <h2>Project</h2>
-  <h3>Smart Home Automation using IoT</h3>
-  <p>This project demonstrates how to control home appliances remotely via a smartphone using IoT. We use NodeMCU/ESP32, a relay module, and the Blynk cloud platform.</p>
-  <a href="https://github.com/sachinC6/IoT-Projects/tree/main/101-Smart-Home-Automation" target="_blank">View on GitHub</a>
-</section> -->
+        <section class="section about-sec">
+            <div class="content-card">
+                <h2 class="section-label">Engineering Profile</h2>
+                <h3>Bridging Hardware & Intelligence</h3>
+                <p>Electronics Engineering undergraduate specializing in <strong>VLSI Design & Technology</strong>. Focused on hardware–software integration and high-performance system architecture.</p>
+                <div class="tech-grid">
+                    <div class="tech-item"><span>CORE</span> STM-32</div>
+                    <div class="tech-item"><span>LOGIC</span> FPGA</div>
+                    <div class="tech-item"><span>OS</span> MicroPython</div>
+                    <div class="tech-item"><span>CAD</span> PCB Design</div>
+                </div>
+            </div>
+        </section>
 
-  <section class="section">
-    <h2>Portable Things</h2>
-    <iframe 
-      src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" 
-      width="100%" 
-      height="600px" 
-      allow="autoplay">
-    </iframe>
- </section>
+        <section class="gallery">
+            <div class="gallery-header">
+                <h2 class="section-label">Project</h2>
+                <p>Drag or Scroll to Rotate</p>
+            </div>
+            <ul class="cards">
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')"></li>
+            </ul>
+            <div class="actions">
+                <button class="prev">PREV</button>
+                <div class="divider"></div>
+                <button class="next">NEXT</button>
+            </div>
+        </section>
 
-<section class="section">
-  <h2>Contact</h2>
-  <p>Email: sachin@gmail.com</p>
-  <p>GitHub: sachinC</p>
-</section>
+        <section class="section">
+            <div class="content-card">
+                <h2 class="section-label">Portable things</h2>
+                <div class="iframe-container">
+                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay"></iframe>
+                </div>
+            </div>
+        </section>
 
-<!-- Cursor Trail Emojis -->
-<div class="cursor-trail">
-  <span class="flair">😎</span>
-  <span class="flair">🐸</span>
-  <span class="flair">S</span>
-  <span class="flair">A</span>
-  <span class="flair">C</span>
-  <span class="flair">H</span>
-  <span class="flair">I</span>
-  <span class="flair">N</span>
-  <span class="flair">🛟</span>
-  <span class="flair">😈</span>
-</div>
+      
+        <section class="section footer-sec">
+            <div class="content-box">
+                <h2 class="section-label">04 // SYSTEM_TERMINAL</h2>
+                
+                <div class="footer-grid">
+                    <div class="footer-cta">
+                        <h3 class="footer-heading">Initiate a <br><span class="accent">Collaboration.</span></h3>
+                        <div class="status-box">
+                            <span class="status-dot"></span>
+                            <span class="status-text">CURRENT_STATUS: AVAILABLE_FOR_HIRE</span>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-area">
+                        <div class="contact-card-mini" id="contact-trigger">
+                            <p class="small-label">DIRECT_ENQUIRY</p>
+                            <a href="mailto:sachinc625@gmail.com" class="big-link">sachinc625@gmail.com</a>
+                            <div class="click-hint">CLICK TO SEND MAIL</div>
+                        </div>
+                        
+                        <div class="social-links">
+                            <div class="link-item">
+                                <p class="small-label">SOURCE_CODE</p>
+                                <a href="https://github.com/Sachin-Chauhan-01" class="hover-link" target="_blank">GITHUB/SACHIN-CHAUHAN-01</a>
+                            </div>
+                            <div class="link-item">
+                                <p class="small-label">PROFESSIONAL</p>
+                                <a href="#" class="hover-link">LINKEDIN</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="footer-bottom">
+                    <h2 class="footer-big-text">END_TRANS</h2>
+                    <div class="footer-meta">
+                        <span>V.2026.01</span>
+                        <span>© SACHIN CHAUHAN</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+      
+    </main>
 
-<script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
