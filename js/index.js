@@ -74,6 +74,9 @@ document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playh
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
 
+
+
+
 // Click Ripple Effect for Contact Card
 const contactBox = document.querySelector("#contact-trigger");
 
