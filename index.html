@@ -120,19 +120,21 @@
             </div>
         </section>
 
-        <section class="gallery">
+        <section class="gallery" id="projects">
             <div class="gallery-header">
-                <h2 class="section-label">Project</h2>
-                <p>Drag or Scroll to Rotate</p>
+                <h2 class="section-label">Projects Showcase</h2>
+                <p>Drag or Scroll to Rotate • Click Image to See Details ↓</p>
             </div>
             <!-- 
-                PROJECT GALLERY SETUP:
-                Replace the placeholder image URLs below with your own project screenshots.
-                Recommended: Upload images to your repository in an 'assets/projects/' folder
-                Image dimensions: 400x600px (portrait) for best results
-                
-                Example: 
-                <li style="background-image: url('assets/projects/project1.png')"></li>
+    PROJECT CAROUSEL SETUP:
+    1. Upload your project screenshots to /assets/projects/ folder
+    2. Recommended image dimensions: 400x600px (portrait)
+    3. Replace URLs below with: url('assets/projects/project1.png')
+    4. Each carousel image links to its corresponding project card below
+    5. Click on any carousel image to scroll to detailed information
+    
+    Current: Using CodePen placeholders
+    After: Your actual project screenshots
             -->
             <ul class="cards">
                 <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')" role="img" aria-label="Project 1"></li>
@@ -150,24 +152,15 @@
             </div>
         </section>
 
-        <section class="section">
-            <div class="content-card">
-                <h2 class="section-label">Portable things</h2>
-                <div class="iframe-container">
-                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay" loading="lazy"></iframe>
-                </div>
-            </div>
-        </section>
-
         <!-- Detailed Projects Section -->
         <section class="section projects-detail-sec">
             <div class="content-card">
-                <h2 class="section-label">Featured Projects</h2>
+                <h2 class="section-label">Project Details</h2>
                 <h3>Engineering Solutions</h3>
                 
                 <div class="projects-grid">
                     <!-- Project Card 1 -->
-                    <div class="project-card">
+                    <div class="project-card" id="project-1">
                         <div class="project-header">
                             <h4>IoT Weather Station</h4>
                             <div class="project-links">
@@ -185,7 +178,7 @@
                     </div>
                     
                     <!-- Project Card 2 -->
-                    <div class="project-card">
+                    <div class="project-card" id="project-2">
                         <div class="project-header">
                             <h4>FPGA-based Image Processor</h4>
                             <div class="project-links">
@@ -202,7 +195,7 @@
                     </div>
                     
                     <!-- Project Card 3 -->
-                    <div class="project-card">
+                    <div class="project-card" id="project-3">
                         <div class="project-header">
                             <h4>Smart PCB Temperature Controller</h4>
                             <div class="project-links">
@@ -218,7 +211,83 @@
                         </div>
                     </div>
                     
-                    <!-- Add more project cards as needed -->
+                    <!-- Project Card 4 -->
+                    <div class="project-card" id="project-4">
+                        <div class="project-header">
+                            <h4>Embedded Systems Project</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">Advanced embedded system design with real-time processing capabilities.</p>
+                        <div class="tech-tags">
+                            <span class="tag">ARM Cortex</span>
+                            <span class="tag">RTOS</span>
+                            <span class="tag">C</span>
+                            <span class="tag">Embedded</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 5 -->
+                    <div class="project-card" id="project-5">
+                        <div class="project-header">
+                            <h4>Digital Circuit Design</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">VLSI-based digital circuit implementation with optimized power consumption.</p>
+                        <div class="tech-tags">
+                            <span class="tag">VLSI</span>
+                            <span class="tag">Cadence</span>
+                            <span class="tag">VHDL</span>
+                            <span class="tag">Circuit Design</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 6 -->
+                    <div class="project-card" id="project-6">
+                        <div class="project-header">
+                            <h4>Wireless Communication Module</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">LoRa-based long-range wireless communication system for IoT applications.</p>
+                        <div class="tech-tags">
+                            <span class="tag">LoRa</span>
+                            <span class="tag">RF Design</span>
+                            <span class="tag">ESP32</span>
+                            <span class="tag">Wireless</span>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 7 -->
+                    <div class="project-card" id="project-7">
+                        <div class="project-header">
+                            <h4>Automated Testing System</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">Automated hardware testing platform with Python-based control interface.</p>
+                        <div class="tech-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">Automation</span>
+                            <span class="tag">Testing</span>
+                            <span class="tag">Hardware</span>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="content-card">
+                <h2 class="section-label">Portable things</h2>
+                <div class="iframe-container">
+                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay" loading="lazy"></iframe>
                 </div>
             </div>
         </section>
