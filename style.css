@@ -445,12 +445,6 @@ section {
     transform: translateX(5px);
 }
 
-.cards li::before {
-    content: attr(data-project);
-    position: absolute;
-    top: -9999px;
-}
-
 /* Keyboard Navigation Focus */
 body.keyboard-nav *:focus {
     outline: 2px solid var(--accent);

@@ -13,26 +13,28 @@ window.addEventListener('load', () => {
 
 // Dark/Light Mode Toggle
 const themeToggle = document.getElementById('theme-toggle');
-const themeIcon = themeToggle.querySelector('.theme-icon');
-const savedTheme = localStorage.getItem('theme') || 'dark';
+if (themeToggle) {
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
 
-if (savedTheme === 'light') {
-    document.body.classList.add('light-mode');
-    themeIcon.textContent = '🌙';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-mode');
+        if (themeIcon) themeIcon.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        if (themeIcon) themeIcon.textContent = isLight ? '🌙' : '☀️';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Animate transition
+        gsap.fromTo(document.body, 
+            { opacity: 0.9 }, 
+            { opacity: 1, duration: 0.3 }
+        );
+    });
 }
-
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    themeIcon.textContent = isLight ? '🌙' : '☀️';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    
-    // Animate transition
-    gsap.fromTo(document.body, 
-        { opacity: 0.9 }, 
-        { opacity: 1, duration: 0.3 }
-    );
-});
 
 // Smooth Scroll for Navigation
 document.querySelectorAll('.nav-item').forEach(link => {
@@ -53,10 +55,13 @@ document.querySelectorAll('.nav-item').forEach(link => {
 
 // Keyboard Navigation
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') {
-        document.querySelector('.prev').click();
-    } else if (e.key === 'ArrowRight') {
-        document.querySelector('.next').click();
+    const prevBtn = document.querySelector('.prev');
+    const nextBtn = document.querySelector('.next');
+    
+    if (e.key === 'ArrowLeft' && prevBtn) {
+        prevBtn.click();
+    } else if (e.key === 'ArrowRight' && nextBtn) {
+        nextBtn.click();
     }
 });
 
