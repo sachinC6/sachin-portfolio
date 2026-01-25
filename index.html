@@ -4,6 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sachin Chandra | EC-VLSI</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Sachin Chandra - Electronics Engineering undergraduate specializing in VLSI Design & Technology, FPGA, Embedded Systems, and hardware-software integration.">
+    <meta name="keywords" content="VLSI, Electronics Engineering, FPGA, Embedded Systems, STM-32, PCB Design, MicroPython, Hardware Design">
+    <meta name="author" content="Sachin Chandra">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Sachin Chandra | EC-VLSI Portfolio">
+    <meta property="og:description" content="Electronics Engineering undergraduate specializing in VLSI Design & Technology, FPGA, and Embedded Systems">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sachinc6.github.io/sachin-portfolio/">
+    <meta property="og:image" content="https://sachinc6.github.io/sachin-portfolio/preview.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sachin Chandra | EC-VLSI Portfolio">
+    <meta name="twitter:description" content="Electronics Engineering undergraduate specializing in VLSI Design & Technology, FPGA, and Embedded Systems">
+    <meta name="twitter:image" content="https://sachinc6.github.io/sachin-portfolio/preview.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -19,13 +41,13 @@
         <nav>
             <div class="logo">SACHIN <span class="accent">CHANDRA</span></div>
             <div class="nav-links">
-                <span class="nav-item">Home</span>
-                <span class="nav-item">About</span>
-                <button class="cta-btn">Contact</button>
+                <a href="#hero" class="nav-item">Home</a>
+                <a href="#about" class="nav-item">About</a>
+                <a href="#contact" class="cta-btn">Contact</a>
             </div>
         </nav>
 
-        <section class="hero">
+        <section class="hero" id="hero">
             <div class="hero-content">
                 <div class="line-wrapper"><h1 class="reveal-text">Sachin</h1></div>
                 <div class="line-wrapper"><h1 class="reveal-text">Chandra</h1></div>
@@ -34,7 +56,7 @@
             <div class="scroll-indicator">SCROLL TO NAVIGATE</div>
         </section>
 
-        <section class="section about-sec">
+        <section class="section about-sec" id="about">
             <div class="content-card">
                 <h2 class="section-label">Engineering Profile</h2>
                 <h3>Bridging Hardware & Intelligence</h3>
@@ -53,14 +75,21 @@
                 <h2 class="section-label">Project</h2>
                 <p>Drag or Scroll to Rotate</p>
             </div>
+            <!-- TODO: Replace placeholder images with actual project screenshots
+                 Instructions:
+                 1. Add your project images to the repository (recommended: /images folder)
+                 2. Replace the CodePen URLs below with your image paths
+                 3. Add descriptive alt text for each project
+                 Example: <li style="background-image: url('images/project1.png')" aria-label="FPGA Logic Design Project"></li>
+            -->
             <ul class="cards">
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')" aria-label="Project 1 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')" aria-label="Project 2 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')" aria-label="Project 3 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')" aria-label="Project 4 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')" aria-label="Project 5 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')" aria-label="Project 6 Placeholder"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')" aria-label="Project 7 Placeholder"></li>
             </ul>
             <div class="actions">
                 <button class="prev">PREV</button>
@@ -79,7 +108,7 @@
         </section>
 
       
-        <section class="section footer-sec">
+        <section class="section footer-sec" id="contact">
             <div class="content-box">
                 <h2 class="section-label">04 // SYSTEM_TERMINAL</h2>
                 
@@ -99,13 +128,27 @@
                             <div class="click-hint">CLICK TO SEND MAIL</div>
                         </div>
                         
+                        <!-- Resume Download Section -->
+                        <div class="resume-download">
+                            <p class="small-label">DOWNLOAD_RESUME</p>
+                            <!-- TODO: Add your resume PDF file to the repository and update the href -->
+                            <a href="resume.pdf" class="resume-btn" download>
+                                <span>Download CV</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
+                                    <path d="M0 14H16V16H0V14Z" fill="currentColor"/>
+                                </svg>
+                            </a>
+                        </div>
+                        
                         <div class="social-links">
                             <div class="link-item">
                                 <p class="small-label">SOURCE_CODE</p>
-                                <a href="https://github.com/Sachin-Chauhan-01" class="hover-link" target="_blank">GITHUB/SACHIN-CHAUHAN-01</a>
+                                <a href="https://github.com/sachinC6" class="hover-link" target="_blank">GITHUB/SACHINC6</a>
                             </div>
                             <div class="link-item">
                                 <p class="small-label">PROFESSIONAL</p>
+                                <!-- TODO: Add your LinkedIn profile URL here -->
                                 <a href="#" class="hover-link">LINKEDIN</a>
                             </div>
                         </div>
@@ -127,6 +170,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
