@@ -151,6 +151,25 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// CAROUSEL CLICK TO SCROLL
+document.querySelectorAll('.cards li').forEach((card, index) => {
+    card.addEventListener('click', () => {
+        const projectId = `project-card-${index + 1}`;
+        const targetCard = document.getElementById(projectId);
+        if (targetCard) {
+            targetCard.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            // Highlight effect
+            targetCard.classList.add('highlighted');
+            setTimeout(() => {
+                targetCard.classList.remove('highlighted');
+            }, 1000);
+        }
+    });
+});
+
 // LAZY LOAD IMAGES
 if ('IntersectionObserver' in window) {
     const imageObserver = new IntersectionObserver((entries) => {
