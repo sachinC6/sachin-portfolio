@@ -1,6 +1,11 @@
 # Project Images
 
 Upload your project screenshots here to replace the placeholder images in the portfolio.
+<img width="2752" height="2166" alt="project1.png" src="https://github.com/user-attachments/assets/e930666d-4a4b-4f92-8534-595f33d96a44" />
+<img width="2752" height="2166" alt="project2.png" src="https://github.com/user-attachments/assets/59d70a18-bdfc-4158-9135-0a42faae6130" />
+<img width="5668" height="4848" alt="project3.png" src="https://github.com/user-attachments/assets/4999b821-b648-4ff7-a8f3-f9f354db6a5d" />
+<img width="2752" height="2166" alt="project4.png" src="https://github.com/user-attachments/assets/2c8bd7c0-6743-43e5-9c78-9c4b82cbfb31" />
+<img width="6000" height="4722" alt="project6.png" src="https://github.com/user-attachments/assets/aee3c957-f112-432b-8f27-3f70d9204642" />
 
 ## Image Requirements:
 
