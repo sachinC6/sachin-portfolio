@@ -153,7 +153,6 @@ document.addEventListener('keydown', (e) => {
 
 // CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
-    card.style.cursor = 'pointer';
     card.addEventListener('click', () => {
         const projectId = `project-card-${index + 1}`;
         const targetCard = document.getElementById(projectId);
@@ -163,11 +162,9 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
                 block: 'center' 
             });
             // Highlight effect
-            targetCard.style.transform = 'scale(1.02)';
-            targetCard.style.borderColor = 'var(--accent)';
+            targetCard.classList.add('highlighted');
             setTimeout(() => {
-                targetCard.style.transform = '';
-                targetCard.style.borderColor = '';
+                targetCard.classList.remove('highlighted');
             }, 1000);
         }
     });
