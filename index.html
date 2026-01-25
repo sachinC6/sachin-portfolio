@@ -9,6 +9,14 @@
 </head>
 <body>
 
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+            <p class="loader-text">INITIALIZING<span class="dots"></span></p>
+        </div>
+    </div>
+
     <div id="custom-cursor"></div>
     <div id="cursor-blur"></div>
 
@@ -18,10 +26,13 @@
     <main id="main">
         <nav>
             <div class="logo">SACHIN <span class="accent">CHANDRA</span></div>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark/light mode">
+                <span class="theme-icon">☀️</span>
+            </button>
             <div class="nav-links">
-                <span class="nav-item">Home</span>
-                <span class="nav-item">About</span>
-                <button class="cta-btn">Contact</button>
+                <a href="#main" class="nav-item">Home</a>
+                <a href=".about-sec" class="nav-item">About</a>
+                <a href=".footer-sec" class="cta-btn">Contact</a>
             </div>
         </nav>
 
@@ -39,11 +50,52 @@
                 <h2 class="section-label">Engineering Profile</h2>
                 <h3>Bridging Hardware & Intelligence</h3>
                 <p>Electronics Engineering undergraduate specializing in <strong>VLSI Design & Technology</strong>. Focused on hardware–software integration and high-performance system architecture.</p>
-                <div class="tech-grid">
-                    <div class="tech-item"><span>CORE</span> STM-32</div>
-                    <div class="tech-item"><span>LOGIC</span> FPGA</div>
-                    <div class="tech-item"><span>OS</span> MicroPython</div>
-                    <div class="tech-item"><span>CAD</span> PCB Design</div>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h4 class="skill-cat-title">Hardware</h4>
+                        <div class="skill-items">
+                            <span class="skill-badge">STM32</span>
+                            <span class="skill-badge">ESP32</span>
+                            <span class="skill-badge">Arduino</span>
+                            <span class="skill-badge">FPGA (Xilinx/Altera)</span>
+                            <span class="skill-badge">PCB Design</span>
+                            <span class="skill-badge">Oscilloscope</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h4 class="skill-cat-title">Software</h4>
+                        <div class="skill-items">
+                            <span class="skill-badge">C/C++</span>
+                            <span class="skill-badge">Python</span>
+                            <span class="skill-badge">MicroPython</span>
+                            <span class="skill-badge">Verilog/VHDL</span>
+                            <span class="skill-badge">MATLAB</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h4 class="skill-cat-title">Tools & CAD</h4>
+                        <div class="skill-items">
+                            <span class="skill-badge">Altium Designer</span>
+                            <span class="skill-badge">KiCAD</span>
+                            <span class="skill-badge">Vivado</span>
+                            <span class="skill-badge">Quartus</span>
+                            <span class="skill-badge">LTSpice</span>
+                            <span class="skill-badge">Git</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h4 class="skill-cat-title">Domains</h4>
+                        <div class="skill-items">
+                            <span class="skill-badge">VLSI Design</span>
+                            <span class="skill-badge">Embedded Systems</span>
+                            <span class="skill-badge">IoT</span>
+                            <span class="skill-badge">Digital Signal Processing</span>
+                            <span class="skill-badge">Real-Time OS</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -54,13 +106,13 @@
                 <p>Drag or Scroll to Rotate</p>
             </div>
             <ul class="cards">
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')" role="img" aria-label="Project 1"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')" role="img" aria-label="Project 2"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')" role="img" aria-label="Project 3"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')" role="img" aria-label="Project 4"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')" role="img" aria-label="Project 5"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')" role="img" aria-label="Project 6"></li>
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')" role="img" aria-label="Project 7"></li>
             </ul>
             <div class="actions">
                 <button class="prev">PREV</button>
@@ -73,7 +125,71 @@
             <div class="content-card">
                 <h2 class="section-label">Portable things</h2>
                 <div class="iframe-container">
-                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay"></iframe>
+                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detailed Projects Section -->
+        <section class="section projects-detail-sec">
+            <div class="content-card">
+                <h2 class="section-label">Featured Projects</h2>
+                <h3>Engineering Solutions</h3>
+                
+                <div class="projects-grid">
+                    <!-- Project Card 1 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>IoT Weather Station</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                                <a href="#" class="project-link" target="_blank">Demo →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">Real-time weather monitoring system using STM32 and sensor array with cloud data logging.</p>
+                        <div class="tech-tags">
+                            <span class="tag">STM32</span>
+                            <span class="tag">C/C++</span>
+                            <span class="tag">MQTT</span>
+                            <span class="tag">IoT</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 2 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>FPGA-based Image Processor</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">Hardware accelerated image filtering and edge detection using Verilog HDL.</p>
+                        <div class="tech-tags">
+                            <span class="tag">Verilog</span>
+                            <span class="tag">FPGA</span>
+                            <span class="tag">Xilinx</span>
+                            <span class="tag">Image Processing</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Project Card 3 -->
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4>Smart PCB Temperature Controller</h4>
+                            <div class="project-links">
+                                <a href="#" class="project-link" target="_blank">GitHub →</a>
+                            </div>
+                        </div>
+                        <p class="project-desc">PID-controlled heating system with custom PCB design and MicroPython firmware.</p>
+                        <div class="tech-tags">
+                            <span class="tag">PCB Design</span>
+                            <span class="tag">MicroPython</span>
+                            <span class="tag">PID Control</span>
+                            <span class="tag">Altium</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Add more project cards as needed -->
                 </div>
             </div>
         </section>
@@ -89,6 +205,12 @@
                         <div class="status-box">
                             <span class="status-dot"></span>
                             <span class="status-text">CURRENT_STATUS: AVAILABLE_FOR_HIRE</span>
+                        </div>
+                        <div class="resume-download">
+                            <a href="assets/Sachin_Chandra_Resume.pdf" download class="resume-btn">
+                                <span class="btn-icon">📄</span>
+                                <span>Download Resume</span>
+                            </a>
                         </div>
                     </div>
                     
@@ -127,6 +249,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
