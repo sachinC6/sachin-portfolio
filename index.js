@@ -167,3 +167,30 @@ if ('IntersectionObserver' in window) {
         imageObserver.observe(img);
     });
 }
+
+// PROJECT CAROUSEL CLICK TO SCROLL
+document.querySelectorAll('.cards li').forEach((card, index) => {
+    card.addEventListener('click', () => {
+        const projectId = `project-${index + 1}`;
+        const projectCard = document.getElementById(projectId);
+        
+        if (projectCard) {
+            // Scroll to the corresponding project card
+            projectCard.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Add highlight effect
+            projectCard.style.transition = 'all 0.3s ease';
+            projectCard.style.transform = 'scale(1.02)';
+            projectCard.style.borderColor = 'var(--accent)';
+            
+            // Remove highlight after 2 seconds
+            setTimeout(() => {
+                projectCard.style.transform = 'scale(1)';
+                projectCard.style.borderColor = 'rgba(255,255,255,0.08)';
+            }, 2000);
+        }
+    });
+});
