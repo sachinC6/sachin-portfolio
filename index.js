@@ -107,3 +107,63 @@ contactBox.addEventListener("click", function(e) {
         onComplete: () => ripple.remove()
     });
 });
+
+// PRELOADER
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        setTimeout(() => {
+            preloader.classList.add('hidden');
+        }, 1500);
+    }
+});
+
+// THEME TOGGLE
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = document.querySelector('.theme-icon');
+const root = document.documentElement;
+
+if (themeToggle && themeIcon) {
+    // Check saved theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    root.setAttribute('data-theme', savedTheme);
+    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = root.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+}
+
+// KEYBOARD NAVIGATION
+document.addEventListener('keydown', (e) => {
+    const nextBtn = document.querySelector('.next');
+    const prevBtn = document.querySelector('.prev');
+    
+    if (e.key === 'ArrowRight' && nextBtn) {
+        nextBtn.click();
+    } else if (e.key === 'ArrowLeft' && prevBtn) {
+        prevBtn.click();
+    }
+});
+
+// LAZY LOAD IMAGES
+if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.style.opacity = '1';
+                imageObserver.unobserve(img);
+            }
+        });
+    });
+    
+    document.querySelectorAll('.cards li').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
