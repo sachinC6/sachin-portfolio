@@ -131,8 +131,8 @@
                         <!-- Resume Download Section -->
                         <div class="resume-download">
                             <p class="small-label">DOWNLOAD_RESUME</p>
-                            <!-- TODO: Add your resume PDF file to the repository and update the href -->
-                            <a href="resume.pdf" class="resume-btn" download>
+                            <!-- TODO: Add your resume PDF file to the repository (save as resume.pdf) and remove the onclick handler -->
+                            <a href="resume.pdf" class="resume-btn" download onclick="if(!confirm('Resume file not yet added. Please add resume.pdf to the repository.')) return false;">
                                 <span>Download CV</span>
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                     <path d="M8 12L3 7L4.4 5.6L7 8.2V0H9V8.2L11.6 5.6L13 7L8 12Z" fill="currentColor"/>
@@ -149,7 +149,7 @@
                             <div class="link-item">
                                 <p class="small-label">PROFESSIONAL</p>
                                 <!-- TODO: Add your LinkedIn profile URL here -->
-                                <a href="#" class="hover-link">LINKEDIN</a>
+                                <a href="https://www.linkedin.com/in/your-username" class="hover-link" style="pointer-events: none; opacity: 0.5;">LINKEDIN (Coming Soon)</a>
                             </div>
                         </div>
                     </div>
