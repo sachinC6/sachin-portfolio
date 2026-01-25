@@ -3,11 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#050505">
     <title>Sachin Chandra | EC-VLSI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Skip to content link for screen readers -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
+        <p class="loading-text">INITIALIZING SYSTEM...</p>
+    </div>
 
     <div id="custom-cursor"></div>
     <div id="cursor-blur"></div>
@@ -16,51 +30,125 @@
     <div class="scanline"></div>
 
     <main id="main">
-        <nav>
-            <div class="logo">SACHIN <span class="accent">CHANDRA</span></div>
+        <nav role="navigation" aria-label="Main navigation">
+            <div class="logo" aria-label="Sachin Chandra Logo">SACHIN <span class="accent">CHANDRA</span></div>
             <div class="nav-links">
-                <span class="nav-item">Home</span>
-                <span class="nav-item">About</span>
-                <button class="cta-btn">Contact</button>
+                <a href="#hero" class="nav-item" aria-label="Go to home section">Home</a>
+                <a href="#about" class="nav-item" aria-label="Go to about section">About</a>
+                <button class="cta-btn" aria-label="Contact me">Contact</button>
             </div>
         </nav>
 
-        <section class="hero">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" aria-label="Toggle dark/light mode">
+            <span class="theme-icon">☀️</span>
+        </button>
+
+        <section class="hero" id="hero">
             <div class="hero-content">
                 <div class="line-wrapper"><h1 class="reveal-text">Sachin</h1></div>
                 <div class="line-wrapper"><h1 class="reveal-text">Chandra</h1></div>
                 <p class="hero-subtext">VLSI • Embedded Systems • FPGA</p>
             </div>
+            <div class="hero-actions">
+                <a href="assets/Sachin_Chandra_Resume.pdf" download class="download-btn">
+                    <span class="btn-icon">⬇</span> Download Resume
+                </a>
+            </div>
+            <!-- 
+                TODO: Create an 'assets' folder in your repository and add your resume as 'Sachin_Chandra_Resume.pdf'
+                If you don't have a resume yet, you can remove this button or change it to "Coming Soon"
+            -->
             <div class="scroll-indicator">SCROLL TO NAVIGATE</div>
         </section>
 
-        <section class="section about-sec">
+        <section class="section about-sec" id="about">
             <div class="content-card">
                 <h2 class="section-label">Engineering Profile</h2>
                 <h3>Bridging Hardware & Intelligence</h3>
                 <p>Electronics Engineering undergraduate specializing in <strong>VLSI Design & Technology</strong>. Focused on hardware–software integration and high-performance system architecture.</p>
                 <div class="tech-grid">
-                    <div class="tech-item"><span>CORE</span> STM-32</div>
-                    <div class="tech-item"><span>LOGIC</span> FPGA</div>
-                    <div class="tech-item"><span>OS</span> MicroPython</div>
-                    <div class="tech-item"><span>CAD</span> PCB Design</div>
+                    <div class="tech-item"><span>MICROCONTROLLER</span> STM32 • ARM Cortex</div>
+                    <div class="tech-item"><span>FPGA</span> Verilog • VHDL</div>
+                    <div class="tech-item"><span>LANGUAGES</span> C • C++ • Python</div>
+                    <div class="tech-item"><span>EMBEDDED OS</span> FreeRTOS • MicroPython</div>
+                    <div class="tech-item"><span>PCB DESIGN</span> KiCad • Altium Designer</div>
+                    <div class="tech-item"><span>VLSI TOOLS</span> Cadence • Synopsys</div>
+                    <div class="tech-item"><span>PROTOCOLS</span> SPI • I2C • UART • CAN</div>
+                    <div class="tech-item"><span>WIRELESS</span> WiFi • BLE • LoRa • Zigbee</div>
                 </div>
             </div>
         </section>
 
-        <section class="gallery">
+        <section class="gallery" id="projects">
             <div class="gallery-header">
-                <h2 class="section-label">Project</h2>
-                <p>Drag or Scroll to Rotate</p>
+                <h2 class="section-label">Projects</h2>
+                <p>Drag or Scroll to Rotate • Click for Details</p>
             </div>
             <ul class="cards">
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')"></li>
-                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')"></li>
+                <!-- Project 1 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-01.png')" data-project="1">
+                    <div class="project-overlay">
+                        <h3>Smart Home Automation</h3>
+                        <p class="project-tech">STM32 • ESP32 • MQTT • IoT</p>
+                        <p class="project-desc">Real-time home automation system with voice control and mobile app integration.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 2 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-02.png')" data-project="2">
+                    <div class="project-overlay">
+                        <h3>FPGA Image Processor</h3>
+                        <p class="project-tech">FPGA • Verilog • Image Processing</p>
+                        <p class="project-desc">Hardware-accelerated image processing using FPGA for real-time applications.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 3 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-03.png')" data-project="3">
+                    <div class="project-overlay">
+                        <h3>Custom PCB Design</h3>
+                        <p class="project-tech">KiCad • PCB Design • Power Management</p>
+                        <p class="project-desc">Multi-layer PCB with integrated power management for IoT devices.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 4 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-04.png')" data-project="4">
+                    <div class="project-overlay">
+                        <h3>Motor Control System</h3>
+                        <p class="project-tech">STM32 • PWM • Embedded C</p>
+                        <p class="project-desc">Precision motor control with PID algorithm for robotics applications.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 5 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-05.png')" data-project="5">
+                    <div class="project-overlay">
+                        <h3>Sensor Network</h3>
+                        <p class="project-tech">MicroPython • LoRa • Data Analytics</p>
+                        <p class="project-desc">Wireless sensor network for environmental monitoring with cloud integration.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 6 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-06.png')" data-project="6">
+                    <div class="project-overlay">
+                        <h3>VLSI Design Project</h3>
+                        <p class="project-tech">VLSI • Cadence • Circuit Design</p>
+                        <p class="project-desc">Custom VLSI circuit design and simulation for low-power applications.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
+                <!-- Project 7 -->
+                <li style="background-image: url('https://assets.codepen.io/16327/portrait-number-07.png')" data-project="7">
+                    <div class="project-overlay">
+                        <h3>Embedded Linux</h3>
+                        <p class="project-tech">Raspberry Pi • Linux • Python</p>
+                        <p class="project-desc">Custom embedded Linux system for industrial automation tasks.</p>
+                        <a href="#" class="project-link" target="_blank">View on GitHub →</a>
+                    </div>
+                </li>
             </ul>
             <div class="actions">
                 <button class="prev">PREV</button>
@@ -73,13 +161,13 @@
             <div class="content-card">
                 <h2 class="section-label">Portable things</h2>
                 <div class="iframe-container">
-                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay"></iframe>
+                    <iframe src="https://drive.google.com/file/d/1wRGfx2dbf9vwreRMsfF7uhrLUeEfQxHq/preview" allow="autoplay" loading="lazy"></iframe>
                 </div>
             </div>
         </section>
 
       
-        <section class="section footer-sec">
+        <section class="section footer-sec" id="contact">
             <div class="content-box">
                 <h2 class="section-label">04 // SYSTEM_TERMINAL</h2>
                 
@@ -127,6 +215,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

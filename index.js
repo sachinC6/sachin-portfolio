@@ -1,4 +1,75 @@
-gsap.registerPlugin(ScrollTrigger, Draggable);
+gsap.registerPlugin(ScrollTrigger, Draggable, ScrollToPlugin);
+
+// Preloader
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    gsap.to(preloader, { 
+        opacity: 0, 
+        duration: 0.5, 
+        delay: 0.5,
+        onComplete: () => preloader.style.display = 'none'
+    });
+});
+
+// Dark/Light Mode Toggle
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = themeToggle.querySelector('.theme-icon');
+const savedTheme = localStorage.getItem('theme') || 'dark';
+
+if (savedTheme === 'light') {
+    document.body.classList.add('light-mode');
+    themeIcon.textContent = '🌙';
+}
+
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    themeIcon.textContent = isLight ? '🌙' : '☀️';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    
+    // Animate transition
+    gsap.fromTo(document.body, 
+        { opacity: 0.9 }, 
+        { opacity: 1, duration: 0.3 }
+    );
+});
+
+// Smooth Scroll for Navigation
+document.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            gsap.to(window, {
+                duration: 1,
+                scrollTo: { y: targetSection, offsetY: 80 },
+                ease: "power2.inOut"
+            });
+        }
+    });
+});
+
+// Keyboard Navigation
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') {
+        document.querySelector('.prev').click();
+    } else if (e.key === 'ArrowRight') {
+        document.querySelector('.next').click();
+    }
+});
+
+// Focus visible for keyboard users
+document.body.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-nav');
+    }
+});
+
+document.body.addEventListener('mousedown', () => {
+    document.body.classList.remove('keyboard-nav');
+});
 
 // 1. CUSTOM CURSOR
 const cursor = document.querySelector("#custom-cursor");
