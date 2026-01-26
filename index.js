@@ -194,3 +194,12 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
         }
     });
 });
+
+// FLIP CARDS - MOBILE CLICK TOGGLE
+if (window.innerWidth <= 768) {
+    document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+    });
+}
