@@ -481,7 +481,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     
     /* Disable hover on touch devices, rely on click/tap instead */
     .project-card-flip:hover .project-card-inner {
-        transform: none;
+        transform: rotateY(0deg);
     }
     
     .project-card-flip.flipped .project-card-inner {
