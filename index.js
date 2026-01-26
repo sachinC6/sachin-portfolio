@@ -194,3 +194,10 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
         }
     });
 });
+
+// FLIP CARD TOGGLE FOR MOBILE
+document.querySelectorAll('.project-card-flip').forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+    });
+});
