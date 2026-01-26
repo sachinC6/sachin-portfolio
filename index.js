@@ -208,8 +208,8 @@ function initFlipCards() {
                     return;
                 }
                 
-                // Close other cards
-                flipCards.forEach(otherCard => {
+                // Close other cards - query fresh NodeList each time
+                document.querySelectorAll('.flip-card').forEach(otherCard => {
                     if (otherCard !== newCard) {
                         otherCard.classList.remove('flipped');
                     }
