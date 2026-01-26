@@ -1,8 +1,17 @@
 :root {
     --accent: #00ffcc;
+    --accent-dim: #00cc99;
+    --accent-bright: #00fff0;
     --bg: #050505;
     --card-bg: rgba(255, 255, 255, 0.02);
     --text-color: #fff;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #808080;
+    --text-accent: var(--accent);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-medium: rgba(255, 255, 255, 0.15);
+    --border-accent: var(--accent);
 }
 
 /* === SMOOTH SCROLL === */
@@ -100,9 +109,16 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 /* === THEME TOGGLE === */
 :root[data-theme="light"] {
     --accent: #00cc99;
+    --accent-dim: #009973;
+    --accent-bright: #00e6b3;
     --bg: #f5f5f5;
     --card-bg: rgba(0, 0, 0, 0.02);
     --text-color: #000;
+    --text-primary: #000000;
+    --text-secondary: #4a4a4a;
+    --text-tertiary: #707070;
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-medium: rgba(0, 0, 0, 0.15);
 }
 
 :root[data-theme="light"] body {
@@ -764,5 +780,504 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     
     .big-link {
         font-size: 1.1rem;
+    }
+}
+
+/* ============================================
+   ENHANCED TYPOGRAPHY & COLOR SYSTEM
+   ============================================ */
+
+/* Typography Scale */
+.about-intro {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.about-detail {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.about-mission {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    padding: 20px;
+    border-left: 3px solid var(--accent);
+    background: rgba(0, 255, 204, 0.03);
+    border-radius: 4px;
+    margin-top: 30px;
+}
+
+.about-mission em {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+}
+
+.highlight-text {
+    color: var(--accent);
+    font-weight: 600;
+    position: relative;
+}
+
+.highlight-text::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, transparent 100%);
+    opacity: 0.3;
+}
+
+/* Enhanced Section Headers */
+.content-card h3 {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 30px;
+    color: var(--text-primary);
+    letter-spacing: -1px;
+}
+
+/* Hero Role Tags */
+.role-tag {
+    display: inline-block;
+    padding: 2px 0;
+}
+
+.separator {
+    color: var(--accent);
+    opacity: 0.5;
+    margin: 0 10px;
+}
+
+/* ============================================
+   TIMELINE STYLES (Education & Experience)
+   ============================================ */
+
+.timeline {
+    position: relative;
+    padding-left: 40px;
+    margin-top: 50px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent) 0%, rgba(0,255,204,0.1) 100%);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -46px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(0, 255, 204, 0.2);
+    animation: pulse-marker 2s infinite;
+}
+
+@keyframes pulse-marker {
+    0%, 100% {
+        box-shadow: 0 0 0 4px rgba(0, 255, 204, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(0, 255, 204, 0.1);
+    }
+}
+
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    gap: 20px;
+}
+
+.timeline-header h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    flex: 1;
+}
+
+.timeline-date {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.institution-name {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.timeline-desc {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 15px;
+}
+
+.experience-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.experience-bullets li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.experience-bullets li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 1.2rem;
+    line-height: 1.4;
+}
+
+.achievement-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.achievement-tag {
+    background: rgba(0, 255, 204, 0.08);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================
+   CERTIFICATIONS GRID
+   ============================================ */
+
+.certifications-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.cert-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cert-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.cert-card:hover::before {
+    transform: scaleX(1);
+}
+
+.cert-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 204, 0.15);
+}
+
+.cert-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    filter: grayscale(0.8);
+    transition: filter 0.3s ease;
+}
+
+.cert-card:hover .cert-icon {
+    filter: grayscale(0);
+}
+
+.cert-card h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.cert-issuer {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+}
+
+.cert-date {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cert-link {
+    display: inline-block;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cert-link:hover {
+    color: var(--accent-bright);
+    transform: translateX(5px);
+}
+
+/* ============================================
+   ACHIEVEMENTS GRID
+   ============================================ */
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.achievement-card {
+    background: linear-gradient(135deg, rgba(0, 255, 204, 0.03), rgba(0, 255, 204, 0.01));
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    padding: 35px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.achievement-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.05));
+    transition: width 0.3s ease;
+}
+
+.achievement-card:hover::after {
+    width: 100%;
+}
+
+.achievement-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 255, 204, 0.12);
+}
+
+.achievement-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-card h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.achievement-year {
+    display: inline-block;
+    background: rgba(0, 255, 204, 0.1);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   ENHANCED NAVIGATION
+   ============================================ */
+
+/* Add smooth active state for nav items */
+.nav-item.active {
+    color: var(--accent);
+    position: relative;
+}
+
+.nav-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.mobile-menu-toggle span {
+    width: 25px;
+    height: 2px;
+    background: var(--accent);
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(7px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-7px);
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 80px;
+        right: -100%;
+        width: 250px;
+        background: rgba(5, 5, 5, 0.98);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border-subtle);
+        padding: 30px;
+        transition: right 0.3s ease;
+        z-index: 999;
+        height: calc(100vh - 80px);
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    .nav-links a {
+        display: block;
+        margin-bottom: 20px;
+    }
+    
+    .timeline {
+        padding-left: 30px;
+    }
+    
+    .timeline-marker {
+        left: -36px;
+    }
+    
+    .timeline-header {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .timeline-date {
+        align-self: flex-start;
+    }
+    
+    .content-card h3 {
+        font-size: 1.8rem;
+    }
+    
+    .certifications-grid,
+    .achievements-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-intro {
+        font-size: 1rem;
     }
 }

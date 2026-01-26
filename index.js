@@ -236,3 +236,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// === MOBILE MENU TOGGLE ===
+const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (mobileMenuToggle) {
+    mobileMenuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuToggle.classList.toggle('active');
+    });
+    
+    // Close menu when clicking nav item
+    document.querySelectorAll('.nav-item, .cta-btn').forEach(item => {
+        item.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuToggle.classList.remove('active');
+        });
+    });
+}
