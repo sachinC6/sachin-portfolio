@@ -188,27 +188,31 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 });
 
 // FLIP CARDS ON MOBILE (CLICK TOGGLE)
+let flipCardHandlers = new WeakMap();
+
+function handleFlipCardClick() {
+    this.classList.toggle('flipped');
+}
+
 function initFlipCards() {
     const flipCards = document.querySelectorAll('.flip-card');
     
-    if (window.innerWidth < 768) {
-        flipCards.forEach(card => {
-            // Remove existing listeners
-            card.replaceWith(card.cloneNode(true));
-        });
+    flipCards.forEach(card => {
+        // Remove existing listener if it exists
+        const existingHandler = flipCardHandlers.get(card);
+        if (existingHandler) {
+            card.removeEventListener('click', existingHandler);
+        }
         
-        // Re-select after cloning
-        document.querySelectorAll('.flip-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.classList.toggle('flipped');
-            });
-        });
-    } else {
-        // Desktop: Remove flipped class
-        flipCards.forEach(card => {
+        if (window.innerWidth < 768) {
+            // Mobile: Add click listener
+            flipCardHandlers.set(card, handleFlipCardClick);
+            card.addEventListener('click', handleFlipCardClick);
+        } else {
+            // Desktop: Remove flipped class
             card.classList.remove('flipped');
-        });
-    }
+        }
+    });
 }
 
 // Initialize on load
