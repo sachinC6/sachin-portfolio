@@ -171,7 +171,7 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-card-${index + 1}`;
+        const projectId = `project-${index + 1}`;
         const targetCard = document.getElementById(projectId);
         if (targetCard) {
             targetCard.scrollIntoView({ 
@@ -185,4 +185,56 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
             }, 1000);
         }
     });
+});
+
+// ============================================
+// FLIP CARD MOBILE INTERACTION
+// ============================================
+
+function initFlipCards() {
+    const flipCards = document.querySelectorAll('.flip-card');
+    
+    // Only add click handlers on mobile/tablet
+    if (window.innerWidth <= 768) {
+        flipCards.forEach(card => {
+            // Remove any existing listeners
+            const newCard = card.cloneNode(true);
+            card.parentNode.replaceChild(newCard, card);
+            
+            // Add new click listener
+            newCard.addEventListener('click', function(e) {
+                // Don't flip if clicking on a link
+                if (e.target.closest('.project-link')) {
+                    return;
+                }
+                
+                // Close other cards
+                flipCards.forEach(otherCard => {
+                    if (otherCard !== newCard) {
+                        otherCard.classList.remove('flipped');
+                    }
+                });
+                
+                // Toggle current card
+                this.classList.toggle('flipped');
+            });
+        });
+    } else {
+        // Remove flipped class on desktop
+        flipCards.forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initFlipCards();
+    }, 250);
 });

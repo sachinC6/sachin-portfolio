@@ -329,6 +329,222 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     text-decoration: underline;
 }
 
+/* ============================================
+   FLIP CARD ANIMATIONS
+   ============================================ */
+
+/* Flip Card Container */
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 400px;
+    perspective: 1000px;
+    border-radius: 8px;
+    margin-bottom: 0;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* Desktop: Hover to flip */
+@media (min-width: 769px) {
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+}
+
+/* Mobile/Tablet: Click to flip */
+@media (max-width: 768px) {
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+}
+
+/* Front and Back Faces */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* Front Side Styling */
+.flip-card-front {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.95));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    display: block;
+}
+
+.flip-card-front .front-title {
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 204, 0.08);
+    width: 100%;
+    border-top: 2px solid var(--accent);
+    padding: 0 20px;
+}
+
+.flip-card-front .front-title h4 {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+    line-height: 1.4;
+}
+
+/* Back Side Styling */
+.flip-card-back {
+    background: linear-gradient(135deg, rgba(0, 255, 204, 0.08), rgba(0, 150, 150, 0.12));
+    transform: rotateY(180deg);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 255, 204, 0.2);
+}
+
+.flip-card-back .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.flip-card-back .project-header h4 {
+    color: var(--accent);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    flex: 1;
+}
+
+.flip-card-back .project-links {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.flip-card-back .project-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 4px;
+}
+
+.flip-card-back .project-link:hover {
+    background: rgba(0, 255, 204, 0.1);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.flip-card-back .project-desc {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 15px 0;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.flip-card-back .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.flip-card-back .tag {
+    background: rgba(0, 255, 204, 0.1);
+    border: 1px solid rgba(0, 255, 204, 0.4);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.flip-card-back .tag:hover {
+    background: rgba(0, 255, 204, 0.2);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .flip-card {
+        height: 350px;
+    }
+    
+    .flip-card-back {
+        padding: 20px;
+    }
+    
+    .flip-card-back .project-header h4 {
+        font-size: 1.1rem;
+    }
+    
+    .flip-card-back .project-desc {
+        font-size: 0.85rem;
+    }
+    
+    .flip-card-front .front-title h4 {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .flip-card {
+        height: 320px;
+    }
+    
+    .flip-card-back {
+        padding: 15px;
+    }
+    
+    .flip-card-back .project-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .flip-card-back .project-links {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
 .project-desc {
     color: #aaa;
     line-height: 1.6;
