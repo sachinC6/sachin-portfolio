@@ -171,7 +171,7 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-card-${index + 1}`;
+        const projectId = `project-${index + 1}`;
         const targetCard = document.getElementById(projectId);
         if (targetCard) {
             targetCard.scrollIntoView({ 
@@ -185,4 +185,39 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
             }, 1000);
         }
     });
+});
+
+// === FLIP CARDS MOBILE FUNCTIONALITY ===
+function initFlipCards() {
+    const flipCards = document.querySelectorAll('.flip-card');
+    
+    // Mobile only: click to toggle flip
+    if (window.innerWidth < 768) {
+        flipCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent flipping if clicking on a link
+                if (e.target.tagName === 'A') return;
+                
+                this.classList.toggle('flipped');
+            });
+        });
+    }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        // Remove all flipped states on resize
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.classList.remove('flipped');
+        });
+        
+        // Re-initialize if needed
+        initFlipCards();
+    }, 250);
 });
