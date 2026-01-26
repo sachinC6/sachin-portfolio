@@ -49,9 +49,19 @@
             <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark/light mode">
                 <span class="theme-icon">☀️</span>
             </button>
-            <div class="nav-links">
+            <button id="hamburger-menu" class="hamburger-btn" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="nav-links">
                 <a href="#main" class="nav-item">Home</a>
                 <a href="#about" class="nav-item">About</a>
+                <a href="#education" class="nav-item">Education</a>
+                <a href="#experience" class="nav-item">Experience</a>
+                <a href="#certifications" class="nav-item">Certifications</a>
+                <a href="#achievements" class="nav-item">Achievements</a>
+                <a href="#projects" class="nav-item">Projects</a>
                 <a href="#contact" class="cta-btn">Contact</a>
             </div>
         </nav>
@@ -60,7 +70,7 @@
             <div class="hero-content">
                 <div class="line-wrapper"><h1 class="reveal-text">Sachin</h1></div>
                 <div class="line-wrapper"><h1 class="reveal-text">Chandra</h1></div>
-                <p class="hero-subtext">VLSI • Embedded Systems • FPGA</p>
+                <p class="hero-subtext"><span class="role-tag">VLSI Engineer</span> • <span class="role-tag">Embedded Systems</span> • <span class="role-tag">FPGA Developer</span></p>
             </div>
             <div class="scroll-indicator">SCROLL TO NAVIGATE</div>
         </section>
@@ -70,6 +80,7 @@
                 <h2 class="section-label">Engineering Profile</h2>
                 <h3>Bridging Hardware & Intelligence</h3>
                 <p>Electronics Engineering undergraduate specializing in <strong>VLSI Design & Technology</strong>. Focused on hardware–software integration and high-performance system architecture.</p>
+                <p class="mission-statement">My mission is to design innovative hardware solutions that bridge the gap between cutting-edge electronics and intelligent systems, driving the next generation of embedded technologies.</p>
                 <div class="skills-container">
                     <div class="skill-category">
                         <h4 class="skill-cat-title">Hardware</h4>
@@ -115,6 +126,160 @@
                             <span class="skill-badge">Digital Signal Processing</span>
                             <span class="skill-badge">Real-Time OS</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section class="section" id="education">
+            <div class="content-card">
+                <h2 class="section-label">Education</h2>
+                <h3>Academic Journey</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">B.Tech in Electronics Engineering (VLSI)</h4>
+                            <p class="timeline-subtitle">[Your University Name]</p>
+                            <p class="timeline-date">2021 - 2025 (Expected)</p>
+                            <p class="timeline-desc">Specialization: VLSI Design & Technology</p>
+                            <p class="timeline-desc">CGPA: [Your CGPA] / 10.0</p>
+                            <ul class="timeline-highlights">
+                                <li>Key Courses: Digital VLSI Design, Analog IC Design, FPGA Programming, Embedded Systems</li>
+                                <li>Final Year Project: [Your Project Title]</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">Higher Secondary Education (12th Grade)</h4>
+                            <p class="timeline-subtitle">[Your School Name]</p>
+                            <p class="timeline-date">2019 - 2021</p>
+                            <p class="timeline-desc">Stream: Science (Physics, Chemistry, Mathematics)</p>
+                            <p class="timeline-desc">Score: [Your Percentage]%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="section" id="experience">
+            <div class="content-card">
+                <h2 class="section-label">Experience</h2>
+                <h3>Professional Journey</h3>
+                
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">VLSI Design Intern</h4>
+                            <p class="timeline-subtitle">[Company Name]</p>
+                            <p class="timeline-date">[Month Year] - [Month Year]</p>
+                            <ul class="timeline-highlights">
+                                <li>Designed and simulated [describe your work]</li>
+                                <li>Implemented [specific technology/methodology]</li>
+                                <li>Achieved [specific accomplishment or improvement]</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-title">Embedded Systems Intern</h4>
+                            <p class="timeline-subtitle">[Company Name]</p>
+                            <p class="timeline-date">[Month Year] - [Month Year]</p>
+                            <ul class="timeline-highlights">
+                                <li>Developed firmware for [specific microcontroller/platform]</li>
+                                <li>Worked on [specific project or technology]</li>
+                                <li>Collaborated with team to [specific achievement]</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Certifications Section -->
+        <section class="section" id="certifications">
+            <div class="content-card">
+                <h2 class="section-label">Certifications</h2>
+                <h3>Professional Credentials</h3>
+                
+                <div class="cert-grid">
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h4 class="cert-title">Advanced VLSI Design</h4>
+                        <p class="cert-issuer">Issuer: [Platform Name]</p>
+                        <p class="cert-date">Completed: [Month Year]</p>
+                        <a href="#" class="cert-link" target="_blank">View Certificate →</a>
+                    </div>
+                    
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h4 class="cert-title">Embedded Systems Programming</h4>
+                        <p class="cert-issuer">Issuer: [Platform Name]</p>
+                        <p class="cert-date">Completed: [Month Year]</p>
+                        <a href="#" class="cert-link" target="_blank">View Certificate →</a>
+                    </div>
+                    
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h4 class="cert-title">FPGA Design with Verilog</h4>
+                        <p class="cert-issuer">Issuer: [Platform Name]</p>
+                        <p class="cert-date">Completed: [Month Year]</p>
+                        <a href="#" class="cert-link" target="_blank">View Certificate →</a>
+                    </div>
+                    
+                    <div class="cert-card">
+                        <div class="cert-icon">📜</div>
+                        <h4 class="cert-title">PCB Design Fundamentals</h4>
+                        <p class="cert-issuer">Issuer: [Platform Name]</p>
+                        <p class="cert-date">Completed: [Month Year]</p>
+                        <a href="#" class="cert-link" target="_blank">View Certificate →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section -->
+        <section class="section" id="achievements">
+            <div class="content-card">
+                <h2 class="section-label">Achievements & Awards</h2>
+                <h3>Recognition & Honors</h3>
+                
+                <div class="achievement-grid">
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🏆</div>
+                        <h4 class="achievement-title">Winner - [Competition Name]</h4>
+                        <p class="achievement-desc">Won first place in [describe competition/hackathon] by developing [brief project description]</p>
+                        <p class="achievement-date">[Year]</p>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🎓</div>
+                        <h4 class="achievement-title">Academic Excellence Award</h4>
+                        <p class="achievement-desc">Awarded for outstanding academic performance in VLSI Design coursework</p>
+                        <p class="achievement-date">[Year]</p>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">⚡</div>
+                        <h4 class="achievement-title">[Your Achievement]</h4>
+                        <p class="achievement-desc">Description of your achievement and its significance</p>
+                        <p class="achievement-date">[Year]</p>
+                    </div>
+                    
+                    <div class="achievement-card">
+                        <div class="achievement-icon">🌟</div>
+                        <h4 class="achievement-title">[Another Achievement]</h4>
+                        <p class="achievement-desc">Description of your achievement and its impact</p>
+                        <p class="achievement-date">[Year]</p>
                     </div>
                 </div>
             </div>

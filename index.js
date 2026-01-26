@@ -236,3 +236,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// === HAMBURGER MENU ===
+const hamburgerBtn = document.getElementById('hamburger-menu');
+const navLinks = document.getElementById('nav-links');
+
+if (hamburgerBtn && navLinks) {
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+    
+    // Close menu when clicking on a nav link
+    const navItems = navLinks.querySelectorAll('.nav-item, .cta-btn');
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            hamburgerBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+            hamburgerBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+}
