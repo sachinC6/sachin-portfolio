@@ -186,3 +186,47 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
         }
     });
 });
+
+// ============================================
+// FLIP CARD MOBILE INTERACTION
+// ============================================
+
+// Initialize flip cards on mobile
+function initFlipCards() {
+    // Only apply click-to-flip on mobile devices
+    if (window.innerWidth < 768) {
+        const flipCards = document.querySelectorAll('.flip-card');
+        
+        flipCards.forEach(card => {
+            // Remove existing event listener if any
+            card.removeEventListener('click', toggleFlip);
+            // Add click event listener
+            card.addEventListener('click', toggleFlip);
+        });
+    } else {
+        // Remove flipped class on desktop (uses hover instead)
+        const flipCards = document.querySelectorAll('.flip-card');
+        flipCards.forEach(card => {
+            card.classList.remove('flipped');
+            card.removeEventListener('click', toggleFlip);
+        });
+    }
+}
+
+// Toggle flip state
+function toggleFlip() {
+    this.classList.toggle('flipped');
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initFlipCards();
+    }, 250);
+});
+
