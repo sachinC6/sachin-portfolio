@@ -197,7 +197,11 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 
 // FLIP CARD TOGGLE FOR MOBILE
 document.querySelectorAll('.project-card-flip').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+        // Don't toggle if clicking on a link or interactive element
+        if (e.target.tagName === 'A' || e.target.closest('a')) {
+            return;
+        }
         card.classList.toggle('flipped');
     });
     
