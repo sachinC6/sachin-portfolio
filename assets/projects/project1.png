@@ -1,0 +1,5 @@
+<svg width="400" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="600" fill="#1a1a1a"/>
+  <text x="200" y="300" font-family="Inter, Arial" font-size="48" fill="#00ffcc" text-anchor="middle" dominant-baseline="middle">PROJECT 1</text>
+  <text x="200" y="350" font-family="Inter, Arial" font-size="16" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">IoT Weather Station</text>
+</svg>
