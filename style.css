@@ -329,6 +329,12 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     perspective: 1000px;
     height: 400px;
     cursor: pointer;
+    outline: none;
+}
+
+.project-card-flip:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
 .project-card-inner {
@@ -341,7 +347,8 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 }
 
 .project-card-flip:hover .project-card-inner,
-.project-card-flip.flipped .project-card-inner {
+.project-card-flip.flipped .project-card-inner,
+.project-card-flip:focus-within .project-card-inner {
     transform: rotateY(180deg);
 }
 
@@ -371,6 +378,22 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     justify-content: flex-start;
     text-align: left;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) rgba(255, 255, 255, 0.1);
+}
+
+.project-card-back::-webkit-scrollbar {
+    width: 6px;
+}
+
+.project-card-back::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.project-card-back::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 3px;
 }
 
 .project-image {

@@ -200,4 +200,12 @@ document.querySelectorAll('.project-card-flip').forEach(card => {
     card.addEventListener('click', () => {
         card.classList.toggle('flipped');
     });
+    
+    // Keyboard accessibility
+    card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            card.classList.toggle('flipped');
+        }
+    });
 });
