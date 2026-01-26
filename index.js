@@ -171,7 +171,7 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-card-${index + 1}`;
+        const projectId = `project-${index + 1}`;
         const targetCard = document.getElementById(projectId);
         if (targetCard) {
             targetCard.scrollIntoView({ 
@@ -185,4 +185,44 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
             }, 1000);
         }
     });
+});
+
+// ============================================
+// FLIP CARDS - MOBILE CLICK TOGGLE
+// ============================================
+
+function initFlipCards() {
+    // Only enable click-to-flip on mobile
+    if (window.innerWidth < 768) {
+        const flipCards = document.querySelectorAll('.flip-card');
+        
+        flipCards.forEach(card => {
+            // Remove existing listeners
+            card.replaceWith(card.cloneNode(true));
+        });
+        
+        // Re-select cards and add listeners
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        });
+    } else {
+        // Remove flipped class on desktop
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        initFlipCards();
+    }, 250);
 });
