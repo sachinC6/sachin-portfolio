@@ -201,7 +201,7 @@ function initFlipCards() {
     });
     
     // Only add click handlers on mobile/tablet
-    if (window.innerWidth < 768.1) {
+    if (window.innerWidth <= 768) {
         document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 // Prevent flipping if clicking on a link

@@ -376,7 +376,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 }
 
 /* Desktop: Hover to flip */
-@media (min-width: 768.1px) {
+@media (min-width: 769px) {
     .flip-card:hover .flip-card-inner {
         transform: rotateY(180deg);
     }
