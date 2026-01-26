@@ -197,11 +197,11 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 
 // MOBILE: Click to flip project cards
 document.querySelectorAll('.project-card-flip').forEach(card => {
-    if (window.innerWidth <= 768) {
-        card.addEventListener('click', function() {
+    card.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
             this.classList.toggle('flipped');
-        });
-    }
+        }
+    });
 });
 
 // Remove flipped class on resize to desktop
