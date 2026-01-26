@@ -195,12 +195,15 @@ function initFlipCards() {
     const flipCards = document.querySelectorAll('.flip-card');
     
     // Remove any existing event listeners by cloning and replacing nodes
+    // Note: This is a simple approach that works for this use case where
+    // flip cards don't have other attached data or event listeners
     flipCards.forEach(card => {
         const newCard = card.cloneNode(true);
         card.parentNode.replaceChild(newCard, card);
     });
     
-    // Only add click handlers on mobile/tablet
+    // Only add click handlers on mobile/tablet (<=768px)
+    // At exactly 768px, mobile behavior (click) takes precedence over desktop (hover)
     if (window.innerWidth <= 768) {
         document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', function(e) {

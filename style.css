@@ -375,14 +375,14 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     transform-style: preserve-3d;
 }
 
-/* Desktop: Hover to flip */
+/* Desktop: Hover to flip (>768px) */
 @media (min-width: 769px) {
     .flip-card:hover .flip-card-inner {
         transform: rotateY(180deg);
     }
 }
 
-/* Mobile: Click to flip */
+/* Mobile/Tablet: Click to flip (<=768px) */
 @media (max-width: 768px) {
     .flip-card.active .flip-card-inner {
         transform: rotateY(180deg);
