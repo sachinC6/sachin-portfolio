@@ -194,9 +194,15 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 function initFlipCards() {
     const flipCards = document.querySelectorAll('.flip-card');
     
+    // Remove any existing event listeners by cloning and replacing nodes
+    flipCards.forEach(card => {
+        const newCard = card.cloneNode(true);
+        card.parentNode.replaceChild(newCard, card);
+    });
+    
     // Only add click handlers on mobile/tablet
-    if (window.innerWidth <= 768) {
-        flipCards.forEach(card => {
+    if (window.innerWidth < 768.1) {
+        document.querySelectorAll('.flip-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 // Prevent flipping if clicking on a link
                 if (e.target.tagName === 'A') return;
