@@ -196,19 +196,31 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 });
 
 // FLIP CARDS ON MOBILE (CLICK TOGGLE)
-if (window.innerWidth < 768) {
+function initMobileFlipCards() {
+    // Remove any existing listeners by cloning cards
     document.querySelectorAll('.flip-card').forEach(card => {
-        card.addEventListener('click', function() {
-            this.classList.toggle('flipped');
-        });
+        if (window.innerWidth < 768) {
+            card.addEventListener('click', function flipCard() {
+                this.classList.toggle('flipped');
+            });
+        } else {
+            card.classList.remove('flipped');
+        }
     });
 }
 
+// Initialize on load
+initMobileFlipCards();
+
 // Re-initialize on window resize
+let resizeTimer;
 window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) {
-        document.querySelectorAll('.flip-card').forEach(card => {
-            card.classList.remove('flipped');
-        });
-    }
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        if (window.innerWidth >= 768) {
+            document.querySelectorAll('.flip-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+        }
+    }, 250);
 });
