@@ -258,101 +258,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     margin-top: 40px;
 }
 
-.project-card {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 35px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    scroll-margin-top: 100px;
-}
-
-.project-card.highlighted {
-    border-color: var(--accent) !important;
-    transform: scale(1.02);
-    box-shadow: 0 10px 40px rgba(0, 255, 204, 0.3);
-    transition: all 0.3s ease;
-}
-
-.project-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent), transparent);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-}
-
-.project-card:hover::before {
-    transform: scaleX(1);
-}
-
-.project-card:hover {
-    background: rgba(255,255,255,0.04);
-    border-color: var(--accent);
-    transform: translateY(-5px);
-}
-
-.project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 15px;
-}
-
-.project-header h4 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #fff;
-}
-
-.project-links {
-    display: flex;
-    gap: 15px;
-}
-
-.project-link {
-    color: var(--accent);
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: 0.2s;
-}
-
-.project-link:hover {
-    text-decoration: underline;
-}
-
-.project-desc {
-    color: #aaa;
-    line-height: 1.6;
-    margin-bottom: 20px;
-    font-size: 0.95rem;
-}
-
-.tech-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.tag {
-    background: rgba(0,255,204,0.1);
-    border: 1px solid rgba(0,255,204,0.3);
-    color: var(--accent);
-    padding: 5px 12px;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
-
 /* === FLIP CARD CONTAINER === */
 .flip-card {
     background-color: transparent;
@@ -540,21 +445,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     
     .flip-card-back .project-links {
         align-self: flex-start;
-    }
-}
-
-/* === GRID ADJUSTMENT === */
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
-}
-
-@media (max-width: 768px) {
-    .projects-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
     }
 }
 
