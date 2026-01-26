@@ -171,7 +171,7 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-card-${index + 1}`;
+        const projectId = `project-${index + 1}`;
         const targetCard = document.getElementById(projectId);
         if (targetCard) {
             targetCard.scrollIntoView({ 
@@ -185,4 +185,38 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
             }, 1000);
         }
     });
+});
+
+// FLIP CARDS ON MOBILE (CLICK TOGGLE)
+function initFlipCards() {
+    const flipCards = document.querySelectorAll('.flip-card');
+    
+    if (window.innerWidth < 768) {
+        flipCards.forEach(card => {
+            // Remove existing listeners
+            card.replaceWith(card.cloneNode(true));
+        });
+        
+        // Re-select after cloning
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        });
+    } else {
+        // Desktop: Remove flipped class
+        flipCards.forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(initFlipCards, 250);
 });
