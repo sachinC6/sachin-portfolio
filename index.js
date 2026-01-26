@@ -171,26 +171,18 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-${index + 1}`;
-        const projectCard = document.getElementById(projectId);
-        
-        if (projectCard) {
-            // Scroll to the corresponding project card
-            projectCard.scrollIntoView({ 
+        const projectId = `project-card-${index + 1}`;
+        const targetCard = document.getElementById(projectId);
+        if (targetCard) {
+            targetCard.scrollIntoView({ 
                 behavior: 'smooth', 
                 block: 'center' 
             });
-            
-            // Add highlight effect
-            projectCard.style.transition = 'all 0.3s ease';
-            projectCard.style.transform = 'scale(1.02)';
-            projectCard.style.borderColor = 'var(--accent)';
-            
-            // Remove highlight after 2 seconds
+            // Highlight effect
+            targetCard.classList.add('highlighted');
             setTimeout(() => {
-                projectCard.style.transform = 'scale(1)';
-                projectCard.style.borderColor = 'rgba(255,255,255,0.08)';
-            }, 2000);
+                targetCard.classList.remove('highlighted');
+            }, 1000);
         }
     });
 });
