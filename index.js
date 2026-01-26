@@ -207,7 +207,7 @@ document.querySelectorAll('.project-card-flip').forEach(card => {
     
     // Keyboard accessibility
     card.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Space') {
+        if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             card.classList.toggle('flipped');
         }
