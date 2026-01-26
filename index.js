@@ -213,6 +213,33 @@ function initFlipCards() {
     }
 }
 
+// === MOBILE MENU TOGGLE ===
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a nav link
+    document.querySelectorAll('.nav-item, .cta-btn').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        }
+    });
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', initFlipCards);
 

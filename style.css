@@ -3,6 +3,10 @@
     --bg: #050505;
     --card-bg: rgba(255, 255, 255, 0.02);
     --text-color: #fff;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --text-tertiary: #808080;
+    --text-accent: #00ffcc;
 }
 
 /* === SMOOTH SCROLL === */
@@ -97,6 +101,103 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .logo { font-weight: 900; letter-spacing: 4px; }
 .accent { color: var(--accent); }
 
+/* === MOBILE MENU TOGGLE === */
+.menu-btn {
+    display: none;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    transition: 0.3s;
+}
+
+.menu-btn:hover {
+    border-color: var(--accent);
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+    display: block;
+    background: #fff;
+    height: 2px;
+    width: 20px;
+    border-radius: 2px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: 0.3s;
+}
+
+.hamburger {
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.hamburger::before {
+    content: '';
+    top: -6px;
+}
+
+.hamburger::after {
+    content: '';
+    top: 6px;
+}
+
+.menu-btn.active .hamburger {
+    background: transparent;
+}
+
+.menu-btn.active .hamburger::before {
+    top: 0;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.menu-btn.active .hamburger::after {
+    top: 0;
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block;
+    }
+    
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(5, 5, 5, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+        border-left: 1px solid rgba(255,255,255,0.1);
+        transition: right 0.3s ease;
+        z-index: 999;
+    }
+    
+    .nav-links.active {
+        right: 0;
+    }
+    
+    nav {
+        padding: 20px 30px;
+    }
+}
+
 /* === THEME TOGGLE === */
 :root[data-theme="light"] {
     --accent: #00cc99;
@@ -146,7 +247,41 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 /* --- HERO --- */
 .hero { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .reveal-text { font-size: 10vw; font-weight: 900; text-transform: uppercase; line-height: 0.9; filter: blur(10px); opacity: 0; }
-.hero-subtext { margin-top: 20px; font-size: 0.9rem; letter-spacing: 5px; color: var(--accent); }
+.hero-subtext { 
+    margin-top: 20px; 
+    font-size: 0.9rem; 
+    letter-spacing: 5px; 
+    color: var(--text-accent);
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.role-tag {
+    background: rgba(0, 255, 204, 0.1);
+    border: 1px solid var(--text-accent);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.role-tag:hover {
+    background: var(--text-accent);
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.mission-statement {
+    margin-top: 30px;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 700px;
+    line-height: 1.6;
+    font-weight: 300;
+}
 
 /* --- CARDS & GRID --- */
 .content-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); padding: 80px; border-radius: 4px; position: relative; width: 100%; max-width: 1200px; }
@@ -154,6 +289,284 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .tech-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px; }
 .tech-item { border-left: 2px solid var(--accent); padding-left: 20px; font-size: 0.9rem; }
 .tech-item span { display: block; font-size: 0.6rem; opacity: 0.5; letter-spacing: 2px; }
+
+/* === TYPOGRAPHY HIERARCHY === */
+.primary-text {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.secondary-text {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.tertiary-text {
+    color: var(--text-tertiary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.content-card h3 {
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.content-card h4 {
+    color: var(--text-accent);
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+/* === TIMELINE DESIGN === */
+.timeline {
+    position: relative;
+    padding: 40px 0;
+    margin-top: 40px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), rgba(0, 255, 204, 0.1));
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 50px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 12px;
+    top: 0;
+    width: 18px;
+    height: 18px;
+    background: var(--bg);
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    z-index: 1;
+    animation: pulse 2s infinite;
+}
+
+.timeline-marker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0%, 100% {
+        box-shadow: 0 0 5px var(--accent);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--accent);
+    }
+}
+
+.timeline-content {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: var(--accent);
+    transform: translateX(5px);
+}
+
+.timeline-date {
+    display: inline-block;
+    background: rgba(0, 255, 204, 0.1);
+    color: var(--accent);
+    padding: 5px 15px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.institution {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.achievements-list {
+    margin-top: 15px;
+    padding-left: 0;
+}
+
+.achievements-list p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+/* === CERTIFICATIONS GRID === */
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.cert-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.cert-card:hover {
+    background: rgba(0, 255, 204, 0.05);
+    border-color: var(--accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 204, 0.2);
+}
+
+.cert-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.cert-card h4 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.cert-issuer {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.cert-date {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.cert-link {
+    display: inline-block;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.cert-link:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+/* === ACHIEVEMENTS GRID === */
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+
+.achievement-card {
+    display: flex;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.achievement-card:hover {
+    background: rgba(0, 255, 204, 0.05);
+    border-color: var(--accent);
+    transform: translateX(5px);
+}
+
+.achievement-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.achievement-content {
+    flex-grow: 1;
+}
+
+.achievement-content h4 {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+}
+
+.achievement-org {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.achievement-date {
+    color: var(--text-tertiary);
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+}
 
 /* === ENHANCED SKILLS === */
 .skills-container {
@@ -663,21 +1076,18 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     .footer-grid {
         gap: 50px;
     }
+    
+    .timeline::before {
+        left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 50px;
+    }
 }
 
 @media (max-width: 768px) {
-    /* Navigation */
-    nav {
-        flex-direction: column;
-        gap: 20px;
-        padding: 20px 30px;
-    }
-    
-    .nav-links {
-        flex-direction: column;
-        gap: 15px;
-        align-items: center;
-    }
+    /* Navigation - already handled above */
     
     /* Hero */
     .reveal-text {
@@ -687,11 +1097,85 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     .hero-subtext {
         font-size: 0.75rem;
         letter-spacing: 3px;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .role-tag {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+    
+    .mission-statement {
+        font-size: 0.95rem;
+        margin-top: 20px;
+        padding: 0 20px;
     }
     
     /* Content Cards */
     .content-card {
         padding: 40px 25px;
+    }
+    
+    .content-card h3 {
+        font-size: 1.8rem;
+    }
+    
+    /* Timeline */
+    .timeline {
+        padding: 20px 0;
+    }
+    
+    .timeline::before {
+        left: 10px;
+    }
+    
+    .timeline-item {
+        padding-left: 40px;
+        margin-bottom: 35px;
+    }
+    
+    .timeline-marker {
+        left: 4px;
+        width: 14px;
+        height: 14px;
+    }
+    
+    .timeline-content {
+        padding: 20px;
+    }
+    
+    .timeline-date {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+    }
+    
+    /* Certifications */
+    .cert-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .cert-card {
+        padding: 25px;
+    }
+    
+    .cert-icon {
+        font-size: 2.5rem;
+    }
+    
+    /* Achievements */
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .achievement-card {
+        padding: 20px;
+    }
+    
+    .achievement-icon {
+        font-size: 2rem;
     }
     
     /* Tech Grid */
@@ -749,8 +1233,33 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
         font-size: 18vw;
     }
     
+    .mission-statement {
+        font-size: 0.85rem;
+    }
+    
     .content-card {
         padding: 30px 20px;
+    }
+    
+    .content-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    .timeline-content {
+        padding: 15px;
+    }
+    
+    .cert-card {
+        padding: 20px;
+    }
+    
+    .achievement-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .achievement-icon {
+        font-size: 2.5rem;
     }
     
     .cards {
