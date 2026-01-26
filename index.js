@@ -194,3 +194,21 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
         }
     });
 });
+
+// MOBILE: Click to flip project cards
+document.querySelectorAll('.project-card-flip').forEach(card => {
+    if (window.innerWidth <= 768) {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+    }
+});
+
+// Remove flipped class on resize to desktop
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.project-card-flip').forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+});
