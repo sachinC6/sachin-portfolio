@@ -196,19 +196,37 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 });
 
 // MOBILE: Click to flip project cards
-document.querySelectorAll('.project-card-flip').forEach(card => {
+function handleCardClick() {
     if (window.innerWidth <= 768) {
-        card.addEventListener('click', function() {
-            this.classList.toggle('flipped');
-        });
+        this.classList.toggle('flipped');
     }
+}
+
+// Attach click handlers to all flip cards
+document.querySelectorAll('.project-card-flip').forEach(card => {
+    card.addEventListener('click', handleCardClick);
 });
 
+// Debounce function for performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Remove flipped class on resize to desktop
-window.addEventListener('resize', () => {
+const handleResize = debounce(() => {
     if (window.innerWidth > 768) {
         document.querySelectorAll('.project-card-flip').forEach(card => {
             card.classList.remove('flipped');
         });
     }
-});
+}, 250);
+
+window.addEventListener('resize', handleResize);
