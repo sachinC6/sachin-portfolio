@@ -188,36 +188,37 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
 });
 
 // === FLIP CARDS MOBILE FUNCTIONALITY ===
-function initFlipCards() {
-    const flipCards = document.querySelectorAll('.flip-card');
+const MOBILE_BREAKPOINT = 768;
+let isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+
+// Use event delegation to avoid duplicate listeners
+document.addEventListener('click', function(e) {
+    // Only handle on mobile
+    if (!isMobile) return;
     
-    // Mobile only: click to toggle flip
-    if (window.innerWidth < 768) {
-        flipCards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Prevent flipping if clicking on a link
-                if (e.target.tagName === 'A') return;
-                
-                this.classList.toggle('flipped');
-            });
-        });
-    }
-}
+    // Find the flip-card ancestor
+    const flipCard = e.target.closest('.flip-card');
+    if (!flipCard) return;
+    
+    // Prevent flipping if clicking on a link
+    if (e.target.tagName === 'A') return;
+    
+    flipCard.classList.toggle('flipped');
+});
 
-// Initialize on load
-document.addEventListener('DOMContentLoaded', initFlipCards);
-
-// Re-initialize on window resize
+// Re-check on window resize
 let resizeTimer;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-        // Remove all flipped states on resize
-        document.querySelectorAll('.flip-card').forEach(card => {
-            card.classList.remove('flipped');
-        });
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth < MOBILE_BREAKPOINT;
         
-        // Re-initialize if needed
-        initFlipCards();
+        // Remove all flipped states when switching between mobile/desktop
+        if (wasMobile !== isMobile) {
+            document.querySelectorAll('.flip-card').forEach(card => {
+                card.classList.remove('flipped');
+            });
+        }
     }, 250);
 });
