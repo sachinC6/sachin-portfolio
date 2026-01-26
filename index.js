@@ -194,3 +194,21 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
         }
     });
 });
+
+// FLIP CARDS ON MOBILE (CLICK TOGGLE)
+if (window.innerWidth < 768) {
+    document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+    });
+}
+
+// Re-initialize on window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+});
