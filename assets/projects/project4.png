@@ -1,0 +1,6 @@
+<svg width="400" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="600" fill="#1a1a1a"/>
+  <rect x="150" y="250" width="100" height="100" fill="#00ffcc" opacity="0.3"/>
+  <text x="200" y="330" font-family="Arial" font-size="16" fill="#00ffcc" text-anchor="middle">Project 4</text>
+  <text x="200" y="355" font-family="Arial" font-size="12" fill="#ffffff" text-anchor="middle" opacity="0.7">Embedded Systems</text>
+</svg>
