@@ -353,6 +353,217 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     letter-spacing: 0.5px;
 }
 
+/* === FLIP CARD CONTAINER === */
+.flip-card {
+    background-color: transparent;
+    width: 100%;
+    height: 400px;
+    perspective: 1000px;
+    border-radius: 8px;
+    cursor: pointer;
+    scroll-margin-top: 100px;
+}
+
+.flip-card.highlighted {
+    transform: scale(1.02);
+    box-shadow: 0 10px 40px rgba(0, 255, 204, 0.3);
+    transition: all 0.3s ease;
+}
+
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-style: preserve-3d;
+}
+
+/* Desktop: Hover to flip */
+@media (min-width: 768px) {
+    .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+}
+
+/* Mobile: Click to flip */
+@media (max-width: 767px) {
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+}
+
+/* === FRONT AND BACK FACES === */
+.flip-card-front,
+.flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* === FRONT SIDE STYLING === */
+.flip-card-front {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 20, 0.95));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flip-card-front img {
+    width: 100%;
+    height: 70%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.flip-card-front .front-title {
+    height: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 255, 204, 0.08);
+    width: 100%;
+    border-top: 2px solid var(--accent);
+    padding: 15px;
+}
+
+.flip-card-front .front-title h4 {
+    color: var(--accent);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    text-align: center;
+}
+
+/* === BACK SIDE STYLING === */
+.flip-card-back {
+    background: linear-gradient(135deg, rgba(0, 50, 50, 0.95), rgba(0, 100, 100, 0.85));
+    transform: rotateY(180deg);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+}
+
+.flip-card-back .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.flip-card-back .project-header h4 {
+    color: var(--accent);
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+}
+
+.flip-card-back .project-links {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.flip-card-back .project-link {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 5px 10px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.flip-card-back .project-link:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.flip-card-back .project-desc {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 15px 0;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.flip-card-back .tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.flip-card-back .tag {
+    background: rgba(0, 255, 204, 0.15);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.flip-card-back .tag:hover {
+    background: var(--accent);
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* === RESPONSIVE DESIGN === */
+@media (max-width: 768px) {
+    .flip-card {
+        height: 380px;
+    }
+    
+    .flip-card-back {
+        padding: 20px;
+    }
+    
+    .flip-card-back .project-header h4 {
+        font-size: 1.1rem;
+    }
+    
+    .flip-card-back .project-desc {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    .flip-card-back .tag {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .flip-card {
+        height: 350px;
+    }
+    
+    .flip-card-front .front-title h4 {
+        font-size: 1rem;
+    }
+    
+    .flip-card-back {
+        padding: 15px;
+    }
+}
+
 /* --- FOOTER SPECIFIC STYLES --- */
 .footer-sec {
     background: #050505;
