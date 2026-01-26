@@ -171,7 +171,7 @@ if ('IntersectionObserver' in window) {
 // PROJECT CAROUSEL CLICK TO SCROLL
 document.querySelectorAll('.cards li').forEach((card, index) => {
     card.addEventListener('click', () => {
-        const projectId = `project-card-${index + 1}`;
+        const projectId = `project-${index + 1}`;
         const targetCard = document.getElementById(projectId);
         if (targetCard) {
             targetCard.scrollIntoView({ 
@@ -179,10 +179,60 @@ document.querySelectorAll('.cards li').forEach((card, index) => {
                 block: 'center' 
             });
             // Highlight effect
-            targetCard.classList.add('highlighted');
+            targetCard.style.transform = 'scale(1.05)';
+            targetCard.style.borderColor = 'var(--accent)';
+            
+            // Remove highlight after 2 seconds
             setTimeout(() => {
-                targetCard.classList.remove('highlighted');
-            }, 1000);
+                targetCard.style.transform = 'scale(1)';
+                targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
+            }, 2000);
         }
+    });
+});
+
+// === FLIP CARDS MOBILE INTERACTION ===
+function initFlipCards() {
+    const isMobile = window.innerWidth < 768;
+    const flipCards = document.querySelectorAll('.flip-card');
+    
+    if (isMobile) {
+        flipCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Prevent flipping if clicking on links
+                if (e.target.tagName === 'A') return;
+                
+                this.classList.toggle('flipped');
+            });
+        });
+    } else {
+        // Remove flipped class on desktop (hover handles it)
+        flipCards.forEach(card => {
+            card.classList.remove('flipped');
+        });
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', initFlipCards);
+
+// Re-initialize on window resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(initFlipCards, 250);
+});
+
+// === IMAGE PLACEHOLDER FALLBACK ===
+document.addEventListener('DOMContentLoaded', () => {
+    const flipCardImages = document.querySelectorAll('.flip-card-front img');
+    
+    flipCardImages.forEach((img, index) => {
+        img.addEventListener('error', function() {
+            // Create SVG placeholder
+            const projectNum = index + 1;
+            const svg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect width='400' height='600' fill='%23111'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='60' fill='%2300ffcc'%3EProject ${projectNum}%3C/text%3E%3C/svg%3E`;
+            this.src = svg;
+        });
     });
 });
