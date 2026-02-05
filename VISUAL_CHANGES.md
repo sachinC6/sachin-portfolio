@@ -24,13 +24,14 @@
 
 - **Scroll animations**
   - Staggered reveal (0.1s delay between cards)
-  - Fade in with rotation (15deg to 0deg)
-  - Parallax movement (-20px vertical)
+  - Fade in with scale (0.9 to 1.0)
+  - Smooth ease with GSAP
   
 - **3D interactions (Desktop)**
-  - Mouse-tracking tilt effect
+  - Mouse-tracking tilt effect on .flip-card wrapper
   - Smooth easing with GSAP
   - Returns to center on mouse leave
+  - Disabled when card is flipped
 
 ## CSS Changes Visualization
 
@@ -79,14 +80,6 @@ User scrolls to Projects section
 │  - Opacity: 0 → 1              │
 │  - Y: 60px → 0                 │
 │  - Scale: 0.9 → 1              │
-│  - RotationX: 15deg → 0deg     │
-└────────────────────────────────┘
-         ↓
-    Parallax on scroll (continuous)
-         ↓
-┌────────────────────────────────┐
-│  Subtle vertical movement      │
-│  Y: 0 → -20px (as user scrolls)│
 └────────────────────────────────┘
 
 Desktop Only:
@@ -96,8 +89,9 @@ User hovers over card
 │  3D Tilt Effect (0.3s)         │
 │  - Track mouse position        │
 │  - Calculate rotation angles   │
-│  - Apply to .flip-card-inner   │
+│  - Apply to .flip-card wrapper │
 │  - Reset on mouse leave        │
+│  - Disabled if card is flipped │
 └────────────────────────────────┘
 ```
 
@@ -106,9 +100,9 @@ User hovers over card
 ```javascript
 BENTO_CONFIG = {
     ROTATION_SENSITIVITY: 20,  // Higher = less tilt
-    PARALLAX_DISTANCE: -20,    // Vertical movement
     REVEAL_DURATION: 0.8,      // Animation speed
-    STAGGER_DELAY: 0.1         // Card-to-card delay
+    STAGGER_DELAY: 0.1,        // Card-to-card delay
+    DISABLE_MOBILE_TILT: true  // No tilt on mobile
 }
 ```
 

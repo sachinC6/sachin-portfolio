@@ -986,9 +986,10 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
         border-radius: 8px;
     }
     
-    /* Bento Gallery: Adjust hover effects for mobile */
+    /* FIX: Removed transform to avoid GSAP conflicts on mobile */
+    /* Reason: Keep hover effects minimal on mobile, only shadow */
     .flip-card:hover {
-        transform: translateY(-4px) scale(1.01);
+        box-shadow: 0 10px 20px rgba(0, 255, 204, 0.1);
     }
     
     .flip-card-back {

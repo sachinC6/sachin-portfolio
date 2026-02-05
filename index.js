@@ -268,10 +268,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // FIX: Centralized configuration for easy tuning
 /* Reason: All animation values in one place for maintainability */
 const BENTO_CONFIG = {
-    ROTATION_SENSITIVITY: 20, // Controls 3D tilt responsiveness
-    REVEAL_DURATION: 0.8,     // Card reveal animation duration
-    STAGGER_DELAY: 0.1,       // Delay between each card animation
-    ENABLE_MOBILE_ANIMATIONS: false // Disable heavy animations on mobile
+    ROTATION_SENSITIVITY: 20,     // Controls 3D tilt responsiveness
+    REVEAL_DURATION: 0.8,         // Card reveal animation duration
+    STAGGER_DELAY: 0.1,           // Delay between each card animation
+    DISABLE_MOBILE_TILT: true     // FIX: Clearer flag - disable tilt on mobile
 };
 
 // FIX: Check for reduced motion preference
@@ -309,14 +309,13 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
     // FIX: 3D tilt on outer wrapper, not inner (desktop only)
     /* Reason: Prevents conflict with flip-card-inner rotateY(180deg) */
     /* Tilt is now on .flip-card wrapper, flip animation stays on .flip-card-inner */
-    if (!isMobile && BENTO_CONFIG.ENABLE_MOBILE_ANIMATIONS !== false) {
+    if (!isMobile || !BENTO_CONFIG.DISABLE_MOBILE_TILT) {
         document.querySelectorAll('.flip-card').forEach(card => {
             let tiltTimeline = null;
             
             card.addEventListener('mousemove', (e) => {
                 // FIX: Don't tilt if card is flipped
                 /* Reason: Avoid visual conflict with back-side view */
-                const cardInner = card.querySelector('.flip-card-inner');
                 const isFlipped = card.classList.contains('flipped');
                 
                 if (isFlipped) return;
