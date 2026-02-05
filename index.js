@@ -265,6 +265,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === BENTO GALLERY ENHANCEMENTS ===
+// Animation constants
+const BENTO_CONFIG = {
+    ROTATION_SENSITIVITY: 20, // Controls 3D tilt responsiveness
+    PARALLAX_DISTANCE: -20,   // Vertical parallax movement in pixels
+    REVEAL_DURATION: 0.8,     // Card reveal animation duration
+    STAGGER_DELAY: 0.1        // Delay between each card animation
+};
+
 // Scroll-based animations for project cards
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     // Animate project cards on scroll
@@ -281,24 +289,23 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
             opacity: 0,
             scale: 0.9,
             rotationX: 15,
-            duration: 0.8,
-            delay: index * 0.1,
+            duration: BENTO_CONFIG.REVEAL_DURATION,
+            delay: index * BENTO_CONFIG.STAGGER_DELAY,
             ease: 'power3.out'
         });
     });
 
-    // Parallax-like movement on scroll
+    // Parallax-like movement on scroll - applied to wrapper to avoid transform conflicts
     gsap.utils.toArray('.flip-card').forEach((card) => {
-        const cardInner = card.querySelector('.flip-card-inner');
-        
-        gsap.to(cardInner, {
+        // Apply parallax to the card itself, not the inner element
+        gsap.to(card, {
             scrollTrigger: {
                 trigger: card,
                 start: 'top bottom',
                 end: 'bottom top',
                 scrub: 1,
             },
-            y: -20,
+            y: BENTO_CONFIG.PARALLAX_DISTANCE,
             ease: 'none'
         });
     });
@@ -306,6 +313,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     // Add micro-interactions on mouse move (desktop only)
     if (window.innerWidth > 768) {
         document.querySelectorAll('.flip-card').forEach(card => {
+            const cardInner = card.querySelector('.flip-card-inner');
+            
             card.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
@@ -314,10 +323,11 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
+                // Calculate rotation based on mouse position and sensitivity
+                const rotateX = (y - centerY) / BENTO_CONFIG.ROTATION_SENSITIVITY;
+                const rotateY = (centerX - x) / BENTO_CONFIG.ROTATION_SENSITIVITY;
                 
-                gsap.to(card.querySelector('.flip-card-inner'), {
+                gsap.to(cardInner, {
                     rotationX: rotateX,
                     rotationY: rotateY,
                     duration: 0.3,
@@ -327,7 +337,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
             });
             
             card.addEventListener('mouseleave', () => {
-                gsap.to(card.querySelector('.flip-card-inner'), {
+                gsap.to(cardInner, {
                     rotationX: 0,
                     rotationY: 0,
                     duration: 0.5,
