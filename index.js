@@ -276,6 +276,7 @@ ScrollTrigger.batch('.flip-card', {
 
 // Add hover enhancement for project cards
 document.querySelectorAll('.flip-card').forEach(card => {
+    // Use GSAP's onHoverIn/onHoverOut for better performance
     card.addEventListener('mouseenter', function() {
         gsap.to(this, {
             scale: 1.03,
