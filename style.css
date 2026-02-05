@@ -675,18 +675,22 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     grid-auto-flow: dense;
 }
 
-/* Bento Gallery: Dynamic Tile Sizing */
-.projects-grid .flip-card:nth-child(1),
-.projects-grid .flip-card:nth-child(5) {
+/* FIX: Class-based Bento sizing instead of fragile nth-child */
+/* Reason: More maintainable, allows flexible card arrangement */
+.flip-card.bento-tall {
     grid-column: span 1;
     grid-row: span 2;
     height: auto;
 }
 
-.projects-grid .flip-card:nth-child(3),
-.projects-grid .flip-card:nth-child(6) {
+.flip-card.bento-wide {
     grid-column: span 2;
     grid-row: span 1;
+}
+
+.flip-card.bento-large {
+    grid-column: span 2;
+    grid-row: span 2;
 }
 
 @media (max-width: 768px) {
@@ -695,17 +699,32 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
         grid-auto-rows: 350px;
     }
     
-    /* Reset dynamic sizing on mobile for consistency */
-    .projects-grid .flip-card:nth-child(1),
-    .projects-grid .flip-card:nth-child(5) {
+    /* FIX: Reset Bento sizing on mobile for consistent single-column layout */
+    /* Reason: Prevents layout issues and improves readability on small screens */
+    .flip-card.bento-tall,
+    .flip-card.bento-wide,
+    .flip-card.bento-large {
         grid-column: span 1;
         grid-row: span 1;
     }
+}
+
+/* FIX: Accessibility - respect prefers-reduced-motion */
+/* Reason: Users with motion sensitivity should see simplified animations */
+@media (prefers-reduced-motion: reduce) {
+    .flip-card,
+    .flip-card::before,
+    .flip-card-inner,
+    .flip-card-front img,
+    .flip-card-front .front-title,
+    .flip-card-front .front-title h4 {
+        transition: none !important;
+        animation: none !important;
+    }
     
-    .projects-grid .flip-card:nth-child(3),
-    .projects-grid .flip-card:nth-child(6) {
-        grid-column: span 1;
-        grid-row: span 1;
+    /* Keep flip functionality but remove transitions */
+    .flip-card-inner {
+        transition: none !important;
     }
 }
 
@@ -718,22 +737,25 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     border-radius: 12px;
     cursor: pointer;
     position: relative;
-    /* Bento Gallery: Add smooth transitions */
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* FIX: Smooth transitions for lift and shadow only */
+    /* Reason: Avoid interfering with GSAP-controlled transforms */
+    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     /* Ensure proper stacking for glow effect */
     isolation: isolate;
 }
 
-/* Bento Gallery: Hover Expansion & Depth */
+/* FIX: Bento hover on outer wrapper - no transform conflicts with flip */
+/* Reason: Keeps hover effects separate from flip-card-inner rotation */
 .flip-card:hover {
-    transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 255, 204, 0.15),
                 0 0 0 1px rgba(0, 255, 204, 0.1);
-    z-index: 10;
 }
 
-/* Bento Gallery: Soft glow effect on hover */
+/* FIX: Remove z-index that causes stacking issues */
+/* Reason: isolation: isolate already creates stacking context */
+
+/* FIX: Ensure glow doesn't block pointer events */
+/* Reason: Gradient overlay should be purely visual */
 .flip-card::before {
     content: '';
     position: absolute;
@@ -748,7 +770,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     opacity: 0;
     transition: opacity 0.4s ease;
     pointer-events: none;
-    z-index: 0;
 }
 
 .flip-card:hover::before {

@@ -265,57 +265,62 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === BENTO GALLERY ENHANCEMENTS ===
-// Animation constants
+// FIX: Centralized configuration for easy tuning
+/* Reason: All animation values in one place for maintainability */
 const BENTO_CONFIG = {
     ROTATION_SENSITIVITY: 20, // Controls 3D tilt responsiveness
-    PARALLAX_DISTANCE: -20,   // Vertical parallax movement in pixels
     REVEAL_DURATION: 0.8,     // Card reveal animation duration
-    STAGGER_DELAY: 0.1        // Delay between each card animation
+    STAGGER_DELAY: 0.1,       // Delay between each card animation
+    ENABLE_MOBILE_ANIMATIONS: false // Disable heavy animations on mobile
 };
 
-// Scroll-based animations for project cards
-if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    // Animate project cards on scroll
+// FIX: Check for reduced motion preference
+/* Reason: Accessibility - respect user's motion preferences */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// FIX: Single optimized animation system
+/* Reason: Avoid multiple ScrollTriggers per card, combine into one timeline */
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
+    const isMobile = window.innerWidth <= 768;
+    
+    // FIX: Single timeline per card instead of multiple triggers
+    /* Reason: Better performance, easier to manage, prevents conflicts */
     gsap.utils.toArray('.flip-card').forEach((card, index) => {
-        // Stagger the reveal animation
-        gsap.from(card, {
+        const timeline = gsap.timeline({
             scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
                 end: 'top 65%',
                 toggleActions: 'play none none reverse',
-            },
+            }
+        });
+        
+        // Reveal animation
+        timeline.from(card, {
             y: 60,
             opacity: 0,
             scale: 0.9,
-            rotationX: 15,
             duration: BENTO_CONFIG.REVEAL_DURATION,
             delay: index * BENTO_CONFIG.STAGGER_DELAY,
             ease: 'power3.out'
         });
     });
 
-    // Parallax-like movement on scroll - applied to wrapper to avoid transform conflicts
-    gsap.utils.toArray('.flip-card').forEach((card) => {
-        // Apply parallax to the card itself, not the inner element
-        gsap.to(card, {
-            scrollTrigger: {
-                trigger: card,
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1,
-            },
-            y: BENTO_CONFIG.PARALLAX_DISTANCE,
-            ease: 'none'
-        });
-    });
-
-    // Add micro-interactions on mouse move (desktop only)
-    if (window.innerWidth > 768) {
+    // FIX: 3D tilt on outer wrapper, not inner (desktop only)
+    /* Reason: Prevents conflict with flip-card-inner rotateY(180deg) */
+    /* Tilt is now on .flip-card wrapper, flip animation stays on .flip-card-inner */
+    if (!isMobile && BENTO_CONFIG.ENABLE_MOBILE_ANIMATIONS !== false) {
         document.querySelectorAll('.flip-card').forEach(card => {
-            const cardInner = card.querySelector('.flip-card-inner');
+            let tiltTimeline = null;
             
             card.addEventListener('mousemove', (e) => {
+                // FIX: Don't tilt if card is flipped
+                /* Reason: Avoid visual conflict with back-side view */
+                const cardInner = card.querySelector('.flip-card-inner');
+                const isFlipped = card.classList.contains('flipped');
+                
+                if (isFlipped) return;
+                
                 const rect = card.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
@@ -327,17 +332,23 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
                 const rotateX = (y - centerY) / BENTO_CONFIG.ROTATION_SENSITIVITY;
                 const rotateY = (centerX - x) / BENTO_CONFIG.ROTATION_SENSITIVITY;
                 
-                gsap.to(cardInner, {
+                // FIX: Apply tilt to wrapper, keep perspective on card
+                /* Reason: Separates tilt from flip transformation */
+                if (tiltTimeline) tiltTimeline.kill();
+                tiltTimeline = gsap.to(card, {
                     rotationX: rotateX,
                     rotationY: rotateY,
                     duration: 0.3,
                     ease: 'power2.out',
-                    transformPerspective: 1000
+                    transformPerspective: 1000,
+                    transformStyle: 'preserve-3d'
                 });
             });
             
             card.addEventListener('mouseleave', () => {
-                gsap.to(cardInner, {
+                // Reset tilt
+                if (tiltTimeline) tiltTimeline.kill();
+                tiltTimeline = gsap.to(card, {
                     rotationX: 0,
                     rotationY: 0,
                     duration: 0.5,
@@ -347,6 +358,10 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         });
     }
 }
+
+// FIX: Clean up - removed parallax effect
+/* Reason: Parallax on .flip-card conflicts with hover lift and tilt */
+/* Keeping animations minimal for better performance on low-end devices */
 
 // Stagger reveal for project grid
 if (typeof gsap !== 'undefined') {
