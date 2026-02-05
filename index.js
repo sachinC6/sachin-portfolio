@@ -19,6 +19,7 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
     const cardArray = Array.from(projectCards);
     const totalCards = cardArray.length;
     const cardGap = 0.12;
+    const DRAG_SENSITIVITY = 0.0006;
     let cycleCount = 0;
     
     // Initialize card states
@@ -37,7 +38,7 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         cardTimeline
             .fromTo(cardElement,
                 { scale: 0, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.5, yoyo: true, repeat: 1, ease: "power1.in" }
+                { scale: 1, opacity: 1, duration: 0.5, ease: "power1.in" }
             )
             .fromTo(cardElement,
                 { xPercent: 400 },
@@ -103,12 +104,12 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         type: "x",
         inertia: true,
         onDrag() {
-            const dragOffset = this.deltaX * 0.0006;
+            const dragOffset = this.deltaX * DRAG_SENSITIVITY;
             const newTime = scrollSnap(infiniteLoop.time() - dragOffset);
             infiniteLoop.time(newTime);
         },
         onThrowUpdate() {
-            const throwOffset = this.deltaX * 0.0006;
+            const throwOffset = this.deltaX * DRAG_SENSITIVITY;
             const newTime = scrollSnap(infiniteLoop.time() - throwOffset);
             infiniteLoop.time(newTime);
         }
