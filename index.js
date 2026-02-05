@@ -76,8 +76,6 @@ if (cards.length > 0) {
         paused: true
     });
 
-    let iteration = 0; // Track scroll direction
-
     // ScrollTrigger for scroll-based control
     ScrollTrigger.create({
         trigger: ".gallery",
@@ -85,11 +83,7 @@ if (cards.length > 0) {
         end: "+=3000",
         pin: true,
         onUpdate(self) {
-            let newIteration = Math.floor(self.progress / 1) * 1;
-            if (newIteration !== iteration) {
-                iteration = newIteration;
-            }
-            scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
+            scrub.vars.offset = self.progress * seamlessLoop.duration();
             scrub.invalidate().restart();
         }
     });
