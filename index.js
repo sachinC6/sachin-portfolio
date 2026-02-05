@@ -11,84 +11,134 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. CAROUSEL ROTATION LOGIC - DISABLED FOR BENTO LAYOUT
-/* 
- * CAROUSEL CONVERSION NOTE:
- * The following carousel rotation logic has been disabled to support the new Bento-style layout.
- * - Removed: Infinite slider scroll animations
- * - Removed: Drag/scroll to rotate functionality  
- * - Removed: PREV/NEXT button navigation
- * - Reason: Projects now display simultaneously in a Bento grid instead of one-at-a-time carousel
- * - All project data remains intact in the projects-grid section below
- */
+// 3. GSAP INFINITE CARD SLIDER
+// Based on the official GSAP CodePen demo: "Infinite scrolling, dragging, and snapping cards"
 
-// DISABLED: Infinite slider logic
-// let iteration = 0;
-// const spacing = 0.15, cards = gsap.utils.toArray('.cards li');
-// gsap.set('.cards li', { xPercent: 400, opacity: 0, scale: 0 });
+// Configuration
+const spacing = 0.1; // Time between cards in the timeline
+const cards = gsap.utils.toArray('.cards li');
 
-// DISABLED: Carousel animation function
-// const animateFunc = element => {
-//     return gsap.timeline()
-//       .fromTo(element, 
-//         { scale: 0.5, opacity: 0, rotationY: -45 }, 
-//         { scale: 1, opacity: 1, rotationY: 0, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power2.inOut", immediateRender: false }
-//       )
-//       .fromTo(element, { xPercent: 450 }, { xPercent: -450, duration: 1, ease: "none", immediateRender: false }, 0);
-// };
+// Only initialize if cards exist
+if (cards.length > 0) {
+    // Initialize cards off-screen
+    gsap.set(cards, { xPercent: 400, opacity: 0, scale: 0 });
 
-// DISABLED: Seamless loop builder
-// const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
-// const playhead = { offset: 0 }, wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
-// const scrub = gsap.to(playhead, {
-//     offset: 0, onUpdate() { 
-//         seamlessLoop.time(wrapTime(playhead.offset)); 
-//         cards.forEach(card => {
-//             const x = gsap.getProperty(card, "xPercent");
-//             if (Math.abs(x) < 50) {
-//                 gsap.to(card, { filter: "grayscale(0) brightness(1)", scale: 1.1, duration: 0.3 });
-//             } else {
-//                 gsap.to(card, { filter: "grayscale(1) brightness(0.5)", scale: 1, duration: 0.3 });
-//             }
-//         });
-//     },
-//     duration: 0.5, ease: "power3", paused: true
-// });
+    // Animation function for each card
+    const animateFunc = element => {
+        return gsap.timeline()
+            .fromTo(element, 
+                { scale: 0, opacity: 0 }, 
+                { scale: 1, opacity: 1, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power1.inOut", immediateRender: false }
+            )
+            .fromTo(element, 
+                { xPercent: 400 }, 
+                { xPercent: -400, duration: 1, ease: "none", immediateRender: false }, 
+                0
+            );
+    };
 
-// DISABLED: Scroll trigger for carousel
-// const sliderTrigger = ScrollTrigger.create({
-//     trigger: ".gallery", start: "top top", end: "+=3000", pin: true,
-//     onUpdate(self) {
-//         scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
-//         scrub.invalidate().restart();
-//     }
-// });
+    // Build the seamless loop
+    function buildSeamlessLoop(items, spacing, animateFunc) {
+        let overlap = Math.ceil(1 / spacing),
+            startTime = items.length * spacing + 0.5,
+            loopTime = (items.length + overlap) * spacing + 1,
+            rawSequence = gsap.timeline({ paused: true }),
+            seamlessLoop = gsap.timeline({ paused: true, repeat: -1 });
+        
+        // Build the sequence with overlap
+        for (let i = 0; i < items.length + overlap * 2; i++) {
+            rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
+        }
+        
+        rawSequence.time(startTime);
+        seamlessLoop
+            .to(rawSequence, { time: loopTime, duration: loopTime - startTime, ease: "none" })
+            .fromTo(rawSequence, 
+                { time: overlap * spacing + 1 }, 
+                { time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none" }
+            );
+        
+        return seamlessLoop;
+    }
 
-// DISABLED: Builder function
-// function buildSeamlessLoop(items, spacing, animateFunc) {
-//     let overlap = Math.ceil(1 / spacing),
-//         startTime = items.length * spacing + 0.5,
-//         loopTime = (items.length + overlap) * spacing + 1,
-//         rawSequence = gsap.timeline({paused: true}),
-//         seamlessLoop = gsap.timeline({paused: true, repeat: -1});
-//     for (let i = 0; i < items.length + overlap * 2; i++) {
-//         rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
-//     }
-//     rawSequence.time(startTime);
-//     seamlessLoop.to(rawSequence, {time: loopTime, duration: loopTime - startTime, ease: "none"})
-//                 .fromTo(rawSequence, {time: overlap * spacing + 1}, {time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none"});
-//     return seamlessLoop;
-// }
+    const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
+    const playhead = { offset: 0 };
+    const wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
+    
+    // Scrubber that updates the loop
+    const scrub = gsap.to(playhead, {
+        offset: 0,
+        onUpdate() {
+            seamlessLoop.time(wrapTime(playhead.offset));
+        },
+        duration: 0.5,
+        ease: "power3",
+        paused: true
+    });
 
-// DISABLED: Navigation buttons for carousel
-// document.querySelector(".next").onclick = () => gsap.to(playhead, {offset: playhead.offset + spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
-// document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playhead.offset - spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
+    // ScrollTrigger for scroll-based control
+    ScrollTrigger.create({
+        trigger: ".gallery",
+        start: "top top",
+        end: "+=3000",
+        pin: true,
+        onUpdate(self) {
+            scrub.vars.offset = self.progress * seamlessLoop.duration();
+            scrub.invalidate().restart();
+        }
+    });
+
+    // Draggable for mouse/touch control
+    const proxy = document.createElement("div");
+    let draggable = Draggable.create(proxy, {
+        type: "x",
+        trigger: ".cards",
+        onDrag: function() {
+            scrub.vars.offset += -this.deltaX * 0.001;
+            scrub.invalidate().restart();
+        },
+        onDragEnd: function() {
+            // Snap to nearest card
+            let offset = scrub.vars.offset;
+            let snapOffset = Math.round(offset / spacing) * spacing;
+            gsap.to(playhead, {
+                offset: snapOffset,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        }
+    })[0];
+
+    // PREV/NEXT button controls with snapping
+    const nextBtn = document.querySelector(".next");
+    const prevBtn = document.querySelector(".prev");
+
+    if (nextBtn) {
+        nextBtn.onclick = () => {
+            gsap.to(playhead, {
+                offset: playhead.offset + spacing,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        };
+    }
+
+    if (prevBtn) {
+        prevBtn.onclick = () => {
+            gsap.to(playhead, {
+                offset: playhead.offset - spacing,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        };
+    }
+}
 
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
-
-
-
 
 // Click Ripple Effect for Contact Card
 const contactBox = document.querySelector("#contact-trigger");
@@ -151,61 +201,6 @@ if (themeToggle && themeIcon) {
         themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
     });
 }
-
-// KEYBOARD NAVIGATION - DISABLED FOR BENTO LAYOUT
-/* CAROUSEL CONVERSION NOTE: Keyboard navigation for carousel disabled */
-// document.addEventListener('keydown', (e) => {
-//     const nextBtn = document.querySelector('.next');
-//     const prevBtn = document.querySelector('.prev');
-//     
-//     if (e.key === 'ArrowRight' && nextBtn) {
-//         nextBtn.click();
-//     } else if (e.key === 'ArrowLeft' && prevBtn) {
-//         prevBtn.click();
-//     }
-// });
-
-// LAZY LOAD IMAGES - DISABLED FOR CAROUSEL (carousel hidden)
-/* CAROUSEL CONVERSION NOTE: Lazy loading for carousel cards disabled since carousel is hidden */
-// if ('IntersectionObserver' in window) {
-//     const imageObserver = new IntersectionObserver((entries) => {
-//         entries.forEach(entry => {
-//             if (entry.isIntersecting) {
-//                 const img = entry.target;
-//                 img.style.opacity = '1';
-//                 imageObserver.unobserve(img);
-//             }
-//         });
-//     });
-//     
-//     document.querySelectorAll('.cards li').forEach(img => {
-//         imageObserver.observe(img);
-//     });
-// }
-
-// PROJECT CAROUSEL CLICK TO SCROLL - DISABLED FOR BENTO LAYOUT
-/* CAROUSEL CONVERSION NOTE: Carousel click-to-scroll disabled - projects now in Bento grid */
-// document.querySelectorAll('.cards li').forEach((card, index) => {
-//     card.addEventListener('click', () => {
-//         const projectId = `project-${index + 1}`;
-//         const targetCard = document.getElementById(projectId);
-//         if (targetCard) {
-//             targetCard.scrollIntoView({ 
-//                 behavior: 'smooth', 
-//                 block: 'center' 
-//             });
-//             // Highlight effect
-//             targetCard.style.transform = 'scale(1.05)';
-//             targetCard.style.borderColor = 'var(--accent)';
-//             
-//             // Remove highlight after 2 seconds
-//             setTimeout(() => {
-//                 targetCard.style.transform = 'scale(1)';
-//                 targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
-//             }, 2000);
-//         }
-//     });
-// });
 
 // === FLIP CARDS MOBILE INTERACTION ===
 function initFlipCards() {
