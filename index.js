@@ -213,6 +213,86 @@ function initFlipCards() {
     }
 }
 
+// === PROJECT CARDS SCROLL ANIMATION ===
+// Animate project section header
+gsap.set('.projects-detail-sec .section-label', { 
+    opacity: 0, 
+    y: -30,
+    filter: "blur(10px)"
+});
+
+gsap.set('.projects-detail-sec h3', { 
+    opacity: 0, 
+    y: -20,
+    filter: "blur(8px)"
+});
+
+// Trigger header animations
+ScrollTrigger.create({
+    trigger: '.projects-detail-sec',
+    start: "top 80%",
+    once: true,
+    onEnter: () => {
+        gsap.to('.projects-detail-sec .section-label', {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            ease: "power3.out"
+        });
+        gsap.to('.projects-detail-sec h3', {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1,
+            delay: 0.2,
+            ease: "power3.out"
+        });
+    }
+});
+
+// Animate project cards with staggered reveal on scroll
+gsap.set('.flip-card', { 
+    opacity: 0, 
+    scale: 0.8,
+    rotationY: -15,
+    y: 50
+});
+
+ScrollTrigger.batch('.flip-card', {
+    onEnter: batch => gsap.to(batch, {
+        opacity: 1,
+        scale: 1,
+        rotationY: 0,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power2.out",
+        overwrite: true
+    }),
+    start: "top 85%",
+    once: true
+});
+
+// Add hover enhancement for project cards
+document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        gsap.to(this, {
+            scale: 1.03,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        gsap.to(this, {
+            scale: 1,
+            duration: 0.3,
+            ease: "power2.out"
+        });
+    });
+});
+
 // === MOBILE MENU TOGGLE ===
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.querySelector('.nav-links');
