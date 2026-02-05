@@ -286,8 +286,9 @@ document.addEventListener('DOMContentLoaded', () => {
  * - Replaces carousel rotation with simultaneous tile display
  * - Scroll-based reveal with stagger effect
  * - 3D tilt on hover (desktop only)
- * - Subtle parallax for depth
  * - All projects visible at once in a grid
+ * 
+ * NOTE: Parallax scroll effect removed to avoid transform conflicts with hover lift and tilt
  */
 
 // Configuration for easy tuning
@@ -295,7 +296,6 @@ const BENTO_CONFIG = {
     ROTATION_SENSITIVITY: 20,     // Controls 3D tilt responsiveness
     REVEAL_DURATION: 0.8,         // Card reveal animation duration
     STAGGER_DELAY: 0.1,           // Delay between each card animation
-    PARALLAX_AMOUNT: 30,          // Subtle parallax movement distance
     DISABLE_MOBILE_TILT: true     // Disable tilt on mobile for performance
 };
 
@@ -329,31 +329,33 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
         });
     });
 
-    // 2. SUBTLE PARALLAX SCROLL EFFECT
-    /* Cards move slightly as user scrolls for depth */
-    gsap.utils.toArray('.flip-card').forEach((card, index) => {
-        // Alternate parallax direction for visual interest
-        const direction = index % 2 === 0 ? 1 : -1;
-        
-        gsap.to(card, {
-            y: direction * BENTO_CONFIG.PARALLAX_AMOUNT,
-            scrollTrigger: {
-                trigger: '.projects-grid',
-                start: 'top bottom',
-                end: 'bottom top',
-                scrub: 1, // Smooth scrolling effect
-            }
-        });
-    });
+    // 2. SUBTLE PARALLAX SCROLL EFFECT - DISABLED
+    /* 
+     * REMOVED: Parallax effect was causing transform conflicts with hover lift and 3D tilt
+     * Reason: Multiple transforms on same element can override each other
+     * For parallax, would need a wrapper element approach
+     */
+    // gsap.utils.toArray('.flip-card').forEach((card, index) => {
+    //     const direction = index % 2 === 0 ? 1 : -1;
+    //     gsap.to(card, {
+    //         y: direction * BENTO_CONFIG.PARALLAX_AMOUNT,
+    //         scrollTrigger: {
+    //             trigger: '.projects-grid',
+    //             start: 'top bottom',
+    //             end: 'bottom top',
+    //             scrub: 1,
+    //         }
+    //     });
+    // });
 
-    // 3. 3D TILT ON HOVER (Desktop Only)
+    // 2. 3D TILT ON HOVER (Desktop Only)
     /* Mouse movement creates interactive 3D tilt effect */
     if (!isMobile || !BENTO_CONFIG.DISABLE_MOBILE_TILT) {
         document.querySelectorAll('.flip-card').forEach(card => {
             let tiltTimeline = null;
             
             card.addEventListener('mousemove', (e) => {
-                // Don't tilt if card is flipped
+                // Don't tilt if card is flipped - early return to avoid unnecessary calculations
                 const isFlipped = card.classList.contains('flipped');
                 if (isFlipped) return;
                 
@@ -394,7 +396,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
     }
 }
 
-// 4. PROJECTS GRID REVEAL
+// 3. PROJECTS GRID REVEAL
 /* Entire grid fades in when scrolled into view */
 if (typeof gsap !== 'undefined') {
     gsap.from('.projects-grid', {
