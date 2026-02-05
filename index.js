@@ -11,70 +11,107 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. GSAP INFINITE CARD SLIDER
-// Based on the official GSAP CodePen demo: "Infinite scrolling, dragging, and snapping cards"
-
-// Configuration
-const spacing = 0.1; // Time between cards in the timeline
-const cards = gsap.utils.toArray('.cards li');
-
-// Only initialize if cards exist
-if (cards.length > 0) {
-    // Initialize cards off-screen
-    gsap.set(cards, { xPercent: 400, opacity: 0, scale: 0 });
-
-    // Animation function for each card
-    const animateFunc = element => {
-        return gsap.timeline()
-            .fromTo(element, 
-                { scale: 0, opacity: 0 }, 
-                { scale: 1, opacity: 1, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power1.inOut", immediateRender: false }
-            )
-            .fromTo(element, 
-                { xPercent: 400 }, 
-                { xPercent: -400, duration: 1, ease: "none", immediateRender: false }, 
-                0
-            );
+// 3. PROJECT CAROUSEL - MODULAR ROTATION SYSTEM
+(function setupCarousel() {
+    const slides = Array.from(document.querySelectorAll('.cards li'));
+    if (!slides.length) return;
+    
+    const CONFIG = {
+        slideCount: slides.length,
+        intervalSize: 0.15,
+        viewportPin: 3000,
+        mouseMultiplier: 0.0008
     };
-
-    // Build the seamless loop
-    function buildSeamlessLoop(items, spacing, animateFunc) {
-        let overlap = Math.ceil(1 / spacing),
-            startTime = items.length * spacing + 0.5,
-            loopTime = (items.length + overlap) * spacing + 1,
-            rawSequence = gsap.timeline({ paused: true }),
-            seamlessLoop = gsap.timeline({ paused: true, repeat: -1 });
+    
+    // Setup initial positions
+    slides.forEach(item => {
+        gsap.set(item, { x: '400%', opacity: 0, scale: 0.3 });
+    });
+    
+    // Individual slide animation generator
+    function generateSlideMotion(element) {
+        const tween = gsap.timeline();
+        tween.to(element, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: 'back.out(1.7)'
+        }).to(element, {
+            x: '-400%',
+            duration: 0.8,
+            ease: 'linear'
+        }, 0.2);
+        return tween;
+    }
+    
+    // Circular sequence builder using modular indexing
+    function assembleLoopSequence() {
+        const master = gsap.timeline({ paused: true });
+        const wrapper = gsap.timeline({
+            paused: true,
+            repeat: -1,
+            onRepeat: function() {
+                // Prevent timeline jump at loop boundary using public API
+                const currentTime = this.time();
+                const totalDuration = this.duration();
+                if (currentTime >= totalDuration - 0.001) {
+                    this.totalTime(this.totalTime() + totalDuration - 0.002);
+                }
+            }
+        });
         
-        // Build the sequence with overlap
-        for (let i = 0; i < items.length + overlap * 2; i++) {
-            rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
+        // Build extended sequence with wraparound
+        const extended = CONFIG.slideCount * 3;
+        for (let i = 0; i < extended; i++) {
+            const slideIdx = i % CONFIG.slideCount;
+            master.add(generateSlideMotion(slides[slideIdx]), i * CONFIG.intervalSize);
         }
         
-        rawSequence.time(startTime);
-        seamlessLoop
-            .to(rawSequence, { time: loopTime, duration: loopTime - startTime, ease: "none" })
-            .fromTo(rawSequence, 
-                { time: overlap * spacing + 1 }, 
-                { time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none" }
-            );
+        const startPoint = CONFIG.slideCount * CONFIG.intervalSize;
+        const endPoint = CONFIG.slideCount * CONFIG.intervalSize * 2;
         
-        return seamlessLoop;
+        wrapper.fromTo(master, 
+            { time: startPoint },
+            { time: endPoint, duration: endPoint - startPoint, ease: 'none' }
+        );
+        
+        return wrapper;
     }
-
-    const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
-    const playhead = { offset: 0 };
-    const wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
     
-    // Scrubber that updates the loop
-    const scrub = gsap.to(playhead, {
-        offset: 0,
-        onUpdate() {
-            seamlessLoop.time(wrapTime(playhead.offset));
-        },
-        duration: 0.5,
-        ease: "power3",
-        paused: true
+    const loopController = assembleLoopSequence();
+    const snapToInterval = gsap.utils.snap(CONFIG.intervalSize);
+    
+    // Shared drag calculation logic
+    function calculateDragPosition(deltaX) {
+        const shift = deltaX * CONFIG.mouseMultiplier;
+        return snapToInterval(loopController.time() - shift);
+    }
+    
+    // Scroll integration with pinning
+    ScrollTrigger.create({
+        trigger: '.gallery-wrapper',
+        start: 'top top',
+        end: `+=${CONFIG.viewportPin}`,
+        pin: true,
+        scrub: 1,
+        onUpdate: function(instance) {
+            const advancement = instance.progress * loopController.duration();
+            loopController.time(snapToInterval(advancement));
+        }
     });
+    
+    // Drag interaction handler
+    Draggable.create('.gallery-wrapper', {
+        type: 'x',
+        inertia: true,
+        onDrag: function() {
+            loopController.time(calculateDragPosition(this.deltaX));
+        },
+        onThrowUpdate: function() {
+            loopController.time(calculateDragPosition(this.deltaX));
+        }
+    });
+})();
 
     // ScrollTrigger for scroll-based control
     ScrollTrigger.create({
