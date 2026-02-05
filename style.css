@@ -613,7 +613,19 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 }
 
 /* --- AUDITED SLIDER ANIMATION --- */
-.gallery { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; perspective: 1000px; }
+/* === CAROUSEL SECTION - HIDDEN FOR BENTO LAYOUT === */
+/* 
+ * CAROUSEL CONVERSION NOTE:
+ * The gallery carousel has been hidden to support the new Bento-style layout.
+ * - Carousel rotation, drag, and scroll functionality disabled
+ * - All project data now displays simultaneously in the Bento grid below
+ * - Project images, titles, descriptions, tech stack, and links remain intact
+ */
+.gallery { 
+    display: none; /* Carousel hidden - projects now in Bento grid */
+}
+
+/* Legacy carousel styles kept for reference but not used */
 .gallery-header { text-align: center; margin-bottom: 50px; }
 .cards { width: 18rem; height: 26rem; position: relative; list-style: none; transform-style: preserve-3d; }
 .cards li {
@@ -649,8 +661,8 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
     opacity: 1;
 }
 
-/* --- ACTIONS --- */
-.actions { display: flex; align-items: center; gap: 30px; margin-top: 100px; }
+/* --- ACTIONS - HIDDEN (PREV/NEXT buttons) --- */
+.actions { display: none; /* Carousel navigation hidden */ }
 .actions button { background: none; border: none; color: #fff; font-weight: 900; letter-spacing: 2px; transition: 0.3s; }
 .actions button:hover { color: var(--accent); transform: scale(1.1); }
 .divider { width: 40px; height: 1px; background: var(--accent); }
@@ -665,6 +677,14 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 }
 
 /* === BENTO GALLERY LAYOUT === */
+/* 
+ * BENTO LAYOUT ENHANCEMENTS:
+ * - All projects display simultaneously (no carousel rotation)
+ * - Dynamic tile sizing for visual interest
+ * - Hover expansion with depth effects
+ * - GSAP-powered smooth animations
+ * - Subtle parallax effects
+ */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -675,8 +695,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     grid-auto-flow: dense;
 }
 
-/* FIX: Class-based Bento sizing instead of fragile nth-child */
-/* Reason: More maintainable, allows flexible card arrangement */
+/* Bento Tile Size Variations - for visual diversity */
 .flip-card.bento-tall {
     grid-column: span 1;
     grid-row: span 2;
@@ -699,8 +718,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
         grid-auto-rows: 350px;
     }
     
-    /* FIX: Reset Bento sizing on mobile for consistent single-column layout */
-    /* Reason: Prevents layout issues and improves readability on small screens */
+    /* Reset Bento sizing on mobile for consistent single-column layout */
     .flip-card.bento-tall,
     .flip-card.bento-wide,
     .flip-card.bento-large {
@@ -729,6 +747,13 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 }
 
 /* === FLIP CARD CONTAINER === */
+/* 
+ * BENTO HOVER ENHANCEMENTS:
+ * - Smooth lift on hover (translateY)
+ * - Subtle scale for depth
+ * - Premium glow effect with cyan accent
+ * - All animations use GSAP-style cubic-bezier easing
+ */
 .flip-card {
     background-color: transparent;
     width: 100%;
@@ -737,25 +762,21 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     border-radius: 12px;
     cursor: pointer;
     position: relative;
-    /* FIX: Smooth transitions for lift and shadow only */
-    /* Reason: Avoid interfering with GSAP-controlled transforms */
-    transition: box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Smooth transitions for hover effects */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     /* Ensure proper stacking for glow effect */
     isolation: isolate;
 }
 
-/* FIX: Bento hover on outer wrapper - no transform conflicts with flip */
-/* Reason: Keeps hover effects separate from flip-card-inner rotation */
+/* Bento Hover: Lift + Scale + Glow */
 .flip-card:hover {
+    transform: translateY(-8px) scale(1.02);
     box-shadow: 0 20px 40px rgba(0, 255, 204, 0.15),
                 0 0 0 1px rgba(0, 255, 204, 0.1);
 }
 
-/* FIX: Remove z-index that causes stacking issues */
-/* Reason: isolation: isolate already creates stacking context */
-
-/* FIX: Ensure glow doesn't block pointer events */
-/* Reason: Gradient overlay should be purely visual */
+/* Gradient overlay for premium depth effect */
 .flip-card::before {
     content: '';
     position: absolute;
