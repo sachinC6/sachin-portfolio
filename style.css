@@ -683,7 +683,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
  * - Dynamic tile sizing for visual interest
  * - Hover expansion with depth effects
  * - GSAP-powered smooth animations
- * - Subtle parallax effects
  */
 .projects-grid {
     display: grid;
