@@ -23,8 +23,6 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         mouseMultiplier: 0.0008
     };
     
-    let rotationState = { phase: 0 };
-    
     // Setup initial positions
     slides.forEach(item => {
         gsap.set(item, { x: '400%', opacity: 0, scale: 0.3 });
@@ -53,9 +51,11 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
             paused: true,
             repeat: -1,
             onRepeat: function() {
-                // Prevent timeline jump at loop boundary
-                if (this._time >= this._dur - 0.001) {
-                    this._tTime += this._dur - 0.002;
+                // Prevent timeline jump at loop boundary using public API
+                const currentTime = this.time();
+                const totalDuration = this.duration();
+                if (currentTime >= totalDuration - 0.001) {
+                    this.totalTime(this.totalTime() + totalDuration - 0.002);
                 }
             }
         });
@@ -81,6 +81,12 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
     const loopController = assembleLoopSequence();
     const snapToInterval = gsap.utils.snap(CONFIG.intervalSize);
     
+    // Shared drag calculation logic
+    function calculateDragPosition(deltaX) {
+        const shift = deltaX * CONFIG.mouseMultiplier;
+        return snapToInterval(loopController.time() - shift);
+    }
+    
     // Scroll integration with pinning
     ScrollTrigger.create({
         trigger: '.gallery-wrapper',
@@ -89,7 +95,7 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         pin: true,
         scrub: 1,
         onUpdate: function(instance) {
-            const advancement = (rotationState.phase + instance.progress) * loopController.duration();
+            const advancement = instance.progress * loopController.duration();
             loopController.time(snapToInterval(advancement));
         }
     });
@@ -99,12 +105,10 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         type: 'x',
         inertia: true,
         onDrag: function() {
-            const shift = this.deltaX * CONFIG.mouseMultiplier;
-            loopController.time(snapToInterval(loopController.time() - shift));
+            loopController.time(calculateDragPosition(this.deltaX));
         },
         onThrowUpdate: function() {
-            const shift = this.deltaX * CONFIG.mouseMultiplier;
-            loopController.time(snapToInterval(loopController.time() - shift));
+            loopController.time(calculateDragPosition(this.deltaX));
         }
     });
 })();
