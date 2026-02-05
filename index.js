@@ -11,78 +11,109 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. CAROUSEL ROTATION LOGIC - DISABLED FOR BENTO LAYOUT
-/* 
- * CAROUSEL CONVERSION NOTE:
- * The following carousel rotation logic has been disabled to support the new Bento-style layout.
- * - Removed: Infinite slider scroll animations
- * - Removed: Drag/scroll to rotate functionality  
- * - Removed: PREV/NEXT button navigation
- * - Reason: Projects now display simultaneously in a Bento grid instead of one-at-a-time carousel
- * - All project data remains intact in the projects-grid section below
- */
-
-// DISABLED: Infinite slider logic
-// let iteration = 0;
-// const spacing = 0.15, cards = gsap.utils.toArray('.cards li');
-// gsap.set('.cards li', { xPercent: 400, opacity: 0, scale: 0 });
-
-// DISABLED: Carousel animation function
-// const animateFunc = element => {
-//     return gsap.timeline()
-//       .fromTo(element, 
-//         { scale: 0.5, opacity: 0, rotationY: -45 }, 
-//         { scale: 1, opacity: 1, rotationY: 0, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power2.inOut", immediateRender: false }
-//       )
-//       .fromTo(element, { xPercent: 450 }, { xPercent: -450, duration: 1, ease: "none", immediateRender: false }, 0);
-// };
-
-// DISABLED: Seamless loop builder
-// const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
-// const playhead = { offset: 0 }, wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
-// const scrub = gsap.to(playhead, {
-//     offset: 0, onUpdate() { 
-//         seamlessLoop.time(wrapTime(playhead.offset)); 
-//         cards.forEach(card => {
-//             const x = gsap.getProperty(card, "xPercent");
-//             if (Math.abs(x) < 50) {
-//                 gsap.to(card, { filter: "grayscale(0) brightness(1)", scale: 1.1, duration: 0.3 });
-//             } else {
-//                 gsap.to(card, { filter: "grayscale(1) brightness(0.5)", scale: 1, duration: 0.3 });
-//             }
-//         });
-//     },
-//     duration: 0.5, ease: "power3", paused: true
-// });
-
-// DISABLED: Scroll trigger for carousel
-// const sliderTrigger = ScrollTrigger.create({
-//     trigger: ".gallery", start: "top top", end: "+=3000", pin: true,
-//     onUpdate(self) {
-//         scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
-//         scrub.invalidate().restart();
-//     }
-// });
-
-// DISABLED: Builder function
-// function buildSeamlessLoop(items, spacing, animateFunc) {
-//     let overlap = Math.ceil(1 / spacing),
-//         startTime = items.length * spacing + 0.5,
-//         loopTime = (items.length + overlap) * spacing + 1,
-//         rawSequence = gsap.timeline({paused: true}),
-//         seamlessLoop = gsap.timeline({paused: true, repeat: -1});
-//     for (let i = 0; i < items.length + overlap * 2; i++) {
-//         rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
-//     }
-//     rawSequence.time(startTime);
-//     seamlessLoop.to(rawSequence, {time: loopTime, duration: loopTime - startTime, ease: "none"})
-//                 .fromTo(rawSequence, {time: overlap * spacing + 1}, {time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none"});
-//     return seamlessLoop;
-// }
-
-// DISABLED: Navigation buttons for carousel
-// document.querySelector(".next").onclick = () => gsap.to(playhead, {offset: playhead.offset + spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
-// document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playhead.offset - spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
+// 3. INFINITE CAROUSEL - ORIGINAL IMPLEMENTATION
+(function initProjectCarousel() {
+    const projectCards = document.querySelectorAll('.cards li');
+    if (!projectCards.length) return;
+    
+    const cardArray = Array.from(projectCards);
+    const totalCards = cardArray.length;
+    const cardGap = 0.12;
+    let cycleCount = 0;
+    
+    // Initialize card states
+    cardArray.forEach(card => {
+        gsap.set(card, {
+            xPercent: 400,
+            opacity: 0,
+            scale: 0
+        });
+    });
+    
+    // Create animation for individual card
+    function createCardAnimation(cardElement) {
+        const cardTimeline = gsap.timeline();
+        
+        cardTimeline
+            .fromTo(cardElement,
+                { scale: 0, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.5, yoyo: true, repeat: 1, ease: "power1.in" }
+            )
+            .fromTo(cardElement,
+                { xPercent: 400 },
+                { xPercent: -400, duration: 1, ease: "none" },
+                0
+            );
+        
+        return cardTimeline;
+    }
+    
+    // Build continuous loop timeline
+    function createInfiniteLoop(cards, gap, animationCreator) {
+        const baseTimeline = gsap.timeline({ paused: true });
+        const loopTimeline = gsap.timeline({
+            paused: true,
+            repeat: -1,
+            onRepeat() {
+                if (this._time === this._dur) {
+                    this._tTime += this._dur - 0.01;
+                }
+            }
+        });
+        
+        // Create triple sequence for seamless wrapping
+        const tripleCards = cards.concat(cards).concat(cards);
+        tripleCards.forEach((card, idx) => {
+            baseTimeline.add(animationCreator(card), idx * gap);
+        });
+        
+        // Set up loop with proper timing
+        loopTimeline.fromTo(baseTimeline,
+            { time: gap * cards.length },
+            {
+                time: gap * cards.length * 2,
+                duration: gap * cards.length,
+                ease: "none"
+            }
+        );
+        
+        return loopTimeline;
+    }
+    
+    const infiniteLoop = createInfiniteLoop(cardArray, cardGap, createCardAnimation);
+    
+    // Scroll-based control
+    const scrollSnap = gsap.utils.snap(cardGap);
+    
+    ScrollTrigger.create({
+        trigger: ".gallery-wrapper",
+        start: "top top",
+        end: "+=3000",
+        scrub: 1,
+        pin: true,
+        onUpdate(scrollState) {
+            const scrollProgress = scrollState.progress;
+            const timePosition = scrollSnap((cycleCount + scrollProgress) * infiniteLoop.duration());
+            infiniteLoop.time(timePosition);
+        }
+    });
+    
+    // Drag-based control
+    Draggable.create(".gallery-wrapper", {
+        type: "x",
+        inertia: true,
+        onDrag() {
+            const dragOffset = this.deltaX * 0.0006;
+            const newTime = scrollSnap(infiniteLoop.time() - dragOffset);
+            infiniteLoop.time(newTime);
+        },
+        onThrowUpdate() {
+            const throwOffset = this.deltaX * 0.0006;
+            const newTime = scrollSnap(infiniteLoop.time() - throwOffset);
+            infiniteLoop.time(newTime);
+        }
+    });
+})();
 
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
