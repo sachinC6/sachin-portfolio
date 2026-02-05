@@ -113,11 +113,69 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
     });
 })();
 
+    // ScrollTrigger for scroll-based control
+    ScrollTrigger.create({
+        trigger: ".gallery",
+        start: "top top",
+        end: "+=3000",
+        pin: true,
+        onUpdate(self) {
+            scrub.vars.offset = self.progress * seamlessLoop.duration();
+            scrub.invalidate().restart();
+        }
+    });
+
+    // Draggable for mouse/touch control
+    const proxy = document.createElement("div");
+    let draggable = Draggable.create(proxy, {
+        type: "x",
+        trigger: ".cards",
+        onDrag: function() {
+            scrub.vars.offset += -this.deltaX * 0.001;
+            scrub.invalidate().restart();
+        },
+        onDragEnd: function() {
+            // Snap to nearest card
+            let offset = scrub.vars.offset;
+            let snapOffset = Math.round(offset / spacing) * spacing;
+            gsap.to(playhead, {
+                offset: snapOffset,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        }
+    })[0];
+
+    // PREV/NEXT button controls with snapping
+    const nextBtn = document.querySelector(".next");
+    const prevBtn = document.querySelector(".prev");
+
+    if (nextBtn) {
+        nextBtn.onclick = () => {
+            gsap.to(playhead, {
+                offset: playhead.offset + spacing,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        };
+    }
+
+    if (prevBtn) {
+        prevBtn.onclick = () => {
+            gsap.to(playhead, {
+                offset: playhead.offset - spacing,
+                duration: 0.5,
+                ease: "power2.out",
+                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
+            });
+        };
+    }
+}
+
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
-
-
-
 
 // Click Ripple Effect for Contact Card
 const contactBox = document.querySelector("#contact-trigger");
@@ -180,61 +238,6 @@ if (themeToggle && themeIcon) {
         themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
     });
 }
-
-// KEYBOARD NAVIGATION - DISABLED FOR BENTO LAYOUT
-/* CAROUSEL CONVERSION NOTE: Keyboard navigation for carousel disabled */
-// document.addEventListener('keydown', (e) => {
-//     const nextBtn = document.querySelector('.next');
-//     const prevBtn = document.querySelector('.prev');
-//     
-//     if (e.key === 'ArrowRight' && nextBtn) {
-//         nextBtn.click();
-//     } else if (e.key === 'ArrowLeft' && prevBtn) {
-//         prevBtn.click();
-//     }
-// });
-
-// LAZY LOAD IMAGES - DISABLED FOR CAROUSEL (carousel hidden)
-/* CAROUSEL CONVERSION NOTE: Lazy loading for carousel cards disabled since carousel is hidden */
-// if ('IntersectionObserver' in window) {
-//     const imageObserver = new IntersectionObserver((entries) => {
-//         entries.forEach(entry => {
-//             if (entry.isIntersecting) {
-//                 const img = entry.target;
-//                 img.style.opacity = '1';
-//                 imageObserver.unobserve(img);
-//             }
-//         });
-//     });
-//     
-//     document.querySelectorAll('.cards li').forEach(img => {
-//         imageObserver.observe(img);
-//     });
-// }
-
-// PROJECT CAROUSEL CLICK TO SCROLL - DISABLED FOR BENTO LAYOUT
-/* CAROUSEL CONVERSION NOTE: Carousel click-to-scroll disabled - projects now in Bento grid */
-// document.querySelectorAll('.cards li').forEach((card, index) => {
-//     card.addEventListener('click', () => {
-//         const projectId = `project-${index + 1}`;
-//         const targetCard = document.getElementById(projectId);
-//         if (targetCard) {
-//             targetCard.scrollIntoView({ 
-//                 behavior: 'smooth', 
-//                 block: 'center' 
-//             });
-//             // Highlight effect
-//             targetCard.style.transform = 'scale(1.05)';
-//             targetCard.style.borderColor = 'var(--accent)';
-//             
-//             // Remove highlight after 2 seconds
-//             setTimeout(() => {
-//                 targetCard.style.transform = 'scale(1)';
-//                 targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
-//             }, 2000);
-//         }
-//     });
-// });
 
 // === FLIP CARDS MOBILE INTERACTION ===
 function initFlipCards() {
