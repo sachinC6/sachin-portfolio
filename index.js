@@ -11,65 +11,165 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. IMPROVED INFINITE SLIDER LOGIC
-let iteration = 0;
-const spacing = 0.15, cards = gsap.utils.toArray('.cards li');
-gsap.set('.cards li', { xPercent: 400, opacity: 0, scale: 0 });
+/* 
+========================================
+3. INFINITE FEATURED PROJECTS STRIP
+========================================
 
-const animateFunc = element => {
-    return gsap.timeline()
-      .fromTo(element, 
-        { scale: 0.5, opacity: 0, rotationY: -45 }, 
-        { scale: 1, opacity: 1, rotationY: 0, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power2.inOut", immediateRender: false }
-      )
-      .fromTo(element, { xPercent: 450 }, { xPercent: -450, duration: 1, ease: "none", immediateRender: false }, 0);
-};
+PURPOSE: Seamless infinite horizontal scroll of featured projects
 
-const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
-const playhead = { offset: 0 }, wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
-const scrub = gsap.to(playhead, {
-    offset: 0, onUpdate() { 
-        seamlessLoop.time(wrapTime(playhead.offset)); 
-        // Dynamic Filter Audit: Highlight center card
-        cards.forEach(card => {
-            const x = gsap.getProperty(card, "xPercent");
-            if (Math.abs(x) < 50) {
-                gsap.to(card, { filter: "grayscale(0) brightness(1)", scale: 1.1, duration: 0.3 });
-            } else {
-                gsap.to(card, { filter: "grayscale(1) brightness(0.5)", scale: 1, duration: 0.3 });
+ARCHITECTURE DECISION:
+- Separated from Bento grid to maintain distinct interaction models
+- Uses GSAP repeat:-1 for infinite loop
+- DOM cloning ensures no visual jump
+- Auto-scrolls with pause on hover
+
+IMPLEMENTATION DETAILS:
+- Clones featured items for seamless loop
+- Uses transform: translateX for GPU acceleration
+- Respects prefers-reduced-motion
+- Auto-scroll pauses on hover/focus
+
+PERFORMANCE:
+- Hardware-accelerated via transform
+- Minimal DOM manipulation
+- Efficient animation loop
+*/
+
+(function initFeaturedStrip() {
+    const track = document.querySelector('.featured-track');
+    
+    // Exit if featured strip doesn't exist (graceful degradation)
+    if (!track) return;
+    
+    const items = Array.from(track.children);
+    
+    // Clone items for seamless infinite loop
+    // Need enough clones to prevent visual gap during loop
+    items.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+    });
+    
+    // Calculate total width for animation
+    const itemWidth = 350 + 30; // item width + gap
+    const totalWidth = itemWidth * items.length;
+    
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (!prefersReducedMotion) {
+        // Create seamless infinite animation
+        // Duration: slower = more professional (30s for smooth viewing)
+        const animation = gsap.to(track, {
+            x: -totalWidth,
+            duration: 30,
+            ease: 'none',
+            repeat: -1,
+            modifiers: {
+                x: gsap.utils.unitize(x => parseFloat(x) % totalWidth)
             }
         });
-    },
-    duration: 0.5, ease: "power3", paused: true
-});
-
-const sliderTrigger = ScrollTrigger.create({
-    trigger: ".gallery", start: "top top", end: "+=3000", pin: true,
-    onUpdate(self) {
-        scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
-        scrub.invalidate().restart();
+        
+        // Pause on hover for better UX
+        track.addEventListener('mouseenter', () => animation.pause());
+        track.addEventListener('mouseleave', () => animation.play());
+        
+        // Pause when user tabs into strip (accessibility)
+        track.addEventListener('focusin', () => animation.pause());
+        track.addEventListener('focusout', () => animation.play());
     }
-});
+    
+    // Click handler: scroll to corresponding Bento tile
+    document.querySelectorAll('.featured-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const projectId = item.dataset.project;
+            const bentoTile = document.querySelector(`[data-project="${projectId}"]`);
+            if (bentoTile && bentoTile.classList.contains('bento-tile')) {
+                bentoTile.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                
+                // Brief highlight effect
+                gsap.to(bentoTile, {
+                    scale: 1.05,
+                    duration: 0.3,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+            }
+        });
+    });
+})();
 
-// BUILDER
-function buildSeamlessLoop(items, spacing, animateFunc) {
-    let overlap = Math.ceil(1 / spacing),
-        startTime = items.length * spacing + 0.5,
-        loopTime = (items.length + overlap) * spacing + 1,
-        rawSequence = gsap.timeline({paused: true}),
-        seamlessLoop = gsap.timeline({paused: true, repeat: -1});
-    for (let i = 0; i < items.length + overlap * 2; i++) {
-        rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
+/* 
+========================================
+4. BENTO GRID INTERACTIONS
+========================================
+
+PURPOSE: Enhanced hover and scroll animations for Bento tiles
+
+ARCHITECTURE:
+- Spatial, hover-based interaction (not motion-based)
+- Scroll-triggered reveal animations
+- Premium depth effects
+- Mobile-friendly adaptations
+
+IMPLEMENTATION:
+- GSAP ScrollTrigger for reveal animations
+- Transform-based hover effects
+- Staggered tile appearances
+- Responsive behavior
+
+WHY SEPARATED FROM INFINITE STRIP:
+- Different interaction paradigms
+- Bento = static spatial exploration
+- Infinite = linear continuous motion
+- Mixing them would confuse users
+*/
+
+(function initBentoGrid() {
+    const bentoTiles = gsap.utils.toArray('.bento-tile');
+    
+    if (bentoTiles.length === 0) return;
+    
+    // Initial state: tiles start slightly scaled down and transparent
+    gsap.set(bentoTiles, { 
+        opacity: 0, 
+        scale: 0.9,
+        y: 30
+    });
+    
+    // Scroll-triggered staggered reveal
+    ScrollTrigger.batch(bentoTiles, {
+        onEnter: batch => gsap.to(batch, {
+            opacity: 1,
+            scale: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.out',
+            overwrite: true
+        }),
+        start: 'top 85%',
+        once: true
+    });
+    
+    // Mobile: Toggle overlay on tap (enhance accessibility)
+    if (window.innerWidth < 768) {
+        bentoTiles.forEach(tile => {
+            tile.addEventListener('click', function(e) {
+                // Don't interfere with link clicks
+                if (e.target.tagName === 'A') return;
+                
+                // Toggle expanded state
+                this.classList.toggle('expanded');
+            });
+        });
     }
-    rawSequence.time(startTime);
-    seamlessLoop.to(rawSequence, {time: loopTime, duration: loopTime - startTime, ease: "none"})
-                .fromTo(rawSequence, {time: overlap * spacing + 1}, {time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none"});
-    return seamlessLoop;
-}
-
-// Nav
-document.querySelector(".next").onclick = () => gsap.to(playhead, {offset: playhead.offset + spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
-document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playhead.offset - spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
+})();
 
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
@@ -139,160 +239,13 @@ if (themeToggle && themeIcon) {
     });
 }
 
-// KEYBOARD NAVIGATION
-document.addEventListener('keydown', (e) => {
-    const nextBtn = document.querySelector('.next');
-    const prevBtn = document.querySelector('.prev');
-    
-    if (e.key === 'ArrowRight' && nextBtn) {
-        nextBtn.click();
-    } else if (e.key === 'ArrowLeft' && prevBtn) {
-        prevBtn.click();
-    }
-});
+// KEYBOARD NAVIGATION - removed old carousel nav
 
-// LAZY LOAD IMAGES
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.style.opacity = '1';
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-    
-    document.querySelectorAll('.cards li').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
+// LAZY LOAD IMAGES - removed old carousel image loading
 
-// PROJECT CAROUSEL CLICK TO SCROLL
-document.querySelectorAll('.cards li').forEach((card, index) => {
-    card.addEventListener('click', () => {
-        const projectId = `project-${index + 1}`;
-        const targetCard = document.getElementById(projectId);
-        if (targetCard) {
-            targetCard.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            // Highlight effect
-            targetCard.style.transform = 'scale(1.05)';
-            targetCard.style.borderColor = 'var(--accent)';
-            
-            // Remove highlight after 2 seconds
-            setTimeout(() => {
-                targetCard.style.transform = 'scale(1)';
-                targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
-            }, 2000);
-        }
-    });
-});
+// Old carousel click handlers - removed
 
-// === FLIP CARDS MOBILE INTERACTION ===
-function initFlipCards() {
-    const isMobile = window.innerWidth < 768;
-    const flipCards = document.querySelectorAll('.flip-card');
-    
-    if (isMobile) {
-        flipCards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Prevent flipping if clicking on links
-                if (e.target.tagName === 'A') return;
-                
-                this.classList.toggle('flipped');
-            });
-        });
-    } else {
-        // Remove flipped class on desktop (hover handles it)
-        flipCards.forEach(card => {
-            card.classList.remove('flipped');
-        });
-    }
-}
-
-// === PROJECT CARDS SCROLL ANIMATION ===
-// Animate project section header
-gsap.set('.projects-detail-sec .section-label', { 
-    opacity: 0, 
-    y: -30,
-    filter: "blur(10px)"
-});
-
-gsap.set('.projects-detail-sec h3', { 
-    opacity: 0, 
-    y: -20,
-    filter: "blur(8px)"
-});
-
-// Trigger header animations
-ScrollTrigger.create({
-    trigger: '.projects-detail-sec',
-    start: "top 80%",
-    once: true,
-    onEnter: () => {
-        gsap.to('.projects-detail-sec .section-label', {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 1,
-            ease: "power3.out"
-        });
-        gsap.to('.projects-detail-sec h3', {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 1,
-            delay: 0.2,
-            ease: "power3.out"
-        });
-    }
-});
-
-// Animate project cards with staggered reveal on scroll
-gsap.set('.flip-card', { 
-    opacity: 0, 
-    scale: 0.8,
-    rotationY: -15,
-    y: 50
-});
-
-ScrollTrigger.batch('.flip-card', {
-    onEnter: batch => gsap.to(batch, {
-        opacity: 1,
-        scale: 1,
-        rotationY: 0,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
-        overwrite: true
-    }),
-    start: "top 85%",
-    once: true
-});
-
-// Add hover enhancement for project cards
-document.querySelectorAll('.flip-card').forEach(card => {
-    // Use GSAP's onHoverIn/onHoverOut for better performance
-    card.addEventListener('mouseenter', function() {
-        gsap.to(this, {
-            scale: 1.03,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
-    
-    card.addEventListener('mouseleave', function() {
-        gsap.to(this, {
-            scale: 1,
-            duration: 0.3,
-            ease: "power2.out"
-        });
-    });
-});
+// Old flip card interactions - removed (replaced by Bento grid)
 
 // === MOBILE MENU TOGGLE ===
 const menuToggle = document.getElementById('menu-toggle');
@@ -321,26 +274,4 @@ if (menuToggle) {
     });
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', initFlipCards);
-
-// Re-initialize on window resize
-let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(initFlipCards, 250);
-});
-
-// === IMAGE PLACEHOLDER FALLBACK ===
-document.addEventListener('DOMContentLoaded', () => {
-    const flipCardImages = document.querySelectorAll('.flip-card-front img');
-    
-    flipCardImages.forEach((img, index) => {
-        img.addEventListener('error', function() {
-            // Create SVG placeholder
-            const projectNum = index + 1;
-            const svg = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='600'%3E%3Crect width='400' height='600' fill='%23111'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='60' fill='%2300ffcc'%3EProject ${projectNum}%3C/text%3E%3C/svg%3E`;
-            this.src = svg;
-        });
-    });
-});
+// Old flip card initialization removed

@@ -304,259 +304,243 @@
             </div>
         </section>
 
-        <section class="gallery" id="projects">
-            <div class="gallery-header">
-                <h2 class="section-label">Projects Showcase</h2>
-                <p>Drag or Scroll to Rotate • Click to View Details ↓</p>
+        <!-- 
+        ========================================
+        INFINITE FEATURED PROJECTS STRIP
+        ========================================
+        
+        PURPOSE: Linear, motion-based preview of selected featured projects
+        
+        ARCHITECTURE DECISION:
+        - Separated from main Bento grid to avoid mixing interaction models
+        - Bento = spatial exploration (hover-based, all visible)
+        - Infinite = linear preview (motion-based, auto-scroll)
+        
+        IMPLEMENTATION:
+        - Uses GSAP repeat:-1 for seamless infinite loop
+        - DOM cloning ensures no visual jump
+        - Auto-scrolls with pause on hover
+        - Shows 3-4 featured projects only
+        
+        PERFORMANCE:
+        - Uses transform for GPU acceleration
+        - RequestAnimationFrame for smooth animation
+        - Respects prefers-reduced-motion
+        -->
+        <section class="featured-strip" aria-label="Featured Projects">
+            <div class="featured-strip-header">
+                <h2 class="section-label">Featured Projects</h2>
             </div>
-            <!-- 
-    PROJECT CAROUSEL SETUP:
-    1. Upload your project screenshots to /assets/projects/ folder
-    2. Recommended image dimensions: 400x600px (portrait)
-    3. Replace URLs below with: url('assets/projects/project1.png')
-    4. Each carousel image links to its corresponding project card below
-    5. Click on any carousel image to scroll to detailed information
-    
-    Current: Using CodePen placeholders
-    After: Your actual project screenshots
-            -->
-            <ul class="cards">
-                <li style="background-image: url('assets/projects/project1.png')" role="img" aria-label="Project 1"></li>
-                <li style="background-image: url('assets/projects/project2.png')" role="img" aria-label="Project 2"></li>
-                <li style="background-image: url('assets/projects/project3.png')" role="img" aria-label="Project 3"></li>
-                <li style="background-image: url('assets/projects/project4.png')" role="img" aria-label="Project 4"></li>
-                <li style="background-image: url('assets/projects/project5.png')" role="img" aria-label="Project 5"></li>
-                <li style="background-image: url('assets/projects/project6.png')" role="img" aria-label="Project 6"></li>
-                <li style="background-image: url('assets/projects/project7.png')" role="img" aria-label="Project 7"></li>
-            </ul>
-            <div class="actions">
-                <button class="prev">PREV</button>
-                <div class="divider"></div>
-                <button class="next">NEXT</button>
+            <div class="featured-track-wrapper">
+                <div class="featured-track">
+                    <!-- Featured Project 1 -->
+                    <div class="featured-item" data-project="1">
+                        <div class="featured-image" style="background-image: url('assets/projects/project1.png')"></div>
+                        <div class="featured-info">
+                            <h3>IoT Weather Station</h3>
+                            <p>STM32 • C/C++ • MQTT • IoT</p>
+                        </div>
+                    </div>
+                    <!-- Featured Project 2 -->
+                    <div class="featured-item" data-project="2">
+                        <div class="featured-image" style="background-image: url('assets/projects/project2.png')"></div>
+                        <div class="featured-info">
+                            <h3>FPGA Image Processor</h3>
+                            <p>Verilog • FPGA • Xilinx</p>
+                        </div>
+                    </div>
+                    <!-- Featured Project 5 -->
+                    <div class="featured-item" data-project="5">
+                        <div class="featured-image" style="background-image: url('assets/projects/project5.png')"></div>
+                        <div class="featured-info">
+                            <h3>Digital Circuit Design</h3>
+                            <p>VLSI • Cadence • VHDL</p>
+                        </div>
+                    </div>
+                    <!-- Featured Project 6 -->
+                    <div class="featured-item" data-project="6">
+                        <div class="featured-image" style="background-image: url('assets/projects/project6.png')"></div>
+                        <div class="featured-info">
+                            <h3>Wireless Communication</h3>
+                            <p>LoRa • RF Design • ESP32</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Detailed Projects Section -->
-        <section class="section projects-detail-sec">
+        <!-- 
+        ========================================
+        BENTO GRID - MAIN PROJECTS SECTION
+        ========================================
+        
+        PURPOSE: Primary spatial exploration of all projects
+        
+        ARCHITECTURE DECISION:
+        - All 7 projects visible simultaneously
+        - Hover-based interaction model (not motion-based)
+        - Varied tile sizes create visual hierarchy
+        - Premium depth effects and animations
+        
+        LAYOUT STRATEGY:
+        - CSS Grid with named areas for precise control
+        - Responsive breakpoints for mobile
+        - Large tiles: Projects 1, 5 (key projects)
+        - Wide tiles: Projects 2, 6 (horizontal emphasis)
+        - Tall tiles: Projects 3, 7 (vertical emphasis)
+        - Standard tiles: Projects 4
+        
+        INTERACTION:
+        - Hover reveals full project info
+        - Click/tap expands for details
+        - Depth effect using transform and shadow
+        - Subtle motion on hover (no infinite scroll)
+        -->
+        <section class="section bento-projects" id="projects">
             <div class="content-card">
-                <h2 class="section-label">Project Details</h2>
-                <h3>Engineering Solutions</h3>
+                <h2 class="section-label">All Projects</h2>
+                <h3>Engineering Portfolio</h3>
                 
-                <div class="projects-grid">
-                    <!-- Project Card 1 -->
-                    <div class="flip-card" id="project-1">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project1.png" alt="IoT Weather Station">
-                                <div class="front-title">
-                                    <h4>IoT Weather Station</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>IoT Weather Station</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                        <a href="#" class="project-link" target="_blank">Demo →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Real-time weather monitoring system using STM32 and sensor array with cloud data logging.</p>
-                                <div class="tech-tags">
+                <div class="bento-grid">
+                    <!-- LARGE TILE: Project 1 - IoT Weather Station -->
+                    <article class="bento-tile bento-large" data-project="1">
+                        <div class="bento-image" style="background-image: url('assets/projects/project1.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>IoT Weather Station</h4>
+                                <p class="bento-desc">Real-time weather monitoring system using STM32 and sensor array with cloud data logging.</p>
+                                <div class="bento-tags">
                                     <span class="tag">STM32</span>
                                     <span class="tag">C/C++</span>
                                     <span class="tag">MQTT</span>
                                     <span class="tag">IoT</span>
                                 </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
+                                    <a href="#" class="bento-link" target="_blank">Demo →</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Project Card 2 -->
-                    <div class="flip-card" id="project-2">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project2.png" alt="FPGA-based Image Processor">
-                                <div class="front-title">
-                                    <h4>FPGA-based Image Processor</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>FPGA-based Image Processor</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Hardware accelerated image filtering and edge detection using Verilog HDL.</p>
-                                <div class="tech-tags">
+                    </article>
+
+                    <!-- WIDE TILE: Project 2 - FPGA Image Processor -->
+                    <article class="bento-tile bento-wide" data-project="2">
+                        <div class="bento-image" style="background-image: url('assets/projects/project2.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>FPGA-based Image Processor</h4>
+                                <p class="bento-desc">Hardware accelerated image filtering and edge detection using Verilog HDL.</p>
+                                <div class="bento-tags">
                                     <span class="tag">Verilog</span>
                                     <span class="tag">FPGA</span>
                                     <span class="tag">Xilinx</span>
-                                    <span class="tag">Image Processing</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Project Card 3 -->
-                    <div class="flip-card" id="project-3">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project3.png" alt="Smart PCB Temperature Controller">
-                                <div class="front-title">
-                                    <h4>Smart PCB Temperature Controller</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Smart PCB Temperature Controller</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">PID-controlled heating system with custom PCB design and MicroPython firmware.</p>
-                                <div class="tech-tags">
+                    </article>
+
+                    <!-- TALL TILE: Project 3 - PCB Controller -->
+                    <article class="bento-tile bento-tall" data-project="3">
+                        <div class="bento-image" style="background-image: url('assets/projects/project3.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>Smart PCB Temperature Controller</h4>
+                                <p class="bento-desc">PID-controlled heating system with custom PCB design and MicroPython firmware.</p>
+                                <div class="bento-tags">
                                     <span class="tag">PCB Design</span>
                                     <span class="tag">MicroPython</span>
                                     <span class="tag">PID Control</span>
-                                    <span class="tag">Altium</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <!-- Project Card 4 -->
-                    <div class="flip-card" id="project-4">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project4.png" alt="Embedded Systems Project">
-                                <div class="front-title">
-                                    <h4>Embedded Systems Project</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Embedded Systems Project</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Advanced embedded system design with real-time processing capabilities.</p>
-                                <div class="tech-tags">
+                    </article>
+
+                    <!-- STANDARD TILE: Project 4 - Embedded Systems -->
+                    <article class="bento-tile" data-project="4">
+                        <div class="bento-image" style="background-image: url('assets/projects/project4.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>Embedded Systems Project</h4>
+                                <p class="bento-desc">Advanced embedded system design with real-time processing capabilities.</p>
+                                <div class="bento-tags">
                                     <span class="tag">ARM Cortex</span>
                                     <span class="tag">RTOS</span>
                                     <span class="tag">C</span>
-                                    <span class="tag">Embedded</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                    <!-- Project Card 5 -->
-                    <div class="flip-card" id="project-5">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project5.png" alt="Digital Circuit Design">
-                                <div class="front-title">
-                                    <h4>Digital Circuit Design</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Digital Circuit Design</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">VLSI-based digital circuit implementation with optimized power consumption.</p>
-                                <div class="tech-tags">
+                    <!-- LARGE TILE: Project 5 - Digital Circuit -->
+                    <article class="bento-tile bento-large" data-project="5">
+                        <div class="bento-image" style="background-image: url('assets/projects/project5.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>Digital Circuit Design</h4>
+                                <p class="bento-desc">VLSI-based digital circuit implementation with optimized power consumption.</p>
+                                <div class="bento-tags">
                                     <span class="tag">VLSI</span>
                                     <span class="tag">Cadence</span>
                                     <span class="tag">VHDL</span>
-                                    <span class="tag">Circuit Design</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                    <!-- Project Card 6 -->
-                    <div class="flip-card" id="project-6">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project6.png" alt="Wireless Communication Module">
-                                <div class="front-title">
-                                    <h4>Wireless Communication Module</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Wireless Communication Module</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">LoRa-based long-range wireless communication system for IoT applications.</p>
-                                <div class="tech-tags">
+                    <!-- WIDE TILE: Project 6 - Wireless Communication -->
+                    <article class="bento-tile bento-wide" data-project="6">
+                        <div class="bento-image" style="background-image: url('assets/projects/project6.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>Wireless Communication Module</h4>
+                                <p class="bento-desc">LoRa-based long-range wireless communication system for IoT applications.</p>
+                                <div class="bento-tags">
                                     <span class="tag">LoRa</span>
                                     <span class="tag">RF Design</span>
                                     <span class="tag">ESP32</span>
-                                    <span class="tag">Wireless</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </article>
 
-                    <!-- Project Card 7 -->
-                    <div class="flip-card" id="project-7">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img src="assets/projects/project7.png" alt="Automated Testing System">
-                                <div class="front-title">
-                                    <h4>Automated Testing System</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Automated Testing System</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Automated hardware testing platform with Python-based control interface.</p>
-                                <div class="tech-tags">
+                    <!-- TALL TILE: Project 7 - Testing System -->
+                    <article class="bento-tile bento-tall" data-project="7">
+                        <div class="bento-image" style="background-image: url('assets/projects/project7.png')"></div>
+                        <div class="bento-overlay">
+                            <div class="bento-content">
+                                <h4>Automated Testing System</h4>
+                                <p class="bento-desc">Automated hardware testing platform with Python-based control interface.</p>
+                                <div class="bento-tags">
                                     <span class="tag">Python</span>
                                     <span class="tag">Automation</span>
                                     <span class="tag">Testing</span>
-                                    <span class="tag">Hardware</span>
+                                </div>
+                                <div class="bento-links">
+                                    <a href="#" class="bento-link" target="_blank">GitHub →</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
+                    </article>
                 </div>
             </div>
         </section>
+
+        <!-- Old flip-card section removed - replaced by Bento grid above -->
 
         <section class="section">
             <div class="content-card">
