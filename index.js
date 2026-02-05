@@ -11,65 +11,78 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. IMPROVED INFINITE SLIDER LOGIC
-let iteration = 0;
-const spacing = 0.15, cards = gsap.utils.toArray('.cards li');
-gsap.set('.cards li', { xPercent: 400, opacity: 0, scale: 0 });
+// 3. CAROUSEL ROTATION LOGIC - DISABLED FOR BENTO LAYOUT
+/* 
+ * CAROUSEL CONVERSION NOTE:
+ * The following carousel rotation logic has been disabled to support the new Bento-style layout.
+ * - Removed: Infinite slider scroll animations
+ * - Removed: Drag/scroll to rotate functionality  
+ * - Removed: PREV/NEXT button navigation
+ * - Reason: Projects now display simultaneously in a Bento grid instead of one-at-a-time carousel
+ * - All project data remains intact in the projects-grid section below
+ */
 
-const animateFunc = element => {
-    return gsap.timeline()
-      .fromTo(element, 
-        { scale: 0.5, opacity: 0, rotationY: -45 }, 
-        { scale: 1, opacity: 1, rotationY: 0, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power2.inOut", immediateRender: false }
-      )
-      .fromTo(element, { xPercent: 450 }, { xPercent: -450, duration: 1, ease: "none", immediateRender: false }, 0);
-};
+// DISABLED: Infinite slider logic
+// let iteration = 0;
+// const spacing = 0.15, cards = gsap.utils.toArray('.cards li');
+// gsap.set('.cards li', { xPercent: 400, opacity: 0, scale: 0 });
 
-const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
-const playhead = { offset: 0 }, wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
-const scrub = gsap.to(playhead, {
-    offset: 0, onUpdate() { 
-        seamlessLoop.time(wrapTime(playhead.offset)); 
-        // Dynamic Filter Audit: Highlight center card
-        cards.forEach(card => {
-            const x = gsap.getProperty(card, "xPercent");
-            if (Math.abs(x) < 50) {
-                gsap.to(card, { filter: "grayscale(0) brightness(1)", scale: 1.1, duration: 0.3 });
-            } else {
-                gsap.to(card, { filter: "grayscale(1) brightness(0.5)", scale: 1, duration: 0.3 });
-            }
-        });
-    },
-    duration: 0.5, ease: "power3", paused: true
-});
+// DISABLED: Carousel animation function
+// const animateFunc = element => {
+//     return gsap.timeline()
+//       .fromTo(element, 
+//         { scale: 0.5, opacity: 0, rotationY: -45 }, 
+//         { scale: 1, opacity: 1, rotationY: 0, zIndex: 100, duration: 0.5, yoyo: true, repeat: 1, ease: "power2.inOut", immediateRender: false }
+//       )
+//       .fromTo(element, { xPercent: 450 }, { xPercent: -450, duration: 1, ease: "none", immediateRender: false }, 0);
+// };
 
-const sliderTrigger = ScrollTrigger.create({
-    trigger: ".gallery", start: "top top", end: "+=3000", pin: true,
-    onUpdate(self) {
-        scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
-        scrub.invalidate().restart();
-    }
-});
+// DISABLED: Seamless loop builder
+// const seamlessLoop = buildSeamlessLoop(cards, spacing, animateFunc);
+// const playhead = { offset: 0 }, wrapTime = gsap.utils.wrap(0, seamlessLoop.duration());
+// const scrub = gsap.to(playhead, {
+//     offset: 0, onUpdate() { 
+//         seamlessLoop.time(wrapTime(playhead.offset)); 
+//         cards.forEach(card => {
+//             const x = gsap.getProperty(card, "xPercent");
+//             if (Math.abs(x) < 50) {
+//                 gsap.to(card, { filter: "grayscale(0) brightness(1)", scale: 1.1, duration: 0.3 });
+//             } else {
+//                 gsap.to(card, { filter: "grayscale(1) brightness(0.5)", scale: 1, duration: 0.3 });
+//             }
+//         });
+//     },
+//     duration: 0.5, ease: "power3", paused: true
+// });
 
-// BUILDER
-function buildSeamlessLoop(items, spacing, animateFunc) {
-    let overlap = Math.ceil(1 / spacing),
-        startTime = items.length * spacing + 0.5,
-        loopTime = (items.length + overlap) * spacing + 1,
-        rawSequence = gsap.timeline({paused: true}),
-        seamlessLoop = gsap.timeline({paused: true, repeat: -1});
-    for (let i = 0; i < items.length + overlap * 2; i++) {
-        rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
-    }
-    rawSequence.time(startTime);
-    seamlessLoop.to(rawSequence, {time: loopTime, duration: loopTime - startTime, ease: "none"})
-                .fromTo(rawSequence, {time: overlap * spacing + 1}, {time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none"});
-    return seamlessLoop;
-}
+// DISABLED: Scroll trigger for carousel
+// const sliderTrigger = ScrollTrigger.create({
+//     trigger: ".gallery", start: "top top", end: "+=3000", pin: true,
+//     onUpdate(self) {
+//         scrub.vars.offset = (iteration + self.progress) * seamlessLoop.duration();
+//         scrub.invalidate().restart();
+//     }
+// });
 
-// Nav
-document.querySelector(".next").onclick = () => gsap.to(playhead, {offset: playhead.offset + spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
-document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playhead.offset - spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
+// DISABLED: Builder function
+// function buildSeamlessLoop(items, spacing, animateFunc) {
+//     let overlap = Math.ceil(1 / spacing),
+//         startTime = items.length * spacing + 0.5,
+//         loopTime = (items.length + overlap) * spacing + 1,
+//         rawSequence = gsap.timeline({paused: true}),
+//         seamlessLoop = gsap.timeline({paused: true, repeat: -1});
+//     for (let i = 0; i < items.length + overlap * 2; i++) {
+//         rawSequence.add(animateFunc(items[i % items.length]), i * spacing);
+//     }
+//     rawSequence.time(startTime);
+//     seamlessLoop.to(rawSequence, {time: loopTime, duration: loopTime - startTime, ease: "none"})
+//                 .fromTo(rawSequence, {time: overlap * spacing + 1}, {time: startTime, duration: startTime - (overlap * spacing + 1), immediateRender: false, ease: "none"});
+//     return seamlessLoop;
+// }
+
+// DISABLED: Navigation buttons for carousel
+// document.querySelector(".next").onclick = () => gsap.to(playhead, {offset: playhead.offset + spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
+// document.querySelector(".prev").onclick = () => gsap.to(playhead, {offset: playhead.offset - spacing, duration: 0.6, ease: "expo.out", onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))});
 
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
@@ -139,57 +152,60 @@ if (themeToggle && themeIcon) {
     });
 }
 
-// KEYBOARD NAVIGATION
-document.addEventListener('keydown', (e) => {
-    const nextBtn = document.querySelector('.next');
-    const prevBtn = document.querySelector('.prev');
-    
-    if (e.key === 'ArrowRight' && nextBtn) {
-        nextBtn.click();
-    } else if (e.key === 'ArrowLeft' && prevBtn) {
-        prevBtn.click();
-    }
-});
+// KEYBOARD NAVIGATION - DISABLED FOR BENTO LAYOUT
+/* CAROUSEL CONVERSION NOTE: Keyboard navigation for carousel disabled */
+// document.addEventListener('keydown', (e) => {
+//     const nextBtn = document.querySelector('.next');
+//     const prevBtn = document.querySelector('.prev');
+//     
+//     if (e.key === 'ArrowRight' && nextBtn) {
+//         nextBtn.click();
+//     } else if (e.key === 'ArrowLeft' && prevBtn) {
+//         prevBtn.click();
+//     }
+// });
 
-// LAZY LOAD IMAGES
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.style.opacity = '1';
-                imageObserver.unobserve(img);
-            }
-        });
-    });
-    
-    document.querySelectorAll('.cards li').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
+// LAZY LOAD IMAGES - DISABLED FOR CAROUSEL (carousel hidden)
+/* CAROUSEL CONVERSION NOTE: Lazy loading for carousel cards disabled since carousel is hidden */
+// if ('IntersectionObserver' in window) {
+//     const imageObserver = new IntersectionObserver((entries) => {
+//         entries.forEach(entry => {
+//             if (entry.isIntersecting) {
+//                 const img = entry.target;
+//                 img.style.opacity = '1';
+//                 imageObserver.unobserve(img);
+//             }
+//         });
+//     });
+//     
+//     document.querySelectorAll('.cards li').forEach(img => {
+//         imageObserver.observe(img);
+//     });
+// }
 
-// PROJECT CAROUSEL CLICK TO SCROLL
-document.querySelectorAll('.cards li').forEach((card, index) => {
-    card.addEventListener('click', () => {
-        const projectId = `project-${index + 1}`;
-        const targetCard = document.getElementById(projectId);
-        if (targetCard) {
-            targetCard.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            // Highlight effect
-            targetCard.style.transform = 'scale(1.05)';
-            targetCard.style.borderColor = 'var(--accent)';
-            
-            // Remove highlight after 2 seconds
-            setTimeout(() => {
-                targetCard.style.transform = 'scale(1)';
-                targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
-            }, 2000);
-        }
-    });
-});
+// PROJECT CAROUSEL CLICK TO SCROLL - DISABLED FOR BENTO LAYOUT
+/* CAROUSEL CONVERSION NOTE: Carousel click-to-scroll disabled - projects now in Bento grid */
+// document.querySelectorAll('.cards li').forEach((card, index) => {
+//     card.addEventListener('click', () => {
+//         const projectId = `project-${index + 1}`;
+//         const targetCard = document.getElementById(projectId);
+//         if (targetCard) {
+//             targetCard.scrollIntoView({ 
+//                 behavior: 'smooth', 
+//                 block: 'center' 
+//             });
+//             // Highlight effect
+//             targetCard.style.transform = 'scale(1.05)';
+//             targetCard.style.borderColor = 'var(--accent)';
+//             
+//             // Remove highlight after 2 seconds
+//             setTimeout(() => {
+//                 targetCard.style.transform = 'scale(1)';
+//                 targetCard.style.borderColor = 'rgba(255,255,255,0.08)';
+//             }, 2000);
+//         }
+//     });
+// });
 
 // === FLIP CARDS MOBILE INTERACTION ===
 function initFlipCards() {
@@ -265,26 +281,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // === BENTO GALLERY ENHANCEMENTS ===
-// FIX: Centralized configuration for easy tuning
-/* Reason: All animation values in one place for maintainability */
+/* 
+ * BENTO LAYOUT ANIMATIONS:
+ * - Replaces carousel rotation with simultaneous tile display
+ * - Scroll-based reveal with stagger effect
+ * - 3D tilt on hover (desktop only)
+ * - All projects visible at once in a grid
+ * 
+ * NOTE: Parallax scroll effect removed to avoid transform conflicts with hover lift and tilt
+ */
+
+// Configuration for easy tuning
 const BENTO_CONFIG = {
     ROTATION_SENSITIVITY: 20,     // Controls 3D tilt responsiveness
     REVEAL_DURATION: 0.8,         // Card reveal animation duration
     STAGGER_DELAY: 0.1,           // Delay between each card animation
-    DISABLE_MOBILE_TILT: true     // FIX: Clearer flag - disable tilt on mobile
+    DISABLE_MOBILE_TILT: true     // Disable tilt on mobile for performance
 };
 
-// FIX: Check for reduced motion preference
-/* Reason: Accessibility - respect user's motion preferences */
+// Check for reduced motion preference (accessibility)
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// FIX: Single optimized animation system
-/* Reason: Avoid multiple ScrollTriggers per card, combine into one timeline */
+// Bento Gallery Animations
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
     const isMobile = window.innerWidth <= 768;
     
-    // FIX: Single timeline per card instead of multiple triggers
-    /* Reason: Better performance, easier to manage, prevents conflicts */
+    // 1. SCROLL-BASED REVEAL ANIMATION
+    /* All cards animate in with stagger as user scrolls to projects section */
     gsap.utils.toArray('.flip-card').forEach((card, index) => {
         const timeline = gsap.timeline({
             scrollTrigger: {
@@ -295,7 +318,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
             }
         });
         
-        // Reveal animation
+        // Reveal animation with fade, lift, and scale
         timeline.from(card, {
             y: 60,
             opacity: 0,
@@ -306,18 +329,34 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
         });
     });
 
-    // FIX: 3D tilt on outer wrapper, not inner (desktop only)
-    /* Reason: Prevents conflict with flip-card-inner rotateY(180deg) */
-    /* Tilt is now on .flip-card wrapper, flip animation stays on .flip-card-inner */
+    // 2. SUBTLE PARALLAX SCROLL EFFECT - DISABLED
+    /* 
+     * REMOVED: Parallax effect was causing transform conflicts with hover lift and 3D tilt
+     * Reason: Multiple transforms on same element can override each other
+     * For parallax, would need a wrapper element approach
+     */
+    // gsap.utils.toArray('.flip-card').forEach((card, index) => {
+    //     const direction = index % 2 === 0 ? 1 : -1;
+    //     gsap.to(card, {
+    //         y: direction * BENTO_CONFIG.PARALLAX_AMOUNT,
+    //         scrollTrigger: {
+    //             trigger: '.projects-grid',
+    //             start: 'top bottom',
+    //             end: 'bottom top',
+    //             scrub: 1,
+    //         }
+    //     });
+    // });
+
+    // 2. 3D TILT ON HOVER (Desktop Only)
+    /* Mouse movement creates interactive 3D tilt effect */
     if (!isMobile || !BENTO_CONFIG.DISABLE_MOBILE_TILT) {
         document.querySelectorAll('.flip-card').forEach(card => {
             let tiltTimeline = null;
             
             card.addEventListener('mousemove', (e) => {
-                // FIX: Don't tilt if card is flipped
-                /* Reason: Avoid visual conflict with back-side view */
+                // Don't tilt if card is flipped - early return to avoid unnecessary calculations
                 const isFlipped = card.classList.contains('flipped');
-                
                 if (isFlipped) return;
                 
                 const rect = card.getBoundingClientRect();
@@ -327,12 +366,11 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
                 const centerX = rect.width / 2;
                 const centerY = rect.height / 2;
                 
-                // Calculate rotation based on mouse position and sensitivity
+                // Calculate rotation based on mouse position
                 const rotateX = (y - centerY) / BENTO_CONFIG.ROTATION_SENSITIVITY;
                 const rotateY = (centerX - x) / BENTO_CONFIG.ROTATION_SENSITIVITY;
                 
-                // FIX: Apply tilt to wrapper, keep perspective on card
-                /* Reason: Separates tilt from flip transformation */
+                // Apply tilt to wrapper (separate from flip transformation)
                 if (tiltTimeline) tiltTimeline.kill();
                 tiltTimeline = gsap.to(card, {
                     rotationX: rotateX,
@@ -345,7 +383,7 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
             });
             
             card.addEventListener('mouseleave', () => {
-                // Reset tilt
+                // Reset tilt smoothly
                 if (tiltTimeline) tiltTimeline.kill();
                 tiltTimeline = gsap.to(card, {
                     rotationX: 0,
@@ -358,11 +396,8 @@ if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !pref
     }
 }
 
-// FIX: Clean up - removed parallax effect
-/* Reason: Parallax on .flip-card conflicts with hover lift and tilt */
-/* Keeping animations minimal for better performance on low-end devices */
-
-// Stagger reveal for project grid
+// 3. PROJECTS GRID REVEAL
+/* Entire grid fades in when scrolled into view */
 if (typeof gsap !== 'undefined') {
     gsap.from('.projects-grid', {
         scrollTrigger: {
