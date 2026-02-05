@@ -11,107 +11,100 @@ window.addEventListener("mousemove", (e) => {
 // 2. HERO REVEAL
 gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
 
-// 3. INFINITE CAROUSEL - ORIGINAL IMPLEMENTATION
-(function initProjectCarousel() {
-    const projectCards = document.querySelectorAll('.cards li');
-    if (!projectCards.length) return;
+// 3. PROJECT CAROUSEL - MODULAR ROTATION SYSTEM
+(function setupCarousel() {
+    const slides = Array.from(document.querySelectorAll('.cards li'));
+    if (!slides.length) return;
     
-    const cardArray = Array.from(projectCards);
-    const totalCards = cardArray.length;
-    const cardGap = 0.12;
-    const DRAG_SENSITIVITY = 0.0006;
-    let cycleCount = 0;
+    const CONFIG = {
+        slideCount: slides.length,
+        intervalSize: 0.15,
+        viewportPin: 3000,
+        mouseMultiplier: 0.0008
+    };
     
-    // Initialize card states
-    cardArray.forEach(card => {
-        gsap.set(card, {
-            xPercent: 400,
-            opacity: 0,
-            scale: 0
-        });
+    let rotationState = { phase: 0 };
+    
+    // Setup initial positions
+    slides.forEach(item => {
+        gsap.set(item, { x: '400%', opacity: 0, scale: 0.3 });
     });
     
-    // Create animation for individual card
-    function createCardAnimation(cardElement) {
-        const cardTimeline = gsap.timeline();
-        
-        cardTimeline
-            .fromTo(cardElement,
-                { scale: 0, opacity: 0 },
-                { scale: 1, opacity: 1, duration: 0.5, ease: "power1.in" }
-            )
-            .fromTo(cardElement,
-                { xPercent: 400 },
-                { xPercent: -400, duration: 1, ease: "none" },
-                0
-            );
-        
-        return cardTimeline;
+    // Individual slide animation generator
+    function generateSlideMotion(element) {
+        const tween = gsap.timeline();
+        tween.to(element, {
+            opacity: 1,
+            scale: 1,
+            duration: 0.4,
+            ease: 'back.out(1.7)'
+        }).to(element, {
+            x: '-400%',
+            duration: 0.8,
+            ease: 'linear'
+        }, 0.2);
+        return tween;
     }
     
-    // Build continuous loop timeline
-    function createInfiniteLoop(cards, gap, animationCreator) {
-        const baseTimeline = gsap.timeline({ paused: true });
-        const loopTimeline = gsap.timeline({
+    // Circular sequence builder using modular indexing
+    function assembleLoopSequence() {
+        const master = gsap.timeline({ paused: true });
+        const wrapper = gsap.timeline({
             paused: true,
             repeat: -1,
-            onRepeat() {
-                if (this._time === this._dur) {
-                    this._tTime += this._dur - 0.01;
+            onRepeat: function() {
+                // Prevent timeline jump at loop boundary
+                if (this._time >= this._dur - 0.001) {
+                    this._tTime += this._dur - 0.002;
                 }
             }
         });
         
-        // Create triple sequence for seamless wrapping
-        const tripleCards = cards.concat(cards).concat(cards);
-        tripleCards.forEach((card, idx) => {
-            baseTimeline.add(animationCreator(card), idx * gap);
-        });
+        // Build extended sequence with wraparound
+        const extended = CONFIG.slideCount * 3;
+        for (let i = 0; i < extended; i++) {
+            const slideIdx = i % CONFIG.slideCount;
+            master.add(generateSlideMotion(slides[slideIdx]), i * CONFIG.intervalSize);
+        }
         
-        // Set up loop with proper timing
-        loopTimeline.fromTo(baseTimeline,
-            { time: gap * cards.length },
-            {
-                time: gap * cards.length * 2,
-                duration: gap * cards.length,
-                ease: "none"
-            }
+        const startPoint = CONFIG.slideCount * CONFIG.intervalSize;
+        const endPoint = CONFIG.slideCount * CONFIG.intervalSize * 2;
+        
+        wrapper.fromTo(master, 
+            { time: startPoint },
+            { time: endPoint, duration: endPoint - startPoint, ease: 'none' }
         );
         
-        return loopTimeline;
+        return wrapper;
     }
     
-    const infiniteLoop = createInfiniteLoop(cardArray, cardGap, createCardAnimation);
+    const loopController = assembleLoopSequence();
+    const snapToInterval = gsap.utils.snap(CONFIG.intervalSize);
     
-    // Scroll-based control
-    const scrollSnap = gsap.utils.snap(cardGap);
-    
+    // Scroll integration with pinning
     ScrollTrigger.create({
-        trigger: ".gallery-wrapper",
-        start: "top top",
-        end: "+=3000",
-        scrub: 1,
+        trigger: '.gallery-wrapper',
+        start: 'top top',
+        end: `+=${CONFIG.viewportPin}`,
         pin: true,
-        onUpdate(scrollState) {
-            const scrollProgress = scrollState.progress;
-            const timePosition = scrollSnap((cycleCount + scrollProgress) * infiniteLoop.duration());
-            infiniteLoop.time(timePosition);
+        scrub: 1,
+        onUpdate: function(instance) {
+            const advancement = (rotationState.phase + instance.progress) * loopController.duration();
+            loopController.time(snapToInterval(advancement));
         }
     });
     
-    // Drag-based control
-    Draggable.create(".gallery-wrapper", {
-        type: "x",
+    // Drag interaction handler
+    Draggable.create('.gallery-wrapper', {
+        type: 'x',
         inertia: true,
-        onDrag() {
-            const dragOffset = this.deltaX * DRAG_SENSITIVITY;
-            const newTime = scrollSnap(infiniteLoop.time() - dragOffset);
-            infiniteLoop.time(newTime);
+        onDrag: function() {
+            const shift = this.deltaX * CONFIG.mouseMultiplier;
+            loopController.time(snapToInterval(loopController.time() - shift));
         },
-        onThrowUpdate() {
-            const throwOffset = this.deltaX * DRAG_SENSITIVITY;
-            const newTime = scrollSnap(infiniteLoop.time() - throwOffset);
-            infiniteLoop.time(newTime);
+        onThrowUpdate: function() {
+            const shift = this.deltaX * CONFIG.mouseMultiplier;
+            loopController.time(snapToInterval(loopController.time() - shift));
         }
     });
 })();
