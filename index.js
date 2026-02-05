@@ -263,3 +263,91 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// === BENTO GALLERY ENHANCEMENTS ===
+// Scroll-based animations for project cards
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    // Animate project cards on scroll
+    gsap.utils.toArray('.flip-card').forEach((card, index) => {
+        // Stagger the reveal animation
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                end: 'top 65%',
+                toggleActions: 'play none none reverse',
+            },
+            y: 60,
+            opacity: 0,
+            scale: 0.9,
+            rotationX: 15,
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: 'power3.out'
+        });
+    });
+
+    // Parallax-like movement on scroll
+    gsap.utils.toArray('.flip-card').forEach((card) => {
+        const cardInner = card.querySelector('.flip-card-inner');
+        
+        gsap.to(cardInner, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1,
+            },
+            y: -20,
+            ease: 'none'
+        });
+    });
+
+    // Add micro-interactions on mouse move (desktop only)
+    if (window.innerWidth > 768) {
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                gsap.to(card.querySelector('.flip-card-inner'), {
+                    rotationX: rotateX,
+                    rotationY: rotateY,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                    transformPerspective: 1000
+                });
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card.querySelector('.flip-card-inner'), {
+                    rotationX: 0,
+                    rotationY: 0,
+                    duration: 0.5,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    }
+}
+
+// Stagger reveal for project grid
+if (typeof gsap !== 'undefined') {
+    gsap.from('.projects-grid', {
+        scrollTrigger: {
+            trigger: '.projects-grid',
+            start: 'top 80%',
+        },
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: 'power3.out'
+    });
+}

@@ -664,21 +664,93 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     padding: 100px 5%;
 }
 
+/* === BENTO GALLERY LAYOUT === */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 30px;
     margin-top: 40px;
+    /* Bento Gallery Enhancement: Enable adaptive grid */
+    grid-auto-rows: 400px;
+    grid-auto-flow: dense;
+}
+
+/* Bento Gallery: Dynamic Tile Sizing */
+.projects-grid .flip-card:nth-child(1),
+.projects-grid .flip-card:nth-child(5) {
+    grid-column: span 1;
+    grid-row: span 2;
+    height: auto;
+}
+
+.projects-grid .flip-card:nth-child(3),
+.projects-grid .flip-card:nth-child(6) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 350px;
+    }
+    
+    /* Reset dynamic sizing on mobile for consistency */
+    .projects-grid .flip-card:nth-child(1),
+    .projects-grid .flip-card:nth-child(5) {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .projects-grid .flip-card:nth-child(3),
+    .projects-grid .flip-card:nth-child(6) {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
 }
 
 /* === FLIP CARD CONTAINER === */
 .flip-card {
     background-color: transparent;
     width: 100%;
-    height: 400px;
+    height: 100%;
     perspective: 1000px;
-    border-radius: 8px;
+    border-radius: 12px;
     cursor: pointer;
+    position: relative;
+    /* Bento Gallery: Add smooth transitions */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Bento Gallery: Hover Expansion & Depth */
+.flip-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 255, 204, 0.15),
+                0 0 0 1px rgba(0, 255, 204, 0.1);
+    z-index: 10;
+}
+
+/* Bento Gallery: Soft glow effect on hover */
+.flip-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, 
+        rgba(0, 255, 204, 0.05) 0%, 
+        rgba(0, 255, 204, 0) 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.flip-card:hover::before {
+    opacity: 1;
 }
 
 .flip-card-inner {
@@ -712,18 +784,45 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    border-radius: 8px;
+    border-radius: 12px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
+    /* Bento Gallery: Add gradient overlay foundation */
+    background: linear-gradient(135deg, 
+        rgba(0, 0, 0, 0.9) 0%, 
+        rgba(20, 20, 20, 0.95) 100%);
+}
+
+/* Bento Gallery: Animated gradient overlay */
+.flip-card-front::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(0, 255, 204, 0.0) 0%,
+        rgba(0, 255, 204, 0.05) 50%,
+        rgba(0, 255, 204, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+}
+
+.flip-card:hover .flip-card-front::after {
+    opacity: 1;
 }
 
 /* === FRONT SIDE === */
 .flip-card-front {
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 20, 0.9));
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
+    position: relative;
+    /* Override background from shared styles */
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 20, 0.9));
 }
 
 .flip-card-front img {
@@ -731,6 +830,15 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     height: 70%;
     object-fit: cover;
     object-position: center;
+    /* Bento Gallery: Smooth image transitions */
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                filter 0.6s ease;
+}
+
+/* Bento Gallery: Image zoom on hover */
+.flip-card:hover .flip-card-front img {
+    transform: scale(1.08);
+    filter: brightness(1.1) contrast(1.05);
 }
 
 .flip-card-front .front-title {
@@ -742,6 +850,14 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     width: 100%;
     border-top: 2px solid var(--accent);
     padding: 0 20px;
+    position: relative;
+    /* Bento Gallery: Smooth background transitions */
+    transition: background 0.4s ease;
+}
+
+/* Bento Gallery: Enhance title area on hover */
+.flip-card:hover .flip-card-front .front-title {
+    background: rgba(0, 255, 204, 0.12);
 }
 
 .flip-card-front .front-title h4 {
@@ -750,6 +866,14 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     font-weight: 700;
     margin: 0;
     text-align: center;
+    /* Bento Gallery: Smooth text animations */
+    transition: transform 0.3s ease, letter-spacing 0.3s ease;
+}
+
+/* Bento Gallery: Title lift effect */
+.flip-card:hover .flip-card-front .front-title h4 {
+    transform: translateY(-2px);
+    letter-spacing: 0.5px;
 }
 
 /* === BACK SIDE === */
@@ -836,6 +960,12 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 @media (max-width: 768px) {
     .flip-card {
         height: 350px;
+        border-radius: 8px;
+    }
+    
+    /* Bento Gallery: Adjust hover effects for mobile */
+    .flip-card:hover {
+        transform: translateY(-4px) scale(1.01);
     }
     
     .flip-card-back {
