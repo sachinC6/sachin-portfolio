@@ -8,8 +8,36 @@ window.addEventListener("mousemove", (e) => {
     gsap.to(blur, { x: e.clientX - 100, y: e.clientY - 100, duration: 0.3 });
 });
 
-// 2. HERO REVEAL
-gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger: 0.3, ease: "power4.out" });
+// 2. HERO REVEAL - Enhanced with staggered content reveal
+const heroTimeline = gsap.timeline({ delay: 0.5 });
+heroTimeline
+    .to(".reveal-text", { 
+        filter: "blur(0px)", 
+        opacity: 1, 
+        y: 0,
+        duration: 1.5, 
+        stagger: 0.2, 
+        ease: "power4.out" 
+    })
+    .from(".hero-subtext .role-tag", {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out"
+    }, "-=0.5")
+    .from(".mission-statement", {
+        opacity: 0,
+        y: 20,
+        duration: 1,
+        ease: "power2.out"
+    }, "-=0.3")
+    .from(".scroll-indicator", {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: "power2.out"
+    }, "-=0.5");
 
 // 3. PROJECT CAROUSEL - MODULAR ROTATION SYSTEM
 (function setupCarousel() {
@@ -113,6 +141,8 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
     });
 })();
 
+// Old carousel code - commented out as it's replaced by the carousel above
+/*
     // ScrollTrigger for scroll-based control
     ScrollTrigger.create({
         trigger: ".gallery",
@@ -173,6 +203,7 @@ gsap.to(".reveal-text", { filter: "blur(0px)", opacity: 1, duration: 2, stagger:
         };
     }
 }
+*/
 
 // 4. CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
@@ -211,9 +242,20 @@ contactBox.addEventListener("click", function(e) {
 // PRELOADER
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
+    const main = document.getElementById('main');
+    
     if (preloader) {
         setTimeout(() => {
             preloader.classList.add('hidden');
+            
+            // Fade in main content after preloader
+            if (main) {
+                gsap.from(main, {
+                    opacity: 0,
+                    duration: 1,
+                    ease: 'power2.out'
+                });
+            }
         }, 1500);
     }
 });
@@ -296,6 +338,164 @@ let resizeTimer;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(initFlipCards, 250);
+});
+
+// === NAVBAR SCROLL EFFECT ===
+const navbar = document.querySelector('nav');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', () => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Add background and shadow when scrolled down
+    if (scrollTop > 100) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+    
+    lastScrollTop = scrollTop;
+});
+
+// === NAV LINK HOVER EFFECTS ===
+document.querySelectorAll('.nav-item').forEach(link => {
+    link.addEventListener('mouseenter', function() {
+        gsap.to(this, {
+            color: 'var(--accent)',
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+    
+    link.addEventListener('mouseleave', function() {
+        gsap.to(this, {
+            color: '#fff',
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+});
+
+// === SCROLL-BASED SECTION ANIMATIONS ===
+if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
+    // Animate all sections on scroll
+    gsap.utils.toArray('.section').forEach((section, index) => {
+        gsap.from(section, {
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 80%',
+                end: 'top 50%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            y: 60,
+            duration: 1,
+            ease: 'power3.out'
+        });
+    });
+    
+    // Animate skill badges
+    gsap.utils.toArray('.skill-badge').forEach((badge, index) => {
+        gsap.from(badge, {
+            scrollTrigger: {
+                trigger: badge,
+                start: 'top 90%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            scale: 0.8,
+            y: 20,
+            duration: 0.5,
+            delay: index * 0.05,
+            ease: 'back.out(1.7)'
+        });
+    });
+    
+    // Animate timeline items
+    gsap.utils.toArray('.timeline-item').forEach((item, index) => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            x: -50,
+            duration: 0.8,
+            delay: index * 0.2,
+            ease: 'power3.out'
+        });
+    });
+    
+    // Animate certification cards
+    gsap.utils.toArray('.cert-card').forEach((card, index) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            y: 50,
+            scale: 0.9,
+            duration: 0.6,
+            delay: index * 0.1,
+            ease: 'power2.out'
+        });
+    });
+    
+    // Animate achievement cards
+    gsap.utils.toArray('.achievement-card').forEach((card, index) => {
+        gsap.from(card, {
+            scrollTrigger: {
+                trigger: card,
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            x: -40,
+            duration: 0.7,
+            delay: index * 0.15,
+            ease: 'power3.out'
+        });
+    });
+}
+
+// === BUTTON HOVER EFFECTS ===
+document.querySelectorAll('.cta-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', function() {
+        gsap.to(this, {
+            scale: 1.05,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+    
+    btn.addEventListener('mouseleave', function() {
+        gsap.to(this, {
+            scale: 1,
+            duration: 0.3,
+            ease: 'power2.out'
+        });
+    });
+    
+    btn.addEventListener('mousedown', function() {
+        gsap.to(this, {
+            scale: 0.95,
+            duration: 0.1,
+            ease: 'power2.out'
+        });
+    });
+    
+    btn.addEventListener('mouseup', function() {
+        gsap.to(this, {
+            scale: 1.05,
+            duration: 0.2,
+            ease: 'power2.out'
+        });
+    });
 });
 
 // === IMAGE PLACEHOLDER FALLBACK ===
