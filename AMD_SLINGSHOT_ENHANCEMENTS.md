@@ -13,7 +13,7 @@ This document outlines the premium animation enhancements added to elevate the p
 **What it does:**
 - Buttons and navigation links follow the cursor when hovering
 - Creates an engaging, playful interaction
-- Uses elastic easing for natural bouncebackBoston
+- Uses elastic easing for natural bounceback
 
 **Implementation:**
 ```javascript
