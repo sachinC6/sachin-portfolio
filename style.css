@@ -1631,3 +1631,176 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
         font-size: 1.1rem;
     }
 }
+
+/* === AMD SLINGSHOT-LEVEL ENHANCEMENTS === */
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: auto; /* Overridden by JS for momentum */
+}
+
+/* Enhanced magnetic button styles */
+.cta-btn,
+.nav-item {
+    position: relative;
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Scroll progress bar glow */
+.scroll-progress {
+    box-shadow: 0 0 20px var(--accent), 0 0 40px rgba(0, 255, 204, 0.5);
+}
+
+/* Enhanced floating animation base */
+.flip-card,
+.cert-card,
+.achievement-card {
+    will-change: transform;
+}
+
+/* Image reveal wrapper */
+.img-reveal-wrapper {
+    overflow: hidden !important;
+    position: relative;
+}
+
+/* Premium blur effects on scroll */
+@supports (backdrop-filter: blur(10px)) {
+    nav.scrolled {
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+}
+
+/* Enhanced card shadows with multiple layers */
+.flip-card:hover,
+.cert-card:hover,
+.achievement-card:hover {
+    box-shadow: 
+        0 0 0 1px rgba(0, 255, 204, 0.1),
+        0 5px 20px rgba(0, 255, 204, 0.3),
+        0 10px 40px rgba(0, 255, 204, 0.2),
+        0 20px 80px rgba(0, 255, 204, 0.1);
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+    transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Enhanced button glow on hover */
+.cta-btn:hover {
+    box-shadow: 
+        0 0 20px rgba(0, 255, 204, 0.6),
+        0 0 40px rgba(0, 255, 204, 0.4),
+        0 0 60px rgba(0, 255, 204, 0.2),
+        0 5px 20px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.8);
+}
+
+/* Parallax section optimization */
+.section {
+    will-change: transform;
+}
+
+/* Premium gradient overlays */
+.content-card::before,
+.flip-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 255, 204, 0.05) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.content-card:hover::before,
+.flip-card:hover::before {
+    opacity: 1;
+}
+
+/* Enhanced skill badge effects */
+.skill-badge {
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-badge::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.skill-badge:hover::after {
+    width: 200%;
+    height: 200%;
+}
+
+/* Preloader enhancement */
+#preloader {
+    background: radial-gradient(circle at center, #0a0a0a 0%, var(--bg) 100%);
+}
+
+.loader-ring {
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+}
+
+/* Smooth hero text reveal */
+.reveal-text {
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Enhanced grid background */
+.bg-grid {
+    will-change: transform;
+    background-image: 
+        linear-gradient(var(--accent) 1px, transparent 1px),
+        linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridPulse 4s ease-in-out infinite;
+}
+
+@keyframes gridPulse {
+    0%, 100% { opacity: 0.15; }
+    50% { opacity: 0.08; }
+}
+
+/* Custom cursor enhancement */
+#custom-cursor {
+    mix-blend-mode: difference;
+    filter: drop-shadow(0 0 10px var(--accent));
+}
+
+#cursor-blur {
+    mix-blend-mode: screen;
+}
+
+/* Reduced motion support - AMD Slingshot level accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .scroll-progress,
+    .floating-animation {
+        display: none !important;
+    }
+}

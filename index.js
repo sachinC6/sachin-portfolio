@@ -642,3 +642,260 @@ if (typeof gsap !== 'undefined') {
         ease: 'power3.out'
     });
 }
+
+// === AMD SLINGSHOT-LEVEL ENHANCEMENTS ===
+
+// 1. SMOOTH SCROLL WITH MOMENTUM (Lenis-like behavior)
+(function initSmoothScroll() {
+    let scrollY = 0;
+    let targetScrollY = 0;
+    const smoothness = 0.1;
+    let rafId = null;
+
+    function smoothScrollUpdate() {
+        // Smooth interpolation
+        scrollY += (targetScrollY - scrollY) * smoothness;
+        
+        // Apply the scroll
+        if (Math.abs(targetScrollY - scrollY) > 0.5) {
+            window.scrollTo(0, scrollY);
+            rafId = requestAnimationFrame(smoothScrollUpdate);
+        } else {
+            scrollY = targetScrollY;
+            rafId = null;
+        }
+    }
+
+    // Listen to wheel events for smooth scrolling
+    window.addEventListener('wheel', (e) => {
+        targetScrollY = window.pageYOffset + e.deltaY * 0.8;
+        targetScrollY = Math.max(0, Math.min(targetScrollY, document.body.scrollHeight - window.innerHeight));
+        
+        if (!rafId) {
+            rafId = requestAnimationFrame(smoothScrollUpdate);
+        }
+    }, { passive: true });
+})();
+
+// 2. MAGNETIC BUTTON EFFECT
+(function initMagneticButtons() {
+    const buttons = document.querySelectorAll('.cta-btn, .nav-item');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(button, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            gsap.to(button, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.3)'
+            });
+        });
+    });
+})();
+
+// 3. PARALLAX BACKGROUND ELEMENTS
+(function initParallax() {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        // Parallax grid background
+        gsap.to('.bg-grid', {
+            yPercent: 30,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+        
+        // Parallax sections with different speeds
+        gsap.utils.toArray('.section').forEach((section, i) => {
+            const speed = (i % 2 === 0) ? 50 : -30;
+            
+            gsap.to(section, {
+                yPercent: speed,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        });
+    }
+})();
+
+// 4. TEXT REVEAL ON SCROLL (Split text animation)
+(function initTextReveal() {
+    if (typeof gsap !== 'undefined') {
+        const headings = document.querySelectorAll('h2, h3');
+        
+        headings.forEach(heading => {
+            // Skip if already animated
+            if (heading.closest('.hero')) return;
+            
+            const text = heading.textContent;
+            heading.innerHTML = '';
+            
+            // Split into characters
+            text.split('').forEach((char, i) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(20px)';
+                heading.appendChild(span);
+            });
+            
+            // Animate characters
+            const chars = heading.querySelectorAll('span');
+            gsap.to(chars, {
+                scrollTrigger: {
+                    trigger: heading,
+                    start: 'top 90%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.5,
+                stagger: 0.02,
+                ease: 'power3.out'
+            });
+        });
+    }
+})();
+
+// 5. FLOATING ANIMATION FOR CARDS
+(function initFloatingCards() {
+    if (typeof gsap !== 'undefined') {
+        document.querySelectorAll('.flip-card, .cert-card, .achievement-card').forEach((card, i) => {
+            gsap.to(card, {
+                y: '+=15',
+                duration: 2 + (i % 3) * 0.5,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut',
+                delay: i * 0.2
+            });
+        });
+    }
+})();
+
+// 6. ENHANCED CUSTOM CURSOR WITH MAGNETIC EFFECT
+(function enhanceCursor() {
+    const cursor = document.querySelector("#custom-cursor");
+    if (!cursor) return;
+    
+    // Add magnetic effect to interactive elements
+    const magneticElements = document.querySelectorAll('a, button, .skill-badge, .flip-card');
+    
+    magneticElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to(cursor, {
+                scale: 2.5,
+                backgroundColor: 'rgba(0, 255, 204, 0.3)',
+                duration: 0.3
+            });
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            gsap.to(cursor, {
+                scale: 1,
+                backgroundColor: 'var(--accent)',
+                duration: 0.3
+            });
+        });
+    });
+})();
+
+// 7. IMAGE REVEAL ANIMATIONS (Mask effect)
+(function initImageReveal() {
+    if (typeof gsap !== 'undefined') {
+        const images = document.querySelectorAll('.flip-card-front img, .cert-card img');
+        
+        images.forEach(img => {
+            // Wrap image in container if not already wrapped
+            if (!img.parentElement.classList.contains('img-reveal-wrapper')) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-reveal-wrapper';
+                wrapper.style.overflow = 'hidden';
+                wrapper.style.position = 'relative';
+                img.parentNode.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+                
+                // Create reveal overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'img-reveal-overlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.background = 'var(--bg)';
+                overlay.style.transformOrigin = 'left';
+                wrapper.appendChild(overlay);
+                
+                // Animate on scroll
+                gsap.to(overlay, {
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scaleX: 0,
+                    duration: 1,
+                    ease: 'power4.inOut'
+                });
+                
+                gsap.from(img, {
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scale: 1.3,
+                    duration: 1,
+                    ease: 'power4.out'
+                });
+            }
+        });
+    }
+})();
+
+// 8. SCROLL PROGRESS INDICATOR
+(function initScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), #00d4ff);
+        z-index: 10000;
+        transition: width 0.1s ease-out;
+    `;
+    document.body.appendChild(progressBar);
+    
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+})();
