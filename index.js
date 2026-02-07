@@ -642,3 +642,227 @@ if (typeof gsap !== 'undefined') {
         ease: 'power3.out'
     });
 }
+
+// === AMD SLINGSHOT-LEVEL ENHANCEMENTS ===
+
+// 1. SMOOTH SCROLL WITH MOMENTUM (Disabled for compatibility - using native smooth scroll)
+// Note: Advanced smooth scrolling can interfere with ScrollTrigger
+// Using CSS smooth-scroll-behavior instead for better compatibility
+
+// 2. MAGNETIC BUTTON EFFECT
+(function initMagneticButtons() {
+    const buttons = document.querySelectorAll('.cta-btn, .nav-item');
+    
+    buttons.forEach(button => {
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(button, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+        
+        button.addEventListener('mouseleave', () => {
+            gsap.to(button, {
+                x: 0,
+                y: 0,
+                duration: 0.5,
+                ease: 'elastic.out(1, 0.3)'
+            });
+        });
+    });
+})();
+
+// 3. PARALLAX BACKGROUND ELEMENTS (Subtle, non-conflicting)
+(function initParallax() {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        // Parallax grid background only
+        gsap.to('.bg-grid', {
+            yPercent: 20,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            }
+        });
+    }
+})();
+
+// 4. TEXT REVEAL ON SCROLL (Character-by-character animation)
+(function initTextReveal() {
+    if (typeof gsap !== 'undefined') {
+        // Only apply to section headings, not all headings
+        const headings = document.querySelectorAll('.section-label, .about-sec h3, #education h3, #experience h3');
+        
+        headings.forEach(heading => {
+            // Skip if already has children elements or is in hero
+            if (heading.children.length > 0 || heading.closest('.hero')) return;
+            
+            const text = heading.textContent;
+            const wordsArray = text.split(' ');
+            heading.innerHTML = '';
+            
+            // Split into words instead of characters for better readability
+            wordsArray.forEach((word, i) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word;
+                wordSpan.style.display = 'inline-block';
+                wordSpan.style.opacity = '0';
+                wordSpan.style.transform = 'translateY(20px)';
+                wordSpan.style.marginRight = '0.3em';
+                heading.appendChild(wordSpan);
+            });
+            
+            // Animate words
+            const wordSpans = heading.querySelectorAll('span');
+            gsap.to(wordSpans, {
+                scrollTrigger: {
+                    trigger: heading,
+                    start: 'top 90%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                stagger: 0.05,
+                ease: 'power3.out'
+            });
+        });
+    }
+})();
+
+// 5. FLOATING ANIMATION FOR CARDS (Subtle hover-based)
+(function initFloatingCards() {
+    if (typeof gsap !== 'undefined') {
+        // Only apply subtle floating on hover to avoid conflicts with scroll animations
+        document.querySelectorAll('.flip-card, .cert-card, .achievement-card').forEach((card) => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -10,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+            });
+        });
+    }
+})();
+
+// 6. ENHANCED CUSTOM CURSOR WITH MAGNETIC EFFECT
+(function enhanceCursor() {
+    const cursor = document.querySelector("#custom-cursor");
+    if (!cursor) return;
+    
+    // Add magnetic effect to interactive elements
+    const magneticElements = document.querySelectorAll('a, button, .skill-badge, .flip-card');
+    
+    magneticElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            gsap.to(cursor, {
+                scale: 2.5,
+                backgroundColor: 'rgba(0, 255, 204, 0.3)',
+                duration: 0.3
+            });
+        });
+        
+        el.addEventListener('mouseleave', () => {
+            gsap.to(cursor, {
+                scale: 1,
+                backgroundColor: 'var(--accent)',
+                duration: 0.3
+            });
+        });
+    });
+})();
+
+// 7. IMAGE REVEAL ANIMATIONS (Mask effect)
+(function initImageReveal() {
+    if (typeof gsap !== 'undefined') {
+        const images = document.querySelectorAll('.flip-card-front img, .cert-card img');
+        
+        images.forEach(img => {
+            // Wrap image in container if not already wrapped
+            if (!img.parentElement.classList.contains('img-reveal-wrapper')) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'img-reveal-wrapper';
+                wrapper.style.overflow = 'hidden';
+                wrapper.style.position = 'relative';
+                img.parentNode.insertBefore(wrapper, img);
+                wrapper.appendChild(img);
+                
+                // Create reveal overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'img-reveal-overlay';
+                overlay.style.position = 'absolute';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.background = 'var(--bg)';
+                overlay.style.transformOrigin = 'left';
+                wrapper.appendChild(overlay);
+                
+                // Animate on scroll
+                gsap.to(overlay, {
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scaleX: 0,
+                    duration: 1,
+                    ease: 'power4.inOut'
+                });
+                
+                gsap.from(img, {
+                    scrollTrigger: {
+                        trigger: wrapper,
+                        start: 'top 85%',
+                        toggleActions: 'play none none reverse'
+                    },
+                    scale: 1.3,
+                    duration: 1,
+                    ease: 'power4.out'
+                });
+            }
+        });
+    }
+})();
+
+// 8. SCROLL PROGRESS INDICATOR
+(function initScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    progressBar.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent), #00d4ff);
+        z-index: 10000;
+        transition: width 0.1s ease-out;
+    `;
+    document.body.appendChild(progressBar);
+    
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+    });
+})();
