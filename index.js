@@ -645,37 +645,9 @@ if (typeof gsap !== 'undefined') {
 
 // === AMD SLINGSHOT-LEVEL ENHANCEMENTS ===
 
-// 1. SMOOTH SCROLL WITH MOMENTUM (Lenis-like behavior)
-(function initSmoothScroll() {
-    let scrollY = 0;
-    let targetScrollY = 0;
-    const smoothness = 0.1;
-    let rafId = null;
-
-    function smoothScrollUpdate() {
-        // Smooth interpolation
-        scrollY += (targetScrollY - scrollY) * smoothness;
-        
-        // Apply the scroll
-        if (Math.abs(targetScrollY - scrollY) > 0.5) {
-            window.scrollTo(0, scrollY);
-            rafId = requestAnimationFrame(smoothScrollUpdate);
-        } else {
-            scrollY = targetScrollY;
-            rafId = null;
-        }
-    }
-
-    // Listen to wheel events for smooth scrolling
-    window.addEventListener('wheel', (e) => {
-        targetScrollY = window.pageYOffset + e.deltaY * 0.8;
-        targetScrollY = Math.max(0, Math.min(targetScrollY, document.body.scrollHeight - window.innerHeight));
-        
-        if (!rafId) {
-            rafId = requestAnimationFrame(smoothScrollUpdate);
-        }
-    }, { passive: true });
-})();
+// 1. SMOOTH SCROLL WITH MOMENTUM (Disabled for compatibility - using native smooth scroll)
+// Note: Advanced smooth scrolling can interfere with ScrollTrigger
+// Using CSS smooth-scroll-behavior instead for better compatibility
 
 // 2. MAGNETIC BUTTON EFFECT
 (function initMagneticButtons() {
@@ -706,64 +678,51 @@ if (typeof gsap !== 'undefined') {
     });
 })();
 
-// 3. PARALLAX BACKGROUND ELEMENTS
+// 3. PARALLAX BACKGROUND ELEMENTS (Subtle, non-conflicting)
 (function initParallax() {
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        // Parallax grid background
+        // Parallax grid background only
         gsap.to('.bg-grid', {
-            yPercent: 30,
+            yPercent: 20,
             ease: 'none',
             scrollTrigger: {
                 trigger: 'body',
                 start: 'top top',
                 end: 'bottom top',
-                scrub: true
+                scrub: 1
             }
-        });
-        
-        // Parallax sections with different speeds
-        gsap.utils.toArray('.section').forEach((section, i) => {
-            const speed = (i % 2 === 0) ? 50 : -30;
-            
-            gsap.to(section, {
-                yPercent: speed,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: section,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1
-                }
-            });
         });
     }
 })();
 
-// 4. TEXT REVEAL ON SCROLL (Split text animation)
+// 4. TEXT REVEAL ON SCROLL (Character-by-character animation)
 (function initTextReveal() {
     if (typeof gsap !== 'undefined') {
-        const headings = document.querySelectorAll('h2, h3');
+        // Only apply to section headings, not all headings
+        const headings = document.querySelectorAll('.section-label, .about-sec h3, #education h3, #experience h3');
         
         headings.forEach(heading => {
-            // Skip if already animated
-            if (heading.closest('.hero')) return;
+            // Skip if already has children elements or is in hero
+            if (heading.children.length > 0 || heading.closest('.hero')) return;
             
             const text = heading.textContent;
+            const wordsArray = text.split(' ');
             heading.innerHTML = '';
             
-            // Split into characters
-            text.split('').forEach((char, i) => {
-                const span = document.createElement('span');
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                span.style.display = 'inline-block';
-                span.style.opacity = '0';
-                span.style.transform = 'translateY(20px)';
-                heading.appendChild(span);
+            // Split into words instead of characters for better readability
+            wordsArray.forEach((word, i) => {
+                const wordSpan = document.createElement('span');
+                wordSpan.textContent = word;
+                wordSpan.style.display = 'inline-block';
+                wordSpan.style.opacity = '0';
+                wordSpan.style.transform = 'translateY(20px)';
+                wordSpan.style.marginRight = '0.3em';
+                heading.appendChild(wordSpan);
             });
             
-            // Animate characters
-            const chars = heading.querySelectorAll('span');
-            gsap.to(chars, {
+            // Animate words
+            const wordSpans = heading.querySelectorAll('span');
+            gsap.to(wordSpans, {
                 scrollTrigger: {
                     trigger: heading,
                     start: 'top 90%',
@@ -771,25 +730,33 @@ if (typeof gsap !== 'undefined') {
                 },
                 opacity: 1,
                 y: 0,
-                duration: 0.5,
-                stagger: 0.02,
+                duration: 0.6,
+                stagger: 0.05,
                 ease: 'power3.out'
             });
         });
     }
 })();
 
-// 5. FLOATING ANIMATION FOR CARDS
+// 5. FLOATING ANIMATION FOR CARDS (Subtle hover-based)
 (function initFloatingCards() {
     if (typeof gsap !== 'undefined') {
-        document.querySelectorAll('.flip-card, .cert-card, .achievement-card').forEach((card, i) => {
-            gsap.to(card, {
-                y: '+=15',
-                duration: 2 + (i % 3) * 0.5,
-                repeat: -1,
-                yoyo: true,
-                ease: 'sine.inOut',
-                delay: i * 0.2
+        // Only apply subtle floating on hover to avoid conflicts with scroll animations
+        document.querySelectorAll('.flip-card, .cert-card, .achievement-card').forEach((card) => {
+            card.addEventListener('mouseenter', function() {
+                gsap.to(this, {
+                    y: -10,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                gsap.to(this, {
+                    y: 0,
+                    duration: 0.6,
+                    ease: 'power2.out'
+                });
             });
         });
     }
