@@ -15,7 +15,7 @@ html {
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; cursor: none; }
-body { background: var(--bg); color: #fff; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text-color); overflow-x: hidden; }
 
 /* === PRELOADER === */
 #preloader {
@@ -82,6 +82,12 @@ body { background: var(--bg); color: #fff; overflow-x: hidden; }
 #cursor-blur {
     width: 200px; height: 200px; background: rgba(0, 255, 204, 0.05);
     filter: blur(80px); position: fixed; pointer-events: none; z-index: 9998;
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) {
+    * { cursor: auto !important; }
+    #custom-cursor, #cursor-blur { display: none !important; }
 }
 
 /* --- BG GRID & SCANLINE --- */
@@ -222,8 +228,12 @@ nav.scrolled {
 :root[data-theme="light"] {
     --accent: #00cc99;
     --bg: #f5f5f5;
-    --card-bg: rgba(0, 0, 0, 0.02);
-    --text-color: #000;
+    --card-bg: rgba(0, 0, 0, 0.04);
+    --text-color: #111111;
+    --text-primary: #111111;
+    --text-secondary: #555555;
+    --text-tertiary: #777777;
+    --text-accent: #00a87a;
 }
 
 :root[data-theme="light"] body {
@@ -232,7 +242,108 @@ nav.scrolled {
 }
 
 :root[data-theme="light"] .bg-grid {
-    opacity: 0.05;
+    opacity: 0.04;
+}
+
+:root[data-theme="light"] nav {
+    background: rgba(245, 245, 245, 0.9);
+    border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] nav.scrolled {
+    background: rgba(245, 245, 245, 0.98);
+    border-bottom-color: rgba(0, 168, 122, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .nav-item {
+    color: var(--text-color);
+}
+
+:root[data-theme="light"] .scanline {
+    opacity: 0.03;
+}
+
+:root[data-theme="light"] .content-card {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .timeline-content {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .timeline-content:hover {
+    background: rgba(0, 168, 122, 0.04);
+}
+
+:root[data-theme="light"] .cert-card,
+:root[data-theme="light"] .achievement-card {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .skill-badge {
+    background: rgba(0, 0, 0, 0.04);
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #444;
+}
+
+:root[data-theme="light"] .flip-card-back .project-desc {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+:root[data-theme="light"] .flip-card-front {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(240, 240, 240, 0.95));
+}
+
+:root[data-theme="light"] .flip-card-back {
+    background: linear-gradient(135deg, rgba(0, 204, 153, 0.08), rgba(0, 100, 100, 0.05));
+}
+
+:root[data-theme="light"] .footer-sec {
+    background: #e8e8e8;
+}
+
+:root[data-theme="light"] .big-link {
+    color: var(--text-color);
+}
+
+:root[data-theme="light"] .hover-link {
+    color: #555;
+}
+
+:root[data-theme="light"] .footer-big-text {
+    color: rgba(0, 0, 0, 0.04);
+}
+
+:root[data-theme="light"] .footer-meta {
+    color: #888;
+}
+
+:root[data-theme="light"] .contact-card-mini {
+    background: rgba(0, 0, 0, 0.03);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+:root[data-theme="light"] .nav-links {
+    background: rgba(245, 245, 245, 0.98);
+    border-left-color: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .menu-btn {
+    border-color: rgba(0, 0, 0, 0.2);
+}
+
+:root[data-theme="light"] .hamburger,
+:root[data-theme="light"] .hamburger::before,
+:root[data-theme="light"] .hamburger::after {
+    background: var(--text-color);
+}
+
+:root[data-theme="light"] .theme-btn {
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 .theme-btn {
@@ -251,7 +362,7 @@ nav.scrolled {
 }
 
 .nav-item {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
     transition: color 0.3s;
     cursor: pointer;
@@ -1217,37 +1328,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     }
 }
 
-/* --- FOOTER SPECIFIC STYLES --- */
-.footer-sec {
-    background: #050505;
-    padding: 150px 5% 40px 5% !important;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
-    margin-bottom: 80px;
-}
-
-.footer-heading {
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 25px;
-}
-
-.status-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 15px;
-    background: rgba(255,255,255,0.03);
-    width: fit-content;
-    border-radius: 2px;
-}
-
 /* === RESUME DOWNLOAD === */
 .resume-download {
     margin-top: 20px;
@@ -1280,40 +1360,6 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     font-size: 1.2rem;
 }
 
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background: #00ffcc;
-    border-radius: 50%;
-    box-shadow: 0 0 10px #00ffcc;
-    animation: pulse 2s infinite;
-}
-
-.contact-card-mini {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 40px;
-    border-radius: 4px;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.contact-card-mini:hover {
-    background: rgba(255,255,255,0.04);
-    border-color: #00ffcc;
-}
-
-.big-link {
-    font-size: clamp(1.2rem, 3vw, 2.2rem);
-    font-weight: 800;
-    color: #fff;
-    text-decoration: none;
-    display: block;
-    margin: 10px 0;
-}
-
 .hover-link {
     color: #888;
     text-decoration: none;
@@ -1322,7 +1368,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
     transition: 0.3s;
 }
 
-.hover-link:hover { color: #00ffcc; }
+.hover-link:hover { color: var(--accent); }
 
 /* --- FOOTER SPECIFIC STYLES --- */
 .footer-sec {
@@ -1388,7 +1434,7 @@ iframe { width: 100%; height: 100%; border: none; filter: invert(0.9) hue-rotate
 .big-link {
     font-size: 2rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
     display: block;
     margin: 15px 0;
