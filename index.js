@@ -1,5 +1,8 @@
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
+// Check for reduced motion preference (accessibility)
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // 1. CUSTOM CURSOR
 const cursor = document.querySelector("#custom-cursor");
 const blur = document.querySelector("#cursor-blur");
@@ -15,29 +18,29 @@ heroTimeline
         filter: "blur(0px)", 
         opacity: 1, 
         y: 0,
-        duration: 1.5, 
-        stagger: 0.2, 
+        duration: 1, 
+        stagger: 0.15, 
         ease: "power4.out" 
     })
     .from(".hero-subtext .role-tag", {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.15,
+        y: 20,
+        duration: 0.6,
+        stagger: 0.1,
         ease: "power3.out"
-    }, "-=0.5")
+    }, "-=0.4")
     .from(".mission-statement", {
         opacity: 0,
-        y: 20,
-        duration: 1,
+        y: 15,
+        duration: 0.6,
         ease: "power2.out"
     }, "-=0.3")
     .from(".scroll-indicator", {
         opacity: 0,
-        y: 20,
-        duration: 0.8,
+        y: 15,
+        duration: 0.5,
         ease: "power2.out"
-    }, "-=0.5");
+    }, "-=0.3");
 
 // 3. PROJECT CAROUSEL - MODULAR ROTATION SYSTEM
 (function setupCarousel() {
@@ -211,7 +214,7 @@ window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration:
 // Click Ripple Effect for Contact Card
 const contactBox = document.querySelector("#contact-trigger");
 
-contactBox.addEventListener("click", function(e) {
+if (contactBox) contactBox.addEventListener("click", function(e) {
     const ripple = document.createElement("span");
     this.appendChild(ripple);
 
@@ -370,7 +373,7 @@ document.querySelectorAll('.nav-item').forEach(link => {
     
     link.addEventListener('mouseleave', function() {
         gsap.to(this, {
-            color: '#fff',
+            color: getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#fff',
             scale: 1,
             duration: 0.3,
             ease: 'power2.out'
@@ -531,9 +534,7 @@ const BENTO_CONFIG = {
     DISABLE_MOBILE_TILT: true     // Disable tilt on mobile for performance
 };
 
-// Check for reduced motion preference (accessibility)
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+// Check for reduced motion preference (accessibility) - declared at top of file
 // Bento Gallery Animations
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
     const isMobile = window.innerWidth <= 768;
