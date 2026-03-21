@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger, Draggable);
+gsap.registerPlugin(ScrollTrigger);
 
 // Check for reduced motion preference (accessibility)
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -42,173 +42,8 @@ heroTimeline
         ease: "power2.out"
     }, "-=0.3");
 
-// 3. PROJECT CAROUSEL - MODULAR ROTATION SYSTEM
-(function setupCarousel() {
-    const slides = Array.from(document.querySelectorAll('.cards li'));
-    if (!slides.length) return;
-    
-    const CONFIG = {
-        slideCount: slides.length,
-        intervalSize: 0.15,
-        viewportPin: 3000,
-        mouseMultiplier: 0.0008
-    };
-    
-    // Setup initial positions
-    slides.forEach(item => {
-        gsap.set(item, { x: '400%', opacity: 0, scale: 0.3 });
-    });
-    
-    // Individual slide animation generator
-    function generateSlideMotion(element) {
-        const tween = gsap.timeline();
-        tween.to(element, {
-            opacity: 1,
-            scale: 1,
-            duration: 0.4,
-            ease: 'back.out(1.7)'
-        }).to(element, {
-            x: '-400%',
-            duration: 0.8,
-            ease: 'linear'
-        }, 0.2);
-        return tween;
-    }
-    
-    // Circular sequence builder using modular indexing
-    function assembleLoopSequence() {
-        const master = gsap.timeline({ paused: true });
-        const wrapper = gsap.timeline({
-            paused: true,
-            repeat: -1,
-            onRepeat: function() {
-                // Prevent timeline jump at loop boundary using public API
-                const currentTime = this.time();
-                const totalDuration = this.duration();
-                if (currentTime >= totalDuration - 0.001) {
-                    this.totalTime(this.totalTime() + totalDuration - 0.002);
-                }
-            }
-        });
-        
-        // Build extended sequence with wraparound
-        const extended = CONFIG.slideCount * 3;
-        for (let i = 0; i < extended; i++) {
-            const slideIdx = i % CONFIG.slideCount;
-            master.add(generateSlideMotion(slides[slideIdx]), i * CONFIG.intervalSize);
-        }
-        
-        const startPoint = CONFIG.slideCount * CONFIG.intervalSize;
-        const endPoint = CONFIG.slideCount * CONFIG.intervalSize * 2;
-        
-        wrapper.fromTo(master, 
-            { time: startPoint },
-            { time: endPoint, duration: endPoint - startPoint, ease: 'none' }
-        );
-        
-        return wrapper;
-    }
-    
-    const loopController = assembleLoopSequence();
-    const snapToInterval = gsap.utils.snap(CONFIG.intervalSize);
-    
-    // Shared drag calculation logic
-    function calculateDragPosition(deltaX) {
-        const shift = deltaX * CONFIG.mouseMultiplier;
-        return snapToInterval(loopController.time() - shift);
-    }
-    
-    // Scroll integration with pinning
-    ScrollTrigger.create({
-        trigger: '.gallery-wrapper',
-        start: 'top top',
-        end: `+=${CONFIG.viewportPin}`,
-        pin: true,
-        scrub: 1,
-        onUpdate: function(instance) {
-            const advancement = instance.progress * loopController.duration();
-            loopController.time(snapToInterval(advancement));
-        }
-    });
-    
-    // Drag interaction handler
-    Draggable.create('.gallery-wrapper', {
-        type: 'x',
-        inertia: true,
-        onDrag: function() {
-            loopController.time(calculateDragPosition(this.deltaX));
-        },
-        onThrowUpdate: function() {
-            loopController.time(calculateDragPosition(this.deltaX));
-        }
-    });
-})();
 
-// Old carousel code - commented out as it's replaced by the carousel above
-/*
-    // ScrollTrigger for scroll-based control
-    ScrollTrigger.create({
-        trigger: ".gallery",
-        start: "top top",
-        end: "+=3000",
-        pin: true,
-        onUpdate(self) {
-            scrub.vars.offset = self.progress * seamlessLoop.duration();
-            scrub.invalidate().restart();
-        }
-    });
-
-    // Draggable for mouse/touch control
-    const proxy = document.createElement("div");
-    let draggable = Draggable.create(proxy, {
-        type: "x",
-        trigger: ".cards",
-        onDrag: function() {
-            scrub.vars.offset += -this.deltaX * 0.001;
-            scrub.invalidate().restart();
-        },
-        onDragEnd: function() {
-            // Snap to nearest card
-            let offset = scrub.vars.offset;
-            let snapOffset = Math.round(offset / spacing) * spacing;
-            gsap.to(playhead, {
-                offset: snapOffset,
-                duration: 0.5,
-                ease: "power2.out",
-                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
-            });
-        }
-    })[0];
-
-    // PREV/NEXT button controls with snapping
-    const nextBtn = document.querySelector(".next");
-    const prevBtn = document.querySelector(".prev");
-
-    if (nextBtn) {
-        nextBtn.onclick = () => {
-            gsap.to(playhead, {
-                offset: playhead.offset + spacing,
-                duration: 0.5,
-                ease: "power2.out",
-                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
-            });
-        };
-    }
-
-    if (prevBtn) {
-        prevBtn.onclick = () => {
-            gsap.to(playhead, {
-                offset: playhead.offset - spacing,
-                duration: 0.5,
-                ease: "power2.out",
-                onUpdate: () => seamlessLoop.time(wrapTime(playhead.offset))
-            });
-        };
-    }
-}
-*/
-
-// 4. CLICK RIPPLE (DO NOT REMOVE)
+// CLICK RIPPLE (DO NOT REMOVE)
 window.addEventListener("mousedown", () => gsap.to(cursor, { scale: 2, duration: 0.2, yoyo: true, repeat: 1 }));
 
 // Click Ripple Effect for Contact Card
@@ -259,7 +94,7 @@ window.addEventListener('load', () => {
                     ease: 'power2.out'
                 });
             }
-        }, 1500);
+        }, 200);
     }
 });
 
@@ -358,7 +193,7 @@ window.addEventListener('scroll', () => {
     }
     
     lastScrollTop = scrollTop;
-});
+}, { passive: true });
 
 // === NAV LINK HOVER EFFECTS ===
 document.querySelectorAll('.nav-item').forEach(link => {
@@ -526,107 +361,23 @@ document.addEventListener('DOMContentLoaded', () => {
  * NOTE: Parallax scroll effect removed to avoid transform conflicts with hover lift and tilt
  */
 
-// Configuration for easy tuning
-const BENTO_CONFIG = {
-    ROTATION_SENSITIVITY: 20,     // Controls 3D tilt responsiveness
-    REVEAL_DURATION: 0.8,         // Card reveal animation duration
-    STAGGER_DELAY: 0.1,           // Delay between each card animation
-    DISABLE_MOBILE_TILT: true     // Disable tilt on mobile for performance
-};
-
-// Check for reduced motion preference (accessibility) - declared at top of file
-// Bento Gallery Animations
+// Bento Gallery - scroll-based card reveal
 if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && !prefersReducedMotion) {
-    const isMobile = window.innerWidth <= 768;
-    
-    // 1. SCROLL-BASED REVEAL ANIMATION
-    /* All cards animate in with stagger as user scrolls to projects section */
     gsap.utils.toArray('.flip-card').forEach((card, index) => {
-        const timeline = gsap.timeline({
+        gsap.from(card, {
             scrollTrigger: {
                 trigger: card,
                 start: 'top 85%',
-                end: 'top 65%',
                 toggleActions: 'play none none reverse',
-            }
-        });
-        
-        // Reveal animation with fade, lift, and scale
-        timeline.from(card, {
+            },
             y: 60,
             opacity: 0,
             scale: 0.9,
-            duration: BENTO_CONFIG.REVEAL_DURATION,
-            delay: index * BENTO_CONFIG.STAGGER_DELAY,
+            duration: 0.8,
+            delay: index * 0.1,
             ease: 'power3.out'
         });
     });
-
-    // 2. SUBTLE PARALLAX SCROLL EFFECT - DISABLED
-    /* 
-     * REMOVED: Parallax effect was causing transform conflicts with hover lift and 3D tilt
-     * Reason: Multiple transforms on same element can override each other
-     * For parallax, would need a wrapper element approach
-     */
-    // gsap.utils.toArray('.flip-card').forEach((card, index) => {
-    //     const direction = index % 2 === 0 ? 1 : -1;
-    //     gsap.to(card, {
-    //         y: direction * BENTO_CONFIG.PARALLAX_AMOUNT,
-    //         scrollTrigger: {
-    //             trigger: '.projects-grid',
-    //             start: 'top bottom',
-    //             end: 'bottom top',
-    //             scrub: 1,
-    //         }
-    //     });
-    // });
-
-    // 2. 3D TILT ON HOVER (Desktop Only)
-    /* Mouse movement creates interactive 3D tilt effect */
-    if (!isMobile || !BENTO_CONFIG.DISABLE_MOBILE_TILT) {
-        document.querySelectorAll('.flip-card').forEach(card => {
-            let tiltTimeline = null;
-            
-            card.addEventListener('mousemove', (e) => {
-                // Don't tilt if card is flipped - early return to avoid unnecessary calculations
-                const isFlipped = card.classList.contains('flipped');
-                if (isFlipped) return;
-                
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                // Calculate rotation based on mouse position
-                const rotateX = (y - centerY) / BENTO_CONFIG.ROTATION_SENSITIVITY;
-                const rotateY = (centerX - x) / BENTO_CONFIG.ROTATION_SENSITIVITY;
-                
-                // Apply tilt to wrapper (separate from flip transformation)
-                if (tiltTimeline) tiltTimeline.kill();
-                tiltTimeline = gsap.to(card, {
-                    rotationX: rotateX,
-                    rotationY: rotateY,
-                    duration: 0.3,
-                    ease: 'power2.out',
-                    transformPerspective: 1000,
-                    transformStyle: 'preserve-3d'
-                });
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                // Reset tilt smoothly
-                if (tiltTimeline) tiltTimeline.kill();
-                tiltTimeline = gsap.to(card, {
-                    rotationX: 0,
-                    rotationY: 0,
-                    duration: 0.5,
-                    ease: 'power2.out'
-                });
-            });
-        });
-    }
 }
 
 // 3. PROJECTS GRID REVEAL
@@ -643,206 +394,6 @@ if (typeof gsap !== 'undefined') {
         ease: 'power3.out'
     });
 }
-
-// === AMD SLINGSHOT-LEVEL ENHANCEMENTS ===
-
-// 1. SMOOTH SCROLL WITH MOMENTUM (Disabled for compatibility - using native smooth scroll)
-// Note: Advanced smooth scrolling can interfere with ScrollTrigger
-// Using CSS smooth-scroll-behavior instead for better compatibility
-
-// 2. MAGNETIC BUTTON EFFECT
-(function initMagneticButtons() {
-    const buttons = document.querySelectorAll('.cta-btn, .nav-item');
-    
-    buttons.forEach(button => {
-        button.addEventListener('mousemove', (e) => {
-            const rect = button.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            
-            gsap.to(button, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-        
-        button.addEventListener('mouseleave', () => {
-            gsap.to(button, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: 'elastic.out(1, 0.3)'
-            });
-        });
-    });
-})();
-
-// 3. PARALLAX BACKGROUND ELEMENTS (Subtle, non-conflicting)
-(function initParallax() {
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        // Parallax grid background only
-        gsap.to('.bg-grid', {
-            yPercent: 20,
-            ease: 'none',
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            }
-        });
-    }
-})();
-
-// 4. TEXT REVEAL ON SCROLL (Character-by-character animation)
-(function initTextReveal() {
-    if (typeof gsap !== 'undefined') {
-        // Only apply to section headings, not all headings
-        const headings = document.querySelectorAll('.section-label, .about-sec h3, #education h3, #experience h3');
-        
-        headings.forEach(heading => {
-            // Skip if already has children elements or is in hero
-            if (heading.children.length > 0 || heading.closest('.hero')) return;
-            
-            const text = heading.textContent;
-            const wordsArray = text.split(' ');
-            heading.innerHTML = '';
-            
-            // Split into words instead of characters for better readability
-            wordsArray.forEach((word, i) => {
-                const wordSpan = document.createElement('span');
-                wordSpan.textContent = word;
-                wordSpan.style.display = 'inline-block';
-                wordSpan.style.opacity = '0';
-                wordSpan.style.transform = 'translateY(20px)';
-                wordSpan.style.marginRight = '0.3em';
-                heading.appendChild(wordSpan);
-            });
-            
-            // Animate words
-            const wordSpans = heading.querySelectorAll('span');
-            gsap.to(wordSpans, {
-                scrollTrigger: {
-                    trigger: heading,
-                    start: 'top 90%',
-                    toggleActions: 'play none none reverse'
-                },
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                stagger: 0.05,
-                ease: 'power3.out'
-            });
-        });
-    }
-})();
-
-// 5. FLOATING ANIMATION FOR CARDS (Subtle hover-based)
-(function initFloatingCards() {
-    if (typeof gsap !== 'undefined') {
-        // Only apply subtle floating on hover to avoid conflicts with scroll animations
-        document.querySelectorAll('.flip-card, .cert-card, .achievement-card').forEach((card) => {
-            card.addEventListener('mouseenter', function() {
-                gsap.to(this, {
-                    y: -10,
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                gsap.to(this, {
-                    y: 0,
-                    duration: 0.6,
-                    ease: 'power2.out'
-                });
-            });
-        });
-    }
-})();
-
-// 6. ENHANCED CUSTOM CURSOR WITH MAGNETIC EFFECT
-(function enhanceCursor() {
-    const cursor = document.querySelector("#custom-cursor");
-    if (!cursor) return;
-    
-    // Add magnetic effect to interactive elements
-    const magneticElements = document.querySelectorAll('a, button, .skill-badge, .flip-card');
-    
-    magneticElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            gsap.to(cursor, {
-                scale: 2.5,
-                backgroundColor: 'rgba(0, 255, 204, 0.3)',
-                duration: 0.3
-            });
-        });
-        
-        el.addEventListener('mouseleave', () => {
-            gsap.to(cursor, {
-                scale: 1,
-                backgroundColor: 'var(--accent)',
-                duration: 0.3
-            });
-        });
-    });
-})();
-
-// 7. IMAGE REVEAL ANIMATIONS (Mask effect)
-(function initImageReveal() {
-    if (typeof gsap !== 'undefined') {
-        const images = document.querySelectorAll('.flip-card-front img, .cert-card img');
-        
-        images.forEach(img => {
-            // Wrap image in container if not already wrapped
-            if (!img.parentElement.classList.contains('img-reveal-wrapper')) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'img-reveal-wrapper';
-                wrapper.style.overflow = 'hidden';
-                wrapper.style.position = 'relative';
-                img.parentNode.insertBefore(wrapper, img);
-                wrapper.appendChild(img);
-                
-                // Create reveal overlay
-                const overlay = document.createElement('div');
-                overlay.className = 'img-reveal-overlay';
-                overlay.style.position = 'absolute';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
-                overlay.style.background = 'var(--bg)';
-                overlay.style.transformOrigin = 'left';
-                wrapper.appendChild(overlay);
-                
-                // Animate on scroll
-                gsap.to(overlay, {
-                    scrollTrigger: {
-                        trigger: wrapper,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    },
-                    scaleX: 0,
-                    duration: 1,
-                    ease: 'power4.inOut'
-                });
-                
-                gsap.from(img, {
-                    scrollTrigger: {
-                        trigger: wrapper,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    },
-                    scale: 1.3,
-                    duration: 1,
-                    ease: 'power4.out'
-                });
-            }
-        });
-    }
-})();
 
 // 8. SCROLL PROGRESS INDICATOR
 (function initScrollProgress() {
@@ -865,5 +416,5 @@ if (typeof gsap !== 'undefined') {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
         progressBar.style.width = scrolled + '%';
-    });
+    }, { passive: true });
 })();
