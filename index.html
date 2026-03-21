@@ -1,577 +1,171 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sachin Chandra | EC-VLSI</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Sachin Chandra - Electronics Engineering student specializing in VLSI Design, Embedded Systems, and FPGA. Explore my portfolio of hardware-software integration projects.">
-    <meta name="keywords" content="VLSI, Embedded Systems, FPGA, STM32, Electronics Engineering, PCB Design, Hardware Design, MicroPython, IoT">
-    <meta name="author" content="Sachin Chandra">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sachinc6.github.io/sachin-portfolio/">
-    <meta property="og:title" content="Sachin Chandra | VLSI & Embedded Systems Engineer">
-    <meta property="og:description" content="Electronics Engineering student specializing in VLSI Design, Embedded Systems, and FPGA. Portfolio showcasing real-world hardware-software projects.">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Sachin Chandra | VLSI & Embedded Systems Engineer">
-    <meta property="twitter:description" content="Electronics Engineering student specializing in VLSI Design, Embedded Systems, and FPGA.">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sachin Chandra — IoT & Embedded Systems</title>
+  <meta name="description" content="Sachin Chandra — IoT & Embedded Systems Developer. Portfolio featuring embedded, IoT, and hardware–software projects." />
+  <meta name="author" content="Sachin Chandra" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Sachin Chandra — IoT & Embedded Systems Developer" />
+  <meta property="og:description" content="Portfolio featuring embedded, IoT, and hardware–software projects." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#content">Skip to content</a>
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="loader-content">
-            <div class="loader-ring"></div>
-            <p class="loader-text">INITIALIZING<span class="dots"></span></p>
+  <header class="site-header">
+    <nav class="nav container" aria-label="Primary">
+      <a class="brand" href="#top">Sachin <span class="brand-accent">Chandra</span></a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+        <span class="nav-toggle-label">Menu</span>
+        <span class="nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+
+      <div class="nav-links" id="nav-links">
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#skills">Skills</a>
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link nav-link-cta" href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="section hero" id="top">
+      <div class="container hero-inner">
+        <p class="eyebrow">Embedded • IoT • Hardware–Software</p>
+        <h1 class="hero-title">IoT &amp; Embedded Systems Developer</h1>
+        <p class="hero-subtitle">I build real-world hardware–software integrated projects and strengthen fundamentals in electronics, programming, and system design.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#projects">View Projects</a>
+          <a class="btn btn-ghost" href="#contact">Contact</a>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div id="custom-cursor"></div>
-    <div id="cursor-blur"></div>
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Projects</h2>
+          <p class="section-desc">A small selection of work in embedded systems and IoT.</p>
+        </div>
 
-    <div class="bg-grid"></div>
-    <div class="scanline"></div>
-
-    <main id="main">
-        <nav>
-            <div class="logo">SACHIN <span class="accent">CHANDRA</span></div>
-            <button id="theme-toggle" class="theme-btn" aria-label="Toggle dark/light mode">
-                <span class="theme-icon">🔆</span>
-            </button>
-            <button id="menu-toggle" class="menu-btn" aria-label="Toggle menu">
-                <span class="hamburger"></span>
-            </button>
-            <div class="nav-links">
-                <a href="#main" class="nav-item">Home</a>
-                <a href="#about" class="nav-item">About</a>
-                <a href="#education" class="nav-item">Education</a>
-                <a href="#experience" class="nav-item">Experience</a>
-                <a href="#certifications" class="nav-item">Certifications</a>
-                <a href="#achievements" class="nav-item">Achievements</a>
-                <a href="#projects" class="nav-item">Projects</a>
-                <a href="#contact" class="cta-btn">Contact</a>
+        <div class="grid" role="list">
+          <article class="card" role="listitem">
+            <h3 class="card-title">IoT Weather Station</h3>
+            <p class="card-desc">Real-time sensing + data logging with microcontroller firmware and a lightweight cloud pipeline.</p>
+            <div class="card-meta">
+              <span class="tag">STM32</span><span class="tag">C</span><span class="tag">IoT</span>
             </div>
-        </nav>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
 
-        <section class="hero">
-            <div class="hero-content">
-                <div class="line-wrapper"><h1 class="reveal-text">Sachin</h1></div>
-                <div class="line-wrapper"><h1 class="reveal-text">Chandra</h1></div>
-                <p class="hero-subtext">
-                    <span class="role-tag">VLSI Engineer</span>
-                    <span class="role-tag">Embedded Systems</span>
-                    <span class="role-tag">FPGA Developer</span>
-                </p>
-                <p class="mission-statement">Innovating at the intersection of hardware and software to build next-generation intelligent systems</p>
+          <article class="card" role="listitem">
+            <h3 class="card-title">FPGA Image Processor</h3>
+            <p class="card-desc">Edge detection / filtering using RTL for low-latency, parallel processing.</p>
+            <div class="card-meta">
+              <span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Xilinx</span>
             </div>
-            <div class="scroll-indicator">Scroll to Navigate</div>
-        </section>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
 
-        <section class="section about-sec" id="about">
-            <div class="content-card">
-                <h2 class="section-label">Engineering Profile</h2>
-                <h3>Building Tomorrow's Hardware Solutions</h3>
-                <p class="primary-text">Electronics Engineering undergraduate with a passion for <strong>VLSI Design & Technology</strong>. I specialize in creating innovative hardware-software solutions that push the boundaries of what's possible in embedded systems and digital design.</p>
-                <p class="secondary-text">With hands-on experience in FPGA development, PCB design, and real-time embedded systems, I bring ideas to life through meticulous engineering and creative problem-solving. My work spans from low-level hardware optimization to high-level system architecture, always focused on efficiency, reliability, and innovation.</p>
-                <div class="skills-container">
-                    <div class="skill-category">
-                        <h4 class="skill-cat-title">Hardware</h4>
-                        <div class="skill-items">
-                            <span class="skill-badge">STM32</span>
-                            <span class="skill-badge">ESP32</span>
-                            <span class="skill-badge">Arduino</span>
-                            <span class="skill-badge">FPGA (Xilinx/Altera)</span>
-                            <span class="skill-badge">PCB Design</span>
-                            <span class="skill-badge">Oscilloscope</span>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <h4 class="skill-cat-title">Software</h4>
-                        <div class="skill-items">
-                            <span class="skill-badge">C/C++</span>
-                            <span class="skill-badge">Python</span>
-                            <span class="skill-badge">MicroPython</span>
-                            <span class="skill-badge">Verilog/VHDL</span>
-                            <span class="skill-badge">MATLAB</span>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <h4 class="skill-cat-title">Tools & CAD</h4>
-                        <div class="skill-items">
-                            <span class="skill-badge">Altium Designer</span>
-                            <span class="skill-badge">KiCAD</span>
-                            <span class="skill-badge">Vivado</span>
-                            <span class="skill-badge">Quartus</span>
-                            <span class="skill-badge">LTSpice</span>
-                            <span class="skill-badge">Git</span>
-                        </div>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <h4 class="skill-cat-title">Domains</h4>
-                        <div class="skill-items">
-                            <span class="skill-badge">VLSI Design</span>
-                            <span class="skill-badge">Embedded Systems</span>
-                            <span class="skill-badge">IoT</span>
-                            <span class="skill-badge">Digital Signal Processing</span>
-                            <span class="skill-badge">Real-Time OS</span>
-                        </div>
-                    </div>
-                </div>
+          <article class="card" role="listitem">
+            <h3 class="card-title">ESP32 Wireless Module</h3>
+            <p class="card-desc">Low-power telemetry and messaging for IoT devices with a focus on reliability.</p>
+            <div class="card-meta">
+              <span class="tag">ESP32</span><span class="tag">MQTT</span><span class="tag">IoT</span>
             </div>
-        </section>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
 
-        <!-- Education Section -->
-        <section class="section education-sec" id="education">
-            <div class="content-card">
-                <h2 class="section-label">Educational Background</h2>
-                <h3>Academic Journey</h3>
-                
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2021 - 2025</div>
-                            <h4>Bachelor of Technology in Electronics Engineering</h4>
-                            <p class="institution">Bihar Engineering University</p>
-                            <p class="secondary-text">Specialization: VLSI Design & Technology</p>
-                            <p class="tertiary-text">CGPA: 7.40 / 10.0</p>
-                            <div class="achievements-list">
-                                <p>• Completed advanced coursework in Digital VLSI Design, Embedded Systems, and FPGA Programming</p>
-                                <p>• Final year project: FPGA-Based Real-Time Image Processing System - Designed and implemented a real-time image processing pipeline on FPGA using Verilog HDL. Focused on edge detection and noise filtering with hardware acceleration, optimized resource utilization, and low-latency parallel processing.</p>
-                                <p>• Relevant Coursework: Digital Circuit Design, Microprocessor Systems, Signal Processing</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">2019 - 2021</div>
-                            <h4>Higher Secondary Education</h4>
-                            <p class="institution">DR.R.M.L.S. College, Muzaffarpur</p>
-                            <p class="secondary-text">Stream: Science (Physics, Chemistry, Mathematics)</p>
-                            <p class="tertiary-text">Percentage: 59.7%</p>
-                        </div>
-                    </div>
-                </div>
+          <article class="card" role="listitem">
+            <h3 class="card-title">Smart Temperature Controller</h3>
+            <p class="card-desc">PID control + custom board design with clean firmware structure.</p>
+            <div class="card-meta">
+              <span class="tag">PCB</span><span class="tag">MicroPython</span><span class="tag">Control</span>
             </div>
-        </section>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
 
-        <!-- Experience Section -->
-        <section class="section experience-sec" id="experience">
-            <div class="content-card">
-                <h2 class="section-label">Professional Experience</h2>
-                <h3>Work & Internships</h3>
-                
-                <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <div class="timeline-date">December 2025 - January 2026</div>
-                            <h4>Intern – Internet of Things (IoT)</h4>
-                            <p class="institution">NIELIT Extension Centre</p>
-                            <p class="secondary-text">Muzaffarpur</p>
-                            <div class="achievements-list">
-                                <p>• Worked on microcontroller-based IoT systems with sensor interfacing and real-time data acquisition</p>
-                                <p>• Designed and tested Arduino and ESP8266 (NodeMCU) based circuits</p>
-                                <p>• Implemented embedded programs in Embedded C for hardware monitoring and control</p>
-                                <p>• Studied IoT architecture including sensing, processing, and data communication</p>
-                                <p>• Technologies used: Arduino, ESP8266, Embedded C, Sensors, IoT Architecture</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          <article class="card" role="listitem">
+            <h3 class="card-title">Automated Hardware Testing</h3>
+            <p class="card-desc">A simple test harness to validate boards/sensors quickly during iteration.</p>
+            <div class="card-meta">
+              <span class="tag">Python</span><span class="tag">Testing</span><span class="tag">Hardware</span>
             </div>
-        </section>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
 
-        <!-- Certifications Section -->
-        <section class="section certifications-sec" id="certifications">
-            <div class="content-card">
-                <h2 class="section-label">Certifications & Courses</h2>
-                <h3>Professional Development</h3>
-                
-                <div class="cert-grid">
-                    <div class="cert-card">
-                        <div class="cert-icon">📜</div>
-                        <h4>Embedded Systems for Beginners</h4>
-                        <p class="cert-issuer">NIELIT Calicut (MeitY C2S Programme)</p>
-                        <p class="cert-date">December 2025</p>
-                        <a href="#" class="cert-link" target="_blank">Verify Certificate →</a>
-                    </div>
-                    
-                    <div class="cert-card">
-                        <div class="cert-icon">📜</div>
-                        <h4>VLSI Design for Beginners</h4>
-                        <p class="cert-issuer">NIELIT Calicut (MeitY C2S Programme)</p>
-                        <p class="cert-date">December 2025</p>
-                        <a href="#" class="cert-link" target="_blank">Verify Certificate →</a>
-                    </div>
-                    
-                    <div class="cert-card">
-                        <div class="cert-icon">📜</div>
-                        <h4>Introduction to Git</h4>
-                        <p class="cert-issuer">Microsoft Learn</p>
-                        <p class="cert-date">2025</p>
-                        <a href="#" class="cert-link" target="_blank">Verify Certificate →</a>
-                    </div>
-                    
-                    <div class="cert-card">
-                        <div class="cert-icon">📜</div>
-                        <h4>Introduction to Azure Cloud Shell</h4>
-                        <p class="cert-issuer">Microsoft Learn</p>
-                        <p class="cert-date">2025</p>
-                        <a href="#" class="cert-link" target="_blank">Verify Certificate →</a>
-                    </div>
-                </div>
+          <article class="card" role="listitem">
+            <h3 class="card-title">Digital Circuit Design</h3>
+            <p class="card-desc">Digital design experiments with an emphasis on correctness and power-aware thinking.</p>
+            <div class="card-meta">
+              <span class="tag">VLSI</span><span class="tag">VHDL</span><span class="tag">EDA</span>
             </div>
-        </section>
+            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-        <!-- Achievements Section -->
-        <section class="section achievements-sec" id="achievements">
-            <div class="content-card">
-                <h2 class="section-label">Achievements & Awards</h2>
-                <h3>Recognition & Honors</h3>
-                
-                <div class="achievements-grid">
-                    <div class="achievement-card">
-                        <div class="achievement-icon">🏆</div>
-                        <div class="achievement-content">
-                            <h4>Contributor – Winter of Code Social 2025</h4>
-                            <p class="achievement-org">Code Social</p>
-                            <p class="achievement-date">Nov 2025 – Jan 2026</p>
-                            <p class="secondary-text">Contributed to open-source projects, collaborated with mentors, and gained real-world experience in version control, teamwork, and problem-solving.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-card">
-                        <div class="achievement-icon">🌟</div>
-                        <div class="achievement-content">
-                            <h4>Campus Mantri (Student Ambassador)</h4>
-                            <p class="achievement-org">GeeksforGeeks</p>
-                            <p class="achievement-date">Jan 2026 – Present</p>
-                            <p class="secondary-text">Selected to promote coding culture and problem-solving among students; guided peers on DSA, core ECE preparation, and technical growth.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-card">
-                        <div class="achievement-icon">💡</div>
-                        <div class="achievement-content">
-                            <h4>GfG Campus Awareness Drive Contributor</h4>
-                            <p class="achievement-org">GeeksforGeeks</p>
-                            <p class="achievement-date">2026</p>
-                            <p class="secondary-text">Introduced students to GeeksforGeeks learning resources, coding practice platforms, and structured technical preparation.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="achievement-card">
-                        <div class="achievement-icon">🔧</div>
-                        <div class="achievement-content">
-                            <h4>Open-Source & Technical Community Advocate</h4>
-                            <p class="achievement-org">Independent</p>
-                            <p class="achievement-date">Ongoing</p>
-                            <p class="secondary-text">Actively shares insights on GATE, VLSI, Embedded Systems, and logical problem-solving through technical outreach.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Skills</h2>
+          <p class="section-desc">Focused on embedded, IoT, and system fundamentals.</p>
+        </div>
 
-        <!-- Detailed Projects Section -->
-        <section class="section projects-detail-sec" id="projects">
-            <div class="content-card">
-                <h2 class="section-label">Project Details</h2>
-                <h3>Engineering Solutions</h3>
-                
-                <div class="projects-grid">
-                    <!-- Project Card 1 -->
-                    <div class="flip-card bento-tall" id="project-1">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="https://github.com/user-attachments/assets/e930666d-4a4b-4f92-8534-595f33d96a44" alt="IoT Weather Station">
-                                <div class="front-title">
-                                    <h4>IoT Weather Station</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>IoT Weather Station</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                        <a href="#" class="project-link" target="_blank">Demo →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Real-time weather monitoring system using STM32 and sensor array with cloud data logging.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">STM32</span>
-                                    <span class="tag">C/C++</span>
-                                    <span class="tag">MQTT</span>
-                                    <span class="tag">IoT</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project Card 2 -->
-                    <div class="flip-card" id="project-2">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="https://github.com/user-attachments/assets/59d70a18-bdfc-4158-9135-0a42faae6130" alt="FPGA-based Image Processor">
-                                <div class="front-title">
-                                    <h4>FPGA-based Image Processor</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>FPGA-based Image Processor</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Hardware accelerated image filtering and edge detection using Verilog HDL.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">Verilog</span>
-                                    <span class="tag">FPGA</span>
-                                    <span class="tag">Xilinx</span>
-                                    <span class="tag">Image Processing</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project Card 3 -->
-                    <div class="flip-card bento-wide" id="project-3">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="https://github.com/user-attachments/assets/4999b821-b648-4ff7-a8f3-f9f354db6a5d" alt="Smart PCB Temperature Controller">
-                                <div class="front-title">
-                                    <h4>Smart PCB Temperature Controller</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Smart PCB Temperature Controller</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">PID-controlled heating system with custom PCB design and MicroPython firmware.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">PCB Design</span>
-                                    <span class="tag">MicroPython</span>
-                                    <span class="tag">PID Control</span>
-                                    <span class="tag">Altium</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Project Card 4 -->
-                    <div class="flip-card" id="project-4">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="https://github.com/user-attachments/assets/2c8bd7c0-6743-43e5-9c78-9c4b82cbfb31" alt="Embedded Systems Project">
-                                <div class="front-title">
-                                    <h4>Embedded Systems Project</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Embedded Systems Project</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Advanced embedded system design with real-time processing capabilities.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">ARM Cortex</span>
-                                    <span class="tag">RTOS</span>
-                                    <span class="tag">C</span>
-                                    <span class="tag">Embedded</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="tags">
+          <span class="tag">Embedded C</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">ESP32</span>
+          <span class="tag">IoT</span>
+          <span class="tag">Sensors</span>
+          <span class="tag">PCB Basics</span>
+          <span class="tag">Git</span>
+        </div>
+      </div>
+    </section>
 
-                    <!-- Project Card 5 -->
-                    <div class="flip-card bento-tall" id="project-5">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="assets/projects/project5.svg" alt="Digital Circuit Design">
-                                <div class="front-title">
-                                    <h4>Digital Circuit Design</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Digital Circuit Design</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">VLSI-based digital circuit implementation with optimized power consumption.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">VLSI</span>
-                                    <span class="tag">Cadence</span>
-                                    <span class="tag">VHDL</span>
-                                    <span class="tag">Circuit Design</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">About</h2>
+        </div>
+        <div class="prose">
+          <p>Currently focused on building real-world hardware–software integrated projects and strengthening fundamentals in electronics, programming, and system design. Actively seeking internship and entry-level opportunities in Embedded Systems, IoT, and VLSI-related domains.</p>
+        </div>
+      </div>
+    </section>
 
-                    <!-- Project Card 6 -->
-                    <div class="flip-card bento-wide" id="project-6">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="https://github.com/user-attachments/assets/aee3c957-f112-432b-8f27-3f70d9204642" alt="Wireless Communication Module">
-                                <div class="front-title">
-                                    <h4>Wireless Communication Module</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Wireless Communication Module</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">LoRa-based long-range wireless communication system for IoT applications.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">LoRa</span>
-                                    <span class="tag">RF Design</span>
-                                    <span class="tag">ESP32</span>
-                                    <span class="tag">Wireless</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="section-title">Contact</h2>
+          <p class="section-desc">Let’s talk about embedded projects, internships, and collaboration.</p>
+        </div>
 
-                    <!-- Project Card 7 -->
-                    <div class="flip-card" id="project-7">
-                        <div class="flip-card-inner">
-                            <!-- FRONT SIDE -->
-                            <div class="flip-card-front">
-                                <img loading="lazy" src="assets/projects/project7.svg" alt="Automated Testing System">
-                                <div class="front-title">
-                                    <h4>Automated Testing System</h4>
-                                </div>
-                            </div>
-                            
-                            <!-- BACK SIDE -->
-                            <div class="flip-card-back">
-                                <div class="project-header">
-                                    <h4>Automated Testing System</h4>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link" target="_blank">GitHub →</a>
-                                    </div>
-                                </div>
-                                <p class="project-desc">Automated hardware testing platform with Python-based control interface.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">Python</span>
-                                    <span class="tag">Automation</span>
-                                    <span class="tag">Testing</span>
-                                    <span class="tag">Hardware</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </section>
-        <section class="section footer-sec" id="contact">
-            <div class="content-box">
-                <h2 class="section-label">SYSTEM_TERMINAL</h2>
-                
-                <div class="footer-grid">
-                    <div class="footer-cta">
-                        <h3 class="footer-heading">Initiate a <br><span class="accent">Collaboration.</span></h3>
-                        <div class="status-box">
-                            <span class="status-dot"></span>
-                            <span class="status-text">CURRENT_STATUS: AVAILABLE_FOR_HIRE</span>
-                        </div>
-                        <p class="secondary-text" style="margin-top: 1rem;">Open to internships, research roles, and entry-level opportunities in VLSI Design, Embedded Systems, FPGA Development, and IoT.</p>
-                        <div class="resume-download">
-                            <a href="assets/Sachin_Chandra_Resume.pdf" download class="resume-btn">
-                                <span class="btn-icon">📄</span>
-                                <span>Download Resume</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-area">
-                        <div class="contact-card-mini" id="contact-trigger">
-                            <p class="small-label">DIRECT_ENQUIRY</p>
-                            <a href="mailto:sachinc625@gmail.com" class="big-link">sachinc625@gmail.com</a>
-                            <div class="click-hint">CLICK TO SEND MAIL</div>
-                        </div>
-                        
-                        <div class="social-links">
-                            <div class="link-item">
-                                <p class="small-label">SOURCE_CODE</p>
-                                <a href="https://github.com/sachinC6" class="hover-link" target="_blank">GitHub: sachinC6</a>
-                            </div>
-                            
-                            <div class="link-item">
-                                <p class="small-label">PROFESSIONAL</p>
-                                <a href="https://www.linkedin.com/in/sachin-c-11b9843a6" class="hover-link" target="_blank">Sachin Chandra on LinkedIn</a>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-        
-                <div class="footer-bottom">
-                    <h2 class="footer-big-text">WHO_CARES⚡</h2>
-                    <div class="footer-meta">
-                        <span>V.2026.01</span>
-                        <span>© SACHIN CHANDRA</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-      
-    </main>
+        <div class="contact-actions">
+          <a class="btn" href="mailto:sachinc625@gmail.com">Email</a>
+          <a class="btn btn-ghost" href="https://www.linkedin.com/in/sachin-c-11b9843a6" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="btn btn-ghost" href="https://github.com/sachinC6" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </section>
 
-    <!-- GSAP Core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>window.gsap || document.write('<script src="js/gsap.min.js"><\/script>');</script>
-    <!-- GSAP ScrollTrigger plugin -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    
-    <!-- Main Script -->
-    <script src="index.js" defer></script>
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <p class="footer-text">© <span id="year"></span> Sachin Chandra</p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="index.js" defer></script>
 </body>
 </html>
