@@ -72,7 +72,7 @@ sachin-portfolio/
 - Scroll event listeners use `{ passive: true }`.
 - Animations respect `prefers-reduced-motion`.
 - The custom cursor is hidden on touch/hover-none devices.
-- The carousel and Draggable plugin have been removed to eliminate the 3 000 px scroll-pin jank.
+- The carousel and Draggable plugin have been removed to eliminate the 3000px scroll-pin jank.
 
 ---
 
