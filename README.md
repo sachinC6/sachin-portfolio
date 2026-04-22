@@ -11,7 +11,7 @@ Personal portfolio site for Sachin Chandra, Electronics Engineering student spec
 ---
 ## Contact
 
-- **Email:** sachinc625@gmail.com
+- **Email:** sachinc62bpk@gmail.com
 - **GitHub:** [sachinC6](https://github.com/sachinC6)
 - **LinkedIn:** [Sachin Chandra](https://www.linkedin.com/in/sachin-c-11b9843a6)
 ---
