@@ -1,171 +1,876 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sachin Chandra — IoT & Embedded Systems</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sachin Chandra — IoT & Embedded Systems Developer</title>
   <meta name="description" content="Sachin Chandra — IoT & Embedded Systems Developer. Portfolio featuring embedded, IoT, and hardware–software projects." />
-  <meta name="author" content="Sachin Chandra" />
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="Sachin Chandra — IoT & Embedded Systems Developer" />
-  <meta property="og:description" content="Portfolio featuring embedded, IoT, and hardware–software projects." />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a25;
+      --accent: #00ffa3;
+      --accent2: #7b61ff;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --border: rgba(255,255,255,0.07);
+      --font-display: 'Syne', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor {
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.1s;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      opacity: 0.5;
+      transition: width 0.3s, height 0.3s, opacity 0.3s;
+    }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring {
+      width: 56px; height: 56px; opacity: 0.2;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 1; opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.2rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s, background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      border-color: var(--border);
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(16px);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--accent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 2; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      padding: 0 clamp(1.5rem, 8vw, 9rem);
+      overflow: hidden;
+    }
+
+    .hero-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      max-width: 14ch;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+    .hero-title .accent { color: var(--accent); }
+
+    .typewriter-wrap {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--muted);
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      min-height: 2em;
+    }
+    #typewriter { color: var(--accent2); }
+    .cursor-blink {
+      display: inline-block;
+      width: 2px; height: 1.1em;
+      background: var(--accent2);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 0.85s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      border-radius: 2px;
+      text-decoration: none;
+      cursor: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      box-shadow: 0 0 0 rgba(0,255,163,0);
+    }
+    .btn-primary:hover { box-shadow: 0 0 32px rgba(0,255,163,0.35); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Grid BG */
+    .hero-grid {
+      position: absolute; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 70% 80% at 80% 50%, black 0%, transparent 70%);
+    }
+    .hero-glow {
+      position: absolute; right: -10%; top: 10%;
+      width: 55vw; height: 55vw; max-width: 700px; max-height: 700px;
+      background: radial-gradient(circle, rgba(0,255,163,0.06) 0%, rgba(123,97,255,0.06) 50%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulse 6s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.7} 50%{transform:scale(1.08);opacity:1} }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0;
+      font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted);
+    }
+    .scroll-line {
+      width: 1px; height: 50px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine { 0%{transform:scaleY(0);transform-origin:top} 50%{transform:scaleY(1);transform-origin:top} 51%{transform-origin:bottom} 100%{transform:scaleY(0);transform-origin:bottom} }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      margin-bottom: 3.5rem;
+    }
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    /* ── PROJECTS ── */
+    #projects {
+      padding: 7rem clamp(1.5rem, 8vw, 9rem);
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+      gap: 1.5px;
+    }
+    .project-card {
+      background: var(--surface);
+      padding: 2rem;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      cursor: none;
+      transition: border-color 0.3s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,255,163,0.04), transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+    }
+    .project-card:hover { border-color: rgba(0,255,163,0.3); }
+    .project-card:hover::before { opacity: 1; }
+
+    .project-number {
+      font-size: 0.65rem; letter-spacing: 0.15em; color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem; font-weight: 700;
+      margin-bottom: 0.8rem;
+      transition: color 0.2s;
+    }
+    .project-card:hover .project-title { color: var(--accent); }
+    .project-desc {
+      font-size: 0.8rem; line-height: 1.7;
+      color: var(--muted); margin-bottom: 1.5rem;
+    }
+    .project-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .tag {
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      padding: 0.25rem 0.6rem;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      border-radius: 2px;
+      text-transform: uppercase;
+    }
+    .project-link {
+      font-size: 0.75rem; letter-spacing: 0.1em;
+      color: var(--accent); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 0.8rem; }
+    .project-corner {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      width: 6px; height: 6px;
+      border-top: 1px solid var(--accent);
+      border-right: 1px solid var(--accent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .project-card:hover .project-corner { opacity: 1; }
+
+    /* ── SKILLS ── */
+    #skills {
+      padding: 7rem clamp(1.5rem, 8vw, 9rem);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 1rem;
+    }
+    .skill-item {
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      transition: border-color 0.25s, color 0.25s, background 0.25s;
+      opacity: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-item::after {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--accent);
+      transform: scaleY(0); transform-origin: bottom;
+      transition: transform 0.3s;
+    }
+    .skill-item:hover {
+      border-color: rgba(0,255,163,0.25);
+      color: var(--text);
+      background: rgba(0,255,163,0.04);
+    }
+    .skill-item:hover::after { transform: scaleY(1); }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 7rem clamp(1.5rem, 8vw, 9rem);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    @media(max-width:768px){ #about { grid-template-columns: 1fr; gap:3rem; } }
+    .about-text p {
+      font-size: 0.88rem; line-height: 1.9;
+      color: var(--muted); margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+    }
+    .stat-box {
+      background: var(--surface2);
+      padding: 1.8rem;
+      border: 1px solid var(--border);
+      opacity: 0;
+    }
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.5rem; font-weight: 800;
+      color: var(--accent); line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; }
+
+    /* ── CONTACT ── */
+    #contact {
+      padding: 7rem clamp(1.5rem, 8vw, 9rem);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 5rem; align-items: start;
+    }
+    @media(max-width:768px){ .contact-inner { grid-template-columns: 1fr; gap:3rem; } }
+    .contact-info p {
+      font-size: 0.85rem; line-height: 1.8; color: var(--muted); margin-bottom: 2rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 0.8rem; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.8rem;
+      font-size: 0.8rem; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--accent); }
+    .contact-link .icon {
+      width: 32px; height: 32px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .contact-link:hover .icon { border-color: var(--accent); background: rgba(0,255,163,0.08); }
+
+    /* FORM */
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:480px){ .form-row { grid-template-columns: 1fr; } }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-group label {
+      font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+    }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.8rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      appearance: none;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--accent);
+      background: rgba(0,255,163,0.03);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      cursor: none;
+      border-radius: 2px;
+      align-self: flex-start;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,163,0.3); }
+    .form-submit:disabled { opacity: 0.6; }
+    .form-status {
+      font-size: 0.8rem; padding: 0.8rem 1rem;
+      border-radius: 2px; display: none;
+    }
+    .form-status.success { background: rgba(0,255,163,0.1); border: 1px solid rgba(0,255,163,0.3); color: var(--accent); }
+    .form-status.error { background: rgba(255,80,80,0.1); border: 1px solid rgba(255,80,80,0.3); color: #ff6464; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem clamp(1.5rem, 8vw, 9rem);
+      border-top: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: 0.72rem; color: var(--muted);
+      position: relative; z-index: 2;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    /* ── REVEAL ANIMATION BASE ── */
+    .reveal { opacity: 0; transform: translateY(24px); }
+  </style>
 </head>
 <body>
-  <a class="skip-link" href="#content">Skip to content</a>
 
-  <header class="site-header">
-    <nav class="nav container" aria-label="Primary">
-      <a class="brand" href="#top">Sachin <span class="brand-accent">Chandra</span></a>
+  <!-- Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
 
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
-        <span class="nav-toggle-label">Menu</span>
-        <span class="nav-toggle-icon" aria-hidden="true"></span>
-      </button>
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">SC<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-      <div class="nav-links" id="nav-links">
-        <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#skills">Skills</a>
-        <a class="nav-link" href="#about">About</a>
-        <a class="nav-link nav-link-cta" href="#contact">Contact</a>
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+
+    <p class="hero-tag">// Embedded · IoT · Hardware–Software</p>
+    <h1 class="hero-title">
+      Building the<br/>
+      <span class="accent">Physical Web</span>
+    </h1>
+    <div class="typewriter-wrap">
+      I build &nbsp;<span id="typewriter"></span><span class="cursor-blink"></span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects ↓</a>
+      <a href="#contact" class="btn btn-ghost">Let's Talk →</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      SCROLL
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-label">// 01 — Selected Work</span>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">01 / 06</p>
+        <h3 class="project-title">IoT Weather Station</h3>
+        <p class="project-desc">Real-time sensing + data logging with microcontroller firmware and a lightweight cloud pipeline. Streams sensor data to a dashboard.</p>
+        <div class="project-tags">
+          <span class="tag">STM32C</span><span class="tag">IoT</span><span class="tag">Cloud</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
       </div>
-    </nav>
-  </header>
 
-  <main id="content">
-    <section class="section hero" id="top">
-      <div class="container hero-inner">
-        <p class="eyebrow">Embedded • IoT • Hardware–Software</p>
-        <h1 class="hero-title">IoT &amp; Embedded Systems Developer</h1>
-        <p class="hero-subtitle">I build real-world hardware–software integrated projects and strengthen fundamentals in electronics, programming, and system design.</p>
-        <div class="hero-actions">
-          <a class="btn" href="#projects">View Projects</a>
-          <a class="btn btn-ghost" href="#contact">Contact</a>
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">02 / 06</p>
+        <h3 class="project-title">FPGA Image Processor</h3>
+        <p class="project-desc">Edge detection and filtering using RTL for low-latency, parallel processing. Implemented on Xilinx FPGA dev board.</p>
+        <div class="project-tags">
+          <span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Xilinx</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">03 / 06</p>
+        <h3 class="project-title">ESP32 Wireless Module</h3>
+        <p class="project-desc">Low-power telemetry and MQTT messaging for IoT devices, focused on reliability in constrained environments.</p>
+        <div class="project-tags">
+          <span class="tag">ESP32</span><span class="tag">MQTT</span><span class="tag">IoT</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">04 / 06</p>
+        <h3 class="project-title">Smart Temp Controller</h3>
+        <p class="project-desc">PID control with custom board design and clean firmware structure. Handles closed-loop temperature regulation.</p>
+        <div class="project-tags">
+          <span class="tag">PCB</span><span class="tag">MicroPython</span><span class="tag">Control</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">05 / 06</p>
+        <h3 class="project-title">Hardware Test Harness</h3>
+        <p class="project-desc">Automated test framework to validate boards and sensors quickly during iteration cycles. CI-friendly design.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span><span class="tag">Testing</span><span class="tag">Hardware</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-corner"></div>
+        <p class="project-number">06 / 06</p>
+        <h3 class="project-title">Digital Circuit Design</h3>
+        <p class="project-desc">Digital design experiments emphasizing correctness and power-aware thinking. Simulated with EDA tools.</p>
+        <div class="project-tags">
+          <span class="tag">VLSI</span><span class="tag">VHDL</span><span class="tag">EDA</span>
+        </div>
+        <a href="#" class="project-link">View on GitHub →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-label">// 02 — Toolbox</span>
+      <h2 class="section-title">Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item">Embedded C</div>
+      <div class="skill-item">Arduino</div>
+      <div class="skill-item">ESP32</div>
+      <div class="skill-item">IoT Sensors</div>
+      <div class="skill-item">MQTT</div>
+      <div class="skill-item">PCB Design</div>
+      <div class="skill-item">Verilog</div>
+      <div class="skill-item">VHDL</div>
+      <div class="skill-item">FPGA</div>
+      <div class="skill-item">Python</div>
+      <div class="skill-item">STM32</div>
+      <div class="skill-item">MicroPython</div>
+      <div class="skill-item">PID Control</div>
+      <div class="skill-item">VLSI</div>
+      <div class="skill-item">Git</div>
+      <div class="skill-item">Linux</div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-text reveal">
+      <div class="section-header">
+        <span class="section-label">// 03 — Background</span>
+        <h2 class="section-title">About Me</h2>
+      </div>
+      <p>I'm <strong>Sachin Chandra</strong> — an IoT & Embedded Systems developer who loves bridging the gap between hardware and software. My work spans sensor firmware, PCB prototyping, and FPGA design.</p>
+      <p>Currently focused on building <strong>real-world hardware–software integrated projects</strong> and strengthening fundamentals in electronics, programming, and system design.</p>
+      <p>Actively seeking <strong>internship and entry-level opportunities</strong> in Embedded Systems, IoT, and VLSI-related domains. Let's build something real.</p>
+      <div style="margin-top:2rem;">
+        <a href="mailto:sachinc625@gmail.com" class="btn btn-primary">Get In Touch</a>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-number">6+</div>
+        <div class="stat-label">Projects Built</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">3+</div>
+        <div class="stat-label">Hardware Stacks</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">IoT</div>
+        <div class="stat-label">Primary Focus</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Curiosity</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-info reveal">
+        <div class="section-header">
+          <span class="section-label">// 04 — Reach Out</span>
+          <h2 class="section-title">Let's Talk</h2>
+        </div>
+        <p>Interested in collaborating on embedded or IoT projects? Have an internship opportunity? Or just want to geek out about hardware? I'm all ears.</p>
+        <div class="contact-links">
+          <a href="mailto:sachinc625@gmail.com" class="contact-link">
+            <div class="icon">✉</div>
+            sachinc625@gmail.com
+          </a>
+          <a href="https://www.linkedin.com/in/sachin-c-11b9843a6" target="_blank" class="contact-link">
+            <div class="icon">in</div>
+            linkedin.com/in/sachin-c
+          </a>
+          <a href="https://github.com/sachinC6" target="_blank" class="contact-link">
+            <div class="icon">⌥</div>
+            github.com/sachinC6
+          </a>
         </div>
       </div>
-    </section>
 
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Projects</h2>
-          <p class="section-desc">A small selection of work in embedded systems and IoT.</p>
+      <!-- Formspree Contact Form -->
+      <!-- IMPORTANT: Replace "YOUR_FORM_ID" below with your actual Formspree form ID -->
+      <!-- Get your free ID at https://formspree.io/forms/new -->
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="your@email.com" required />
+          </div>
         </div>
-
-        <div class="grid" role="list">
-          <article class="card" role="listitem">
-            <h3 class="card-title">IoT Weather Station</h3>
-            <p class="card-desc">Real-time sensing + data logging with microcontroller firmware and a lightweight cloud pipeline.</p>
-            <div class="card-meta">
-              <span class="tag">STM32</span><span class="tag">C</span><span class="tag">IoT</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
-
-          <article class="card" role="listitem">
-            <h3 class="card-title">FPGA Image Processor</h3>
-            <p class="card-desc">Edge detection / filtering using RTL for low-latency, parallel processing.</p>
-            <div class="card-meta">
-              <span class="tag">Verilog</span><span class="tag">FPGA</span><span class="tag">Xilinx</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
-
-          <article class="card" role="listitem">
-            <h3 class="card-title">ESP32 Wireless Module</h3>
-            <p class="card-desc">Low-power telemetry and messaging for IoT devices with a focus on reliability.</p>
-            <div class="card-meta">
-              <span class="tag">ESP32</span><span class="tag">MQTT</span><span class="tag">IoT</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
-
-          <article class="card" role="listitem">
-            <h3 class="card-title">Smart Temperature Controller</h3>
-            <p class="card-desc">PID control + custom board design with clean firmware structure.</p>
-            <div class="card-meta">
-              <span class="tag">PCB</span><span class="tag">MicroPython</span><span class="tag">Control</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
-
-          <article class="card" role="listitem">
-            <h3 class="card-title">Automated Hardware Testing</h3>
-            <p class="card-desc">A simple test harness to validate boards/sensors quickly during iteration.</p>
-            <div class="card-meta">
-              <span class="tag">Python</span><span class="tag">Testing</span><span class="tag">Hardware</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
-
-          <article class="card" role="listitem">
-            <h3 class="card-title">Digital Circuit Design</h3>
-            <p class="card-desc">Digital design experiments with an emphasis on correctness and power-aware thinking.</p>
-            <div class="card-meta">
-              <span class="tag">VLSI</span><span class="tag">VHDL</span><span class="tag">EDA</span>
-            </div>
-            <a class="card-link" href="#" target="_blank" rel="noreferrer">GitHub →</a>
-          </article>
+        <div class="form-group">
+          <label for="subject">What's this about?</label>
+          <select id="subject" name="subject">
+            <option value="">Select a topic</option>
+            <option value="internship">Internship Opportunity</option>
+            <option value="collaboration">Project Collaboration</option>
+            <option value="freelance">Freelance Work</option>
+            <option value="just-saying-hi">Just Saying Hi</option>
+          </select>
         </div>
-      </div>
-    </section>
-
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Skills</h2>
-          <p class="section-desc">Focused on embedded, IoT, and system fundamentals.</p>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell me about the project or opportunity..." required></textarea>
         </div>
+        <div class="form-status" id="formStatus"></div>
+        <button type="submit" class="form-submit" id="submitBtn">Send Message →</button>
+      </form>
+    </div>
+  </section>
 
-        <div class="tags">
-          <span class="tag">Embedded C</span>
-          <span class="tag">Arduino</span>
-          <span class="tag">ESP32</span>
-          <span class="tag">IoT</span>
-          <span class="tag">Sensors</span>
-          <span class="tag">PCB Basics</span>
-          <span class="tag">Git</span>
-        </div>
-      </div>
-    </section>
+  <!-- Footer -->
+  <footer>
+    <span>© 2025 Sachin Chandra</span>
+    <span style="color:var(--accent)">Embedded · IoT · Hardware–Software</span>
+  </footer>
 
-    <section class="section" id="about">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">About</h2>
-        </div>
-        <div class="prose">
-          <p>Currently focused on building real-world hardware–software integrated projects and strengthening fundamentals in electronics, programming, and system design. Actively seeking internship and entry-level opportunities in Embedded Systems, IoT, and VLSI-related domains.</p>
-        </div>
-      </div>
-    </section>
+  <script>
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
-    <section class="section" id="contact">
-      <div class="container">
-        <div class="section-head">
-          <h2 class="section-title">Contact</h2>
-          <p class="section-desc">Let’s talk about embedded projects, internships, and collaboration.</p>
-        </div>
+    /* ── CURSOR ── */
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    function animCursor() {
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(animCursor);
+    }
+    animCursor();
 
-        <div class="contact-actions">
-          <a class="btn" href="mailto:sachinc625@gmail.com">Email</a>
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/sachin-c-11b9843a6" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a class="btn btn-ghost" href="https://github.com/sachinC6" target="_blank" rel="noreferrer">GitHub</a>
-        </div>
-      </div>
-    </section>
+    /* ── NAV SCROLL ── */
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
 
-    <footer class="site-footer">
-      <div class="container footer-inner">
-        <p class="footer-text">© <span id="year"></span> Sachin Chandra</p>
-      </div>
-    </footer>
-  </main>
+    /* ── HERO ENTRANCE ── */
+    const heroTl = gsap.timeline({ delay: 0.2 });
+    heroTl
+      .to('.hero-tag', { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' })
+      .to('.hero-title', { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+      .to('.typewriter-wrap', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.5')
+      .to('.hero-cta', { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' }, '-=0.3')
+      .to('.scroll-hint', { opacity: 1, duration: 0.6 }, '-=0.1');
 
-  <script src="index.js" defer></script>
+    /* ── TYPEWRITER ── */
+    const phrases = [
+      'firmware from scratch.',
+      'IoT pipelines.',
+      'real-time sensor systems.',
+      'FPGA image processors.',
+      'PCB-level solutions.',
+    ];
+    let pi = 0, ci = 0, deleting = false;
+    const tw = document.getElementById('typewriter');
+
+    function typeLoop() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        tw.textContent = phrase.slice(0, ++ci);
+        if (ci === phrase.length) { deleting = true; setTimeout(typeLoop, 1800); return; }
+      } else {
+        tw.textContent = phrase.slice(0, --ci);
+        if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(typeLoop, 400); return; }
+      }
+      setTimeout(typeLoop, deleting ? 40 : 70);
+    }
+    setTimeout(typeLoop, 1800);
+
+    /* ── SCROLL REVEALS ── */
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' }
+        }
+      );
+    });
+
+    /* ── PROJECT CARDS ── */
+    gsap.utils.toArray('.project-card').forEach((card, i) => {
+      gsap.to(card, {
+        opacity: 1, y: 0, duration: 0.6, ease: 'power3.out',
+        scrollTrigger: { trigger: card, start: 'top 88%' },
+        delay: (i % 3) * 0.1
+      });
+    });
+
+    /* ── SKILL ITEMS ── */
+    gsap.utils.toArray('.skill-item').forEach((item, i) => {
+      gsap.to(item, {
+        opacity: 1, duration: 0.4,
+        scrollTrigger: { trigger: item, start: 'top 90%' },
+        delay: (i % 8) * 0.05
+      });
+    });
+
+    /* ── STAT BOXES ── */
+    gsap.utils.toArray('.stat-box').forEach((box, i) => {
+      gsap.to(box, {
+        opacity: 1, duration: 0.5, ease: 'power2.out',
+        scrollTrigger: { trigger: box, start: 'top 85%' },
+        delay: i * 0.12
+      });
+    });
+
+    /* ── FORMSPREE AJAX SUBMIT ── */
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('submitBtn');
+    const status = document.getElementById('formStatus');
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      status.style.display = 'none';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          status.textContent = '✓ Message sent! I\'ll get back to you soon.';
+          status.className = 'form-status success';
+          gsap.fromTo(status, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4 });
+          btn.textContent = 'Sent ✓';
+        } else {
+          throw new Error('Form error');
+        }
+      } catch {
+        status.textContent = '⚠ Something went wrong. Try emailing me directly.';
+        status.className = 'form-status error';
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
+      }
+      status.style.display = 'block';
+    });
+
+    /* ── PARALLAX GLOW ── */
+    document.addEventListener('mousemove', e => {
+      const glow = document.querySelector('.hero-glow');
+      const x = (e.clientX / window.innerWidth - 0.5) * 30;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      gsap.to(glow, { x, y, duration: 1.5, ease: 'power2.out' });
+    });
+  </script>
 </body>
 </html>
